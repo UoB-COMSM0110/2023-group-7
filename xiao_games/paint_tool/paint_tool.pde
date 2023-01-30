@@ -1,30 +1,42 @@
 PImage brush_img;
 PImage line_img;
 PImage eraser_img;
+PImage clear_img;
 PImage add_img;
 PImage sub_img;
 PFont font;
+float icon_size = 20;
 float brush_size = 10;
 int brush_type = 0;
 float red = 123;
 float green = 123;
 float blue = 123;
+float offset_x = 20;
+float offset_y = 25;
 float p_mx = 0;
 float p_my = 0;
-float brushButton_x = 20;
-float brushButton_y = 50;
-float lineButton_x = 20;
-float lineButton_y = 75;
-float eraserButton_x = 20;
-float eraserButton_y = 100;
-float colorButton_x = 20;
-float colorButton_y = 125;
-float addButton_x = 20;
-float addButton_y = 150;
-float subButton_x = 20;
-float subButton_y = 175;
-float sizeButton_x = 20;
-float sizeButton_y = 200;
+int panel_x = 800;
+int panel_y = 400;
+float panel_right_x = offset_x*2 + icon_size;
+float panel_right_y = offset_y*2;
+float panel_right_x_2 = panel_x - panel_right_x - offset_x;
+float panel_right_y_2 =  panel_y - panel_right_y - offset_y;
+float brushButton_x = offset_x;
+float brushButton_y = offset_y * 2;
+float lineButton_x = offset_x;
+float lineButton_y = brushButton_y + offset_y;
+float eraserButton_x = offset_x;
+float eraserButton_y = lineButton_y + offset_y;
+float clearButton_x = offset_x;
+float clearButton_y = eraserButton_y + offset_y;
+float colorButton_x = offset_x;
+float colorButton_y = clearButton_y + offset_y;
+float addButton_x = offset_x;
+float addButton_y =colorButton_y + offset_y;
+float subButton_x = offset_x;
+float subButton_y = addButton_y + offset_y;
+float sizeButton_x = offset_x;
+float sizeButton_y = subButton_y + offset_y;
 char brush_model = 'b';
 
 void setup(){
@@ -34,15 +46,17 @@ void setup(){
     brush_img = loadImage("brush.png");
     line_img = loadImage("line.png");
     eraser_img = loadImage("eraser.png");
+    clear_img = loadImage("clear.png");
     add_img = loadImage("add.png");
     sub_img = loadImage("sub.png");
-    font = loadFont("OPPOSans-L-20.vlw");
-    panel();
+    font = loadFont("OPPOSans-M-20.vlw");
+    panel_left();
+    panel_right();
 }
 
 void draw(){
   frameRate(30);
-  panel();
+  panel_left();
   colorButton();
   if(mousePressed == true && mouseButton == LEFT){
      inAddButton();
@@ -51,8 +65,10 @@ void draw(){
 }
 
 void mouseDragged(){
-   paint();
-   erase();
+   if(in_panel_right()){
+      paint();
+      erase();
+   }
 }
 
 void mouseClicked(){
@@ -60,13 +76,14 @@ void mouseClicked(){
   inBrushButton();
   inLineButton();
   inEraserButton();
+  inClearButton();
 }
 
 void mousePressed(){
   if(mouseButton == LEFT){
     this.p_mx = mouseX;
     this.p_my = mouseY;
-    println("p_mx:"+ p_mx +", p_my:" + p_my);
+    //println("p_mx:"+ p_mx +", p_my:" + p_my);
   }
 }
 
@@ -91,15 +108,48 @@ void keyPressed(){
     if(key == '-') change_brush_size(false);
 }
 
-void panel(){
+void panel_left(){
+   panel_left_back();
    sizeButton();
    colorButton();
    brushButton();
    lineButton();
    eraserButton();
+   clearButton();
    addButton();
    subButton();
    tips();
+}
+
+void backColor(){
+    fill(255,255,255);
+}
+
+void panel_left_back(){
+    backColor();
+    //top
+    rect(0, 0, panel_x, panel_right_y);
+    //bottom
+    rect(0, panel_right_y + panel_right_y_2+1, panel_x, panel_right_y);
+    //left
+    rect(0, 0, panel_right_x, panel_y);
+    //right
+    rect(panel_right_x + panel_right_x_2+1, 0, panel_right_x, panel_y);
+}
+
+void panel_right(){
+    stroke(1);
+    strokeWeight(1);
+    backColor();
+    rect(panel_right_x, panel_right_y, panel_right_x_2, panel_right_y_2);
+    noStroke();
+}
+
+boolean in_panel_right(){
+   if(mouseX >= panel_right_x && mouseX <= panel_right_x+ panel_right_x_2 && mouseY >= panel_right_y && mouseY <= panel_right_y + panel_right_y_2){
+       return true;
+   }
+   return false;
 }
 
 void tips(){   
@@ -125,23 +175,27 @@ void colorButton(){
 }
 
 void sizeButton(){
-     fill(255,255,255);
-     rect(sizeButton_x,sizeButton_y, brush_size+2,brush_size+2);
+     rectMode(CENTER);
+     backColor();
+     rect(sizeButton_x + offset_x/2,sizeButton_y + offset_y, brush_size+3,brush_size+3);
      stroke(1);
      strokeWeight(1);   
      fill(255,255, 255);
      if(brush_type % 2 == 0){
-          rect(sizeButton_x,sizeButton_y, brush_size,brush_size);
+          rect(sizeButton_x + offset_x/2,sizeButton_y + offset_y, brush_size,brush_size);
      }else{
-         ellipseMode(CORNER);
-         ellipse(sizeButton_x,sizeButton_y, brush_size,brush_size);
-         ellipseMode(CENTER);
+         ellipse(sizeButton_x + offset_x/2,sizeButton_y + offset_y, brush_size,brush_size);
      }
      noStroke();
+     rectMode(CORNER);
 }
 
 void eraserButton(){
    image(eraser_img, eraserButton_x, eraserButton_y);
+}
+
+void clearButton(){
+   image(clear_img, clearButton_x, clearButton_y);
 }
 
 void addButton(){
@@ -153,39 +207,46 @@ void subButton(){
 }
 
 void inBrushButton(){
-  if(mouseX >= brushButton_x && mouseX <= brushButton_x+20 && mouseY >= brushButton_y && mouseY <= brushButton_y+20){
+  if(mouseX >= brushButton_x && mouseX <= brushButton_x+icon_size && mouseY >= brushButton_y && mouseY <= brushButton_y+icon_size){
         this.brush_model = 'b';
-        println(this.brush_model);
+        //println(this.brush_model);
+  }
+}
+
+void inClearButton(){
+  if(mouseX >= clearButton_x && mouseX <= clearButton_x+icon_size && mouseY >= clearButton_y && mouseY <= clearButton_y+icon_size){
+        backColor();
+        panel_right();
   }
 }
 
 void inLineButton(){
-  if(mouseX >= lineButton_x && mouseX <= lineButton_x+20 && mouseY >= lineButton_y && mouseY <= lineButton_y+20){
+  if(mouseX >= lineButton_x && mouseX <= lineButton_x+icon_size && mouseY >= lineButton_y && mouseY <= lineButton_y+icon_size){
         this.brush_model = 'l';
   }
 }
 
 void inColorButton(){
-  if(mouseX >= colorButton_x && mouseX <= colorButton_x+20 && mouseY >= colorButton_y && mouseY <= colorButton_y+20){
+  if(mouseX >= colorButton_x && mouseX <= colorButton_x+icon_size && mouseY >= colorButton_y && mouseY <= colorButton_y+icon_size){
      setColor();
      colorButton();
   }
 }
 
 void inEraserButton(){
-  if(mouseX >= eraserButton_x && mouseX <= eraserButton_x+20 && mouseY >= eraserButton_y && mouseY <= eraserButton_y+20){
+  if(mouseX >= eraserButton_x && mouseX <= eraserButton_x+icon_size && mouseY >= eraserButton_y && mouseY <= eraserButton_y+icon_size){
         this.brush_model = 'e';
   }
 }
 
 void inAddButton(){
-  if(mouseX >= addButton_x && mouseX <= addButton_x+20 && mouseY >= addButton_y && mouseY <= addButton_y+20){
+  if(mouseX >= addButton_x && mouseX <= addButton_x+icon_size && mouseY >= addButton_y && mouseY <= addButton_y+icon_size){
         change_brush_size(true);
   }
 }
 
 void inSubButton(){
-  if(mouseX >= subButton_x && mouseX <= subButton_x+20 && mouseY >= subButton_y && mouseY <= subButton_y+20){
+  if(mouseX >= subButton_x && mouseX <= subButton_x+icon_size && mouseY >= subButton_y && mouseY <= subButton_y+icon_size){
         change_brush_size(false);
   }
 }
@@ -207,7 +268,7 @@ void paint(){
 
 void erase(){
   if(brush_model == 'e'){
-       fill(255,255, 255);
+       backColor();
        use_Brush();
   }
 }
@@ -230,5 +291,4 @@ void setColor(){
 
 void changeShape(){
    this.brush_type++;
-   fill(100,100,100);
 }
