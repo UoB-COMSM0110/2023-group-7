@@ -16,7 +16,7 @@ void setup() {
 }
 
 void draw() {
-    frameRate(30);  //运行帧数
+  frameRate(30);
   background(#21EA73);
   board();
   ellipse(circle_x, circle_y, 20, 20);
