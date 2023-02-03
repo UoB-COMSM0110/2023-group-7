@@ -16,7 +16,7 @@ void setup() {
 }
 
 void draw() {
-  frameRate(30);
+  frameRate(60);
   background(#21EA73);
   board();
   ellipse(circle_x, circle_y, 20, 20);
@@ -72,7 +72,8 @@ boolean crash(){
 
 void board(){
     fill(100,100,100);
-    rect(mouseX,mouseY,board_width*2,board_height*2);
+    rectMode(CENTER);
+    rect(mouseX,mouseY,board_width,board_height);
     board_x_left = mouseX-board_width;
     board_x_right = mouseX+board_width;
     board_y_up = mouseY-board_height;
