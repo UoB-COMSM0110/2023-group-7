@@ -18,12 +18,15 @@ class Map{
       dbs.blocks.add(new Block(width, gy_CORNER - p.size, p.size * 2, p.size/3, 20));
       dbs.blocks.add(new Block(width, gy_CORNER - p.size * 2, p.size * 2, p.size/3, 45));
       dbs.blocks.add(new Block(width, gy_CORNER - p.size * 3, p.size * 2, p.size/3, 70));
-      
+            dbs.blocks.add(new Block(width, gy_CORNER - p.size * 4, p.size * 2, p.size/3, 95));
+            dbs.blocks.add(new Block(width, gy_CORNER - p.size * 5, p.size * 2, p.size/3, 120));
+
       dbs.blocks.add(new Block(width, gy_CORNER - p.size, p.size * 6, p.size, 100));
-      dbs.blocks.add(new Block(width, gy_CORNER - p.size * 2, p.size * 6, p.size, 140));
-      dbs.blocks.add(new Block(width, gy_CORNER - p.size, p.size * 2, p.size, 200));
-      dbs.blocks.add(new Block(width, gy_CORNER - p.size, p.size * 1, p.size, 240));
-     
+      dbs.blocks.add(new Block(width, gy_CORNER - p.size * 1, p.size * 2, p.size, 140));
+      dbs.blocks.add(new Block(width, gy_CORNER - p.size * 2, p.size * 2, p.size, 160));
+      dbs.blocks.add(new Block(width, gy_CORNER - p.size * 3, p.size * 2, p.size, 180));
+           dbs.blocks.add(new Block(width, gy_CORNER - p.size * 4, p.size * 2, p.size, 200));
+
       //dbs.blocks.add(new Block(p.size, gy_CORNER - p.size, width/3, p.size, 100));
       //dbs.blocks.add(new Block(p.size, gy_CORNER - p.size * 2, width/3, p.size, 120));
       //dbs.blocks.add(new Block(p.size, gy_CORNER - p.size * 4, width/3, p.size, 140));
