@@ -30,12 +30,13 @@ class Map{
         print("left_l:" + left_l +", left_r:" + left_r);
         println(", right_l:" + right_l +", right_r:" + right_r);
         //not out of bound
-        if(left_l >= 0 && right_r <= 29 &&
-           up_l >= 0 && down_r <= 19){
+        if(up_l >= 0 && down_r <= 19){
              if(keyCode == UP){
                   // check grids above player
                   for(int i = up_l; i <= up_r; i++){
-                    for(int j = left_l + 1; j <= right_r - 1; j++){
+                    int left_line = left_r < 0 ? right_l : left_r;
+                    int right_line = right_l > 29 ? left_r : right_l; 
+                    for(int j = left_line; j <= right_line; j++){
                       int k = rooms[roomNum[0]][roomNum[1]].itemType[i][j];
                       if(k == 1){
                           float by = i * b.size;
@@ -47,11 +48,14 @@ class Map{
               if(keyCode == DOWN){
                   // check grids beneath player
                    for(int i = down_l; i <= down_r; i++){
-                    for(int j = left_l + 1; j <= right_r - 1; j++){
+                    int left_line = left_r < 0 ? right_l : left_r;
+                    int right_line = right_l > 29 ? left_r : right_l; 
+                    println("left: " + left_line + ", right:" + right_line);
+                    for(int j = left_line; j <= right_line; j++){
                       int k = rooms[roomNum[0]][roomNum[1]].itemType[i][j];
                       if(k == 1){
                           float by = i * b.size;
-                          if(p.y + 2 * p.size >= by) p.y = by - 2 * p.size - 1;
+                          if(p.y + 2 * p.size >= by) p.y = by - 2 * p.size - 5;
                       }
                     }
                    }
@@ -61,7 +65,7 @@ class Map{
            up_r >= 0 && down_l <= 19){
               if(keyCode == LEFT){
                   // check grids on left side
-                  for(int i = up_r + 1; i <= down_l - 1; i++){
+                  for(int i = up_r; i <= down_l; i++){
                     for(int j = left_l; j <= left_r; j++){
                       int k = rooms[roomNum[0]][roomNum[1]].itemType[i][j];
                       if(k == 1){
@@ -73,12 +77,12 @@ class Map{
               }
               if(keyCode == RIGHT){
                   // check grids on right side
-                  for(int i = up_r + 1; i <= down_l - 1; i++){
+                  for(int i = up_r; i <= down_l; i++){
                     for(int j = right_l; j <= right_r; j++){
                       int k = rooms[roomNum[0]][roomNum[1]].itemType[i][j];
                       if(k == 1){
                           float bx = j * b.size;
-                          if(p.x + p.size >= bx) p.x = bx - p.size;          
+                          if(p.x + p.size >= bx) p.x = bx - p.size - 1;          
                       }
                     } 
                   }
@@ -93,9 +97,9 @@ class Map{
         if(roomNum[1] > 0) roomNum[1]--;
         p.x = width - p.size - 1;
       }
-      if( p.x > width){
+      if( p.x + p.size > width){
         if(roomNum[1] < 3) roomNum[1]++;
-        p.x = p.size;
+        p.x = 1;
       };
       if(p.y < 0){
          if( roomNum[0] > 0) roomNum[0]--;
@@ -103,7 +107,7 @@ class Map{
       }
       if(p.y + p.size * 2 > height){
         if( roomNum[0] < 3) roomNum[0]++;
-        p.y = 0 + p.size;
+        p.y = 1;
       }
     }
     
@@ -295,7 +299,7 @@ class Map{
     }
     
     public void exitRoom(Room r){
-        r.desc += "出";
+        //r.desc += "出";
     }
     
 }
