@@ -5,8 +5,8 @@ class Player{
   int jumpHeight;
   boolean jump;
   Player(){
-    this.x = height/2;
-    this.y = width/2;
+    this.x = width/2;
+    this.y =  height/2;
     this.size = height/20;
     this.img = loadImage("imgs/player.png");
     this.img.resize(height/20,  height*2/20); 
@@ -14,7 +14,6 @@ class Player{
   
   void display(){
       drawPlayer();
-      
   }
   
   void drawPlayer(){
