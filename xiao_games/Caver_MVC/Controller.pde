@@ -16,6 +16,7 @@ public class Controller{
       float x = p.getX();
       float y = p.getY();
       float s = p.getSize();
+      println("p.x: "+ x + "p.y: " + y);
       if(x <= 0 && roomNum[1] > 0){
          model.setRoomNum(0, -1);
          p.setX(width - s - 1);
@@ -31,11 +32,10 @@ public class Controller{
       }else{
          return;
       }
-      model.setChangeRoom(true);
    }
    
    public void crashWall(){
-       
+        
         Room r = model.getCurrentRoom();
         Player p = model.getPlayer();
         float x = p.getX();
@@ -47,7 +47,7 @@ public class Controller{
         int right_l = (int)((x + s)/s), right_r = (int)((x + s)/s) + 1;
         int up_l = (int)(y/s) - 1, up_r = (int)(y/s);
         int down_l = (int)((y + 2 * s)/s), down_r = (int)((y + 2 * s)/s) + 1;        
- 
+        println("left_l:" + left_l + ", right_l:"  + right_l + ", up_l:" + up_l + ", down_l:"  + down_l);
         if(up_l >= 0 && down_r <= 19){
              if(keyCode == UP){
                   for(int i = up_l; i <= up_r; i++){
@@ -57,7 +57,7 @@ public class Controller{
                       int k = r.itemType[i][j];
                       if(k == 1){
                           float by = i * bSize;
-                          if(y <= by + bSize) y = by + s + 1;
+                          if(y <= by + bSize) p.setY(by + s + 1);
                       }
                     }
                   }
@@ -71,7 +71,7 @@ public class Controller{
                       int k = r.itemType[i][j];
                       if(k == 1){
                           float by = i * bSize;
-                          if(y + 2 * s >= by) y = by - 2 * s - 5;
+                          if(y + 2 * s >= by) p.setY(by - 2 * s - 5);
                       }
                     }
                    }
@@ -85,7 +85,7 @@ public class Controller{
                       int k = r.itemType[i][j];
                       if(k == 1){
                           float bx = j * bSize;
-                          if(x <= bx + bSize) x = bx + bSize + 1;              
+                          if(x <= bx + bSize) p.setX(bx + bSize + 1);              
                       }
                     } 
                   }
@@ -96,7 +96,7 @@ public class Controller{
                       int k = r.itemType[i][j];
                       if(k == 1){
                           float bx = j * bSize;
-                          if(x + s >= bx) x = bx - s - 1;          
+                          if(x + s >= bx) p.setX(bx - s - 1);          
                       }
                     } 
                   }

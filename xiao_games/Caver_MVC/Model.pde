@@ -6,20 +6,10 @@ public class Model{
    private boolean gameWin;
    private int currentEnemyId;
    private Block block;
-   private boolean changeRoom;
    
    public Model(){
        //create map
        map = new Map();
-       this.changeRoom = true;
-   }
-   
-   public boolean getChangeRoom(){
-      return changeRoom;
-   }
-   
-   public void setChangeRoom(boolean flag){
-      changeRoom = flag;
    }
    
    public Player getPlayer(){
@@ -33,6 +23,8 @@ public class Model{
    public void addBlock(Block block){
         this.block = block;
    }
+   
+   
    
    public PImage getBlockImg(int type){
       return block.getImg(type);

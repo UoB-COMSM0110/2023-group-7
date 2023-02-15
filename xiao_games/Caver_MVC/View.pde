@@ -6,19 +6,13 @@ public class View{
   }
   
   public void paint(){
-     drawBackground();
-     drawRoom();
+     background(200);
+     drawRoom(true);
      drawPlayer();
      showPath();
   }
   
-  public void drawBackground(){
-     fill(255);
-     rect(0,0,width, height);
-     noFill();
-  }
-  
-  public void drawRoom(){
+  public void drawRoom(boolean flag){
      Room r = model.getCurrentRoom();
      int[] num = model.getRoomNum();
      println("Room: " + num[0] + ","+ num[1]);
@@ -27,10 +21,15 @@ public class View{
         for(int j = 0; j < 30; j++){
           int k = r.itemType[i][j];
           int s = model.getBlockSize();
-          drawBlock( j * s, i * s, k);
+          if(flag){
+              drawBlock( j * s, i * s, k);
+          }else{
+             if(k ==0){
+                drawBlock( j * s, i * s, k);
+             }
+          }
         }
       }
-      model.setChangeRoom(false);
   }
   
   public void showPath(){
@@ -46,7 +45,7 @@ public class View{
   public void drawBlock(float x, float y, int type){
         if(type != 0){
            PImage img = model.getBlockImg(type);
-           //image(loadImage("imgs/clod.png"),x,y);
+           image(img,x,y);
         }
   }
   
