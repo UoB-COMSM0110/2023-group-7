@@ -10,7 +10,6 @@ class Block {
 
     public void drawBolck(float x, float y){
         fill(255);
-        //rect(this.x, this.y, height/20, width*20/height);
         image(this.img,x,y);
         noFill();
     }

@@ -17,7 +17,6 @@ void draw(){
         System.out.println("");
     }
     System.out.println(map.roomNum[0] +"," + map.roomNum[1]);
-        System.out.println("p.x;" + p.x +", p.y:" + p.y);
 
      background(200);
      map.display();

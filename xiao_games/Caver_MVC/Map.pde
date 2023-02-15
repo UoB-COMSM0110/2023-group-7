@@ -1,9 +1,8 @@
 class Map{
-    // romm num = 4 * 4 = 16
-    Room[][] rooms;
-    int[] roomNum;
+    private Room[][] rooms;
+    private int[] roomNum;
     
-    Map(){
+    public Map(){
         this.rooms = new Room[4][4];
         for(int i = 0; i < 4; i++){
             for(int j = 0; j < 4; j++){
@@ -13,112 +12,24 @@ class Map{
         this.generateMap();
     }
     
-    void display(){
-      changeRoom();
-      drawRoom();
-      crashWall();
+    public void setRoomNum(int i, int j){
+        roomNum[0] += i;
+        roomNum[1] += j;
     }
     
-    void crashWall(){
-        //pruning, only check grid around player
-        int left_l = (int)(p.x/p.size) - 1, left_r = (int)(p.x/p.size);
-        int right_l = (int)((p.x + p.size)/p.size), right_r = (int)((p.x + p.size)/p.size) + 1;
-        int up_l = (int)(p.y/p.size) - 1, up_r = (int)(p.y/p.size);
-        int down_l = (int)((p.y + 2 * p.size)/p.size), down_r = (int)((p.y + 2 * p.size)/p.size) + 1;        
-        //print("up_l:" + up_l +", up_r:" + up_r);
-        //println(", down_l:" + down_l +", down_r:" + down_r);
-        //print("left_l:" + left_l +", left_r:" + left_r);
-        //println(", right_l:" + right_l +", right_r:" + right_r);
-        //not out of bound
-        if(up_l >= 0 && down_r <= 19){
-             if(keyCode == UP){
-                  // check grids above player
-                  for(int i = up_l; i <= up_r; i++){
-                    int left_line = left_r < 0 ? right_l : left_r;
-                    int right_line = right_l > 29 ? left_r : right_l; 
-                    for(int j = left_line; j <= right_line; j++){
-                      int k = rooms[roomNum[0]][roomNum[1]].itemType[i][j];
-                      if(k == 1){
-                          float by = i * b.size;
-                          if(p.y <= by + b.size) p.y = by + p.size + 1;
-                      }
-                    }
-                  }
-             }
-              if(keyCode == DOWN){
-                  // check grids beneath player
-                   for(int i = down_l; i <= down_r; i++){
-                    int left_line = left_r < 0 ? right_l : left_r;
-                    int right_line = right_l > 29 ? left_r : right_l; 
-                    println("left: " + left_line + ", right:" + right_line);
-                    for(int j = left_line; j <= right_line; j++){
-                      int k = rooms[roomNum[0]][roomNum[1]].itemType[i][j];
-                      if(k == 1){
-                          float by = i * b.size;
-                          if(p.y + 2 * p.size >= by) p.y = by - 2 * p.size - 5;
-                      }
-                    }
-                   }
-              }
-           }
-           if(left_l >= 0 && right_r <= 29 &&
-           up_r >= 0 && down_l <= 19){
-              if(keyCode == LEFT){
-                  // check grids on left side
-                  for(int i = up_r; i <= down_l; i++){
-                    for(int j = left_l; j <= left_r; j++){
-                      int k = rooms[roomNum[0]][roomNum[1]].itemType[i][j];
-                      if(k == 1){
-                          float bx = j * b.size;
-                          if(p.x <= bx + b.size) p.x = bx + b.size + 1;              
-                      }
-                    } 
-                  }
-              }
-              if(keyCode == RIGHT){
-                  // check grids on right side
-                  for(int i = up_r; i <= down_l; i++){
-                    for(int j = right_l; j <= right_r; j++){
-                      int k = rooms[roomNum[0]][roomNum[1]].itemType[i][j];
-                      if(k == 1){
-                          float bx = j * b.size;
-                          if(p.x + p.size >= bx) p.x = bx - p.size - 1;          
-                      }
-                    } 
-                  }
-              }
-       }
+    public int[] getRoomNum(){
+        return roomNum;
     }
     
-    void changeRoom(){
-      //current room
-      if(p.x < 0){
-        if(roomNum[1] > 0) roomNum[1]--;
-        p.x = width - p.size - 1;
-      }
-      if( p.x + p.size > width){
-        if(roomNum[1] < 3) roomNum[1]++;
-        p.x = 1;
-      };
-      if(p.y < 0){
-         if( roomNum[0] > 0) roomNum[0]--;
-         p.y = height - p.size * 2 - 1;
-      }
-      if(p.y + p.size * 2 > height){
-        if( roomNum[0] < 3) roomNum[0]++;
-        p.y = 1;
-      }
+    public Room getCurrentRoom(){
+        return rooms[roomNum[0]][roomNum[1]];
     }
     
-    void drawRoom(){
-      for(int i = 0; i < 20; i++){
-        for(int j = 0; j < 30; j++){
-          int k = rooms[roomNum[0]][roomNum[1]].itemType[i][j];
-          if(k == 1) b.drawBolck( j * b.size, i * b.size);
-        }
-      }
+    //TO BE DELETE
+    public Room[][] getRooms(){
+       return rooms;
     }
-    
+
     void generateMap(){
         // first room
         int x = 0;
