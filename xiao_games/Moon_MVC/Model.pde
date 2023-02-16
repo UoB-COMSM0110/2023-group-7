@@ -32,22 +32,24 @@ public class Model{
       return block.getImg(type);
    }
    
-   public int[] getRoomNum(){
-      return map.getRoomNum();
+   public int getIndexByDirection(int type){
+      return map.getIndexByDirection(type);
    }
    
-    //TO BE DELETE
-    public Room[][] getRooms(){
-       return map.getRooms();
-    }
-
+   public void setCurrentRoomIndex(int index){
+       map.setCurrentRoomIndex(index);
+   }
+   
+   public Room getNewRoom(){
+      return map.getNewRoom();
+   }
    
    public Room getCurrentRoom(){
       return map.getCurrentRoom();
    }
    
-   public void setRoomNum(int i, int j){
-       map.setRoomNum(i ,j);
+   public void addRoom(int type){
+      map.addRoom(type);
    }
    
    public void setGameWin(boolean flag){

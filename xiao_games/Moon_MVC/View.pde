@@ -9,31 +9,16 @@ public class View{
      background(200);
      drawRoom();
      drawPlayer();
-     showPath();
   }
   
   public void drawRoom(){
-     Room r = model.getCurrentRoom();
-     int[] num = model.getRoomNum();
-     println("Room: " + num[0] + ","+ num[1]);
-     
+     Room r = model.getCurrentRoom(); 
      for(int i = 0; i < 20; i++){
         for(int j = 0; j < 30; j++){
           int k = r.itemType[i][j];
           float s = model.getBlockSize();
               drawBlock( j * s, i * s, k);
         }
-      }
-  }
-  
-  //TO BE DELETE
-  public void showPath(){
-      Room[][] rooms = model.getRooms();
-      for(int i = 0; i < 4; i++){
-        for(int j = 0; j < 4; j++){
-           print(rooms[i][j].getDesc());
-        }
-        println("");
       }
   }
   

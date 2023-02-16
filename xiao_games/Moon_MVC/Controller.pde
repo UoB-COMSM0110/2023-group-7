@@ -12,30 +12,81 @@ public class Controller{
    
    public void changeRoomNum(){
       Player p = model.getPlayer();
-      int[] roomNum = model.getRoomNum();
       float x = p.getX();
       float y = p.getY();
       float s = p.getSize();
-      println("p.x: "+ x + "p.y: " + y);
-      if(x <= 0 && roomNum[1] > 0){
-         model.setRoomNum(0, -1);
+      if(x <= 0){
+         this.generateLeft();
+         //0-up, 1-down, 2-left, 3-right
+         int index =model.getIndexByDirection(2);         
+         model.setCurrentRoomIndex(index);
          p.setX(width - s - 1);
-      }else if(x + s > width && roomNum[1] < 3){
-         model.setRoomNum(0, 1);
+      }else if(x + s > width){
+         this.generateRight(); 
+         int index =model.getIndexByDirection(3);
+         model.setCurrentRoomIndex(index);
          p.setX(1);
-      }else if(y < 0 && roomNum[0] > 0){
-         model.setRoomNum(-1, 0);
+      }else if(y < 0){
+         this.generateUp(); 
+         int index =model.getIndexByDirection(0);
+         model.setCurrentRoomIndex(index);
          p.setY(height - s * 2 -1);
-      }else if(y + s * 2 > height && roomNum[0] < 3){
-         model.setRoomNum(1, 0);
+      }else if(y + s * 2 > height){
+         this.generateDown(); 
+         int index =model.getIndexByDirection(1);
+         model.setCurrentRoomIndex(index);
          p.setY(1);
       }else{
          return;
       }
    }
    
+   public void generateLeft(){
+      Room curRoom = model.getCurrentRoom();
+      int[] adjacent = curRoom.getAdjacent();
+      if(adjacent[2] == -1){
+         model.addRoom(3);//// 0 = start, 1  = up, 2 = down, 3 = left/right
+         Room newRoom = model.getNewRoom();
+         newRoom.setAdjacent(new int[]{-1,-1,-1, curRoom.getIndex()});
+         curRoom.setAdjacent(new int[]{-1,-1,newRoom.getIndex(),-1});
+      }
+   }
+   
+   public void generateRight(){
+      Room curRoom = model.getCurrentRoom();
+      int[] adjacent = curRoom.getAdjacent();
+      if(adjacent[3] == -1){
+         model.addRoom(3);//// 0 = start, 1  = up, 2 = down, 3 = left/right
+         Room newRoom = model.getNewRoom();
+         newRoom.setAdjacent(new int[]{-1,-1,curRoom.getIndex(),-1});
+         curRoom.setAdjacent(new int[]{-1,-1,-1, newRoom.getIndex()});
+      }
+   }
+   
+   public void generateUp(){
+      Room curRoom = model.getCurrentRoom();
+      int[] adjacent = curRoom.getAdjacent();
+      if(adjacent[0] == -1){
+         model.addRoom(1);//// 0 = start, 1  = up, 2 = down, 3 = left/right
+         Room newRoom = model.getNewRoom();
+         newRoom.setAdjacent(new int[]{-1,curRoom.getIndex(),-1,-1});
+         curRoom.setAdjacent(new int[]{newRoom.getIndex(),-1,-1,-1});
+      }
+   }
+   
+   public void generateDown(){
+      Room curRoom = model.getCurrentRoom();
+      int[] adjacent = curRoom.getAdjacent();
+      if(adjacent[1] == -1){
+         model.addRoom(2);//// 0 = start, 1  = up, 2 = down, 3 = left/right
+         Room newRoom = model.getNewRoom();
+         newRoom.setAdjacent(new int[]{curRoom.getIndex(),-1,-1,-1});
+         curRoom.setAdjacent(new int[]{-1,newRoom.getIndex(),-1,-1});
+      }
+   }
+   
+   
    public void crashBlock(){
-        
         Room r = model.getCurrentRoom();
         Player p = model.getPlayer();
         float x = p.getX();
@@ -47,7 +98,6 @@ public class Controller{
         int right_l = (int)((x + s)/s), right_r = (int)((x + s)/s) + 1;
         int up_l = (int)(y/s) - 1, up_r = (int)(y/s);
         int down_l = (int)((y + 2 * s)/s), down_r = (int)((y + 2 * s)/s) + 1;        
-        println("left_l:" + left_l + ", right_l:"  + right_l + ", up_l:" + up_l + ", down_l:"  + down_l);
         if(up_l >= 0 && down_r <= 19){
              if(keyCode == UP){
                   for(int i = up_l; i <= up_r; i++){
@@ -66,7 +116,6 @@ public class Controller{
                    for(int i = down_l; i <= down_r; i++){
                     int left_line = left_r < 0 ? right_l : left_r;
                     int right_line = right_l > 29 ? left_r : right_l; 
-                    println("left: " + left_line + ", right:" + right_line);
                     for(int j = left_line; j <= right_line; j++){
                       int k = r.itemType[i][j];
                       if(k == 1){
