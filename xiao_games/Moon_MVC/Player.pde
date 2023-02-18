@@ -1,19 +1,13 @@
-public class Player extends BasicProperties{
-  private PImage img;
-  private int jumpHeight;
-  private boolean jump;
-  
-  public Player(int bornX, int bornY, int bornSize, String imgPath){
-    this.setX(bornX);
-    this.setY(bornY);
-    this.setSize(bornSize);
-    this.img = loadImage(imgPath);
-    this.img.resize(bornSize, 2 * bornSize); 
+public class Player extends BasicProp{
+    
+  public Player(int x, int y, int sizeX, int sizeY, int speed, String imgPath){
+    this.setX(x);
+    this.setY(y);
+    this.setSizeX(sizeX);
+    this.setSizeY(sizeY);
+    this.setSpeed(speed);
+    this.setImg(loadImage(imgPath));
+    this.getImg().resize(sizeX, sizeY); 
   };
-  
-  public PImage getImg(){
-    return this.img;
-  }
-  
   
 }

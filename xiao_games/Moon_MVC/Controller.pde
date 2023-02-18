@@ -14,26 +14,26 @@ public class Controller{
       Player p = model.getPlayer();
       float x = p.getX();
       float y = p.getY();
-      float s = p.getSize();
+      float sx = p.getSizeX();
+      float sy = p.getSizeY();
       if(x <= 0){
          this.generateLeft();
-         //0-up, 1-down, 2-left, 3-right
-         int index =model.getIndexByDirection(2);         
+         int index =model.getIndexByDirection(Type.KEY_LEFT);         
          model.setCurrentRoomIndex(index);
-         p.setX(width - s - 1);
-      }else if(x + s > width){
+         p.setX(width - sx - 1);
+      }else if(x + sx > width){
          this.generateRight(); 
-         int index =model.getIndexByDirection(3);
+         int index =model.getIndexByDirection(Type.KEY_RIGHT);
          model.setCurrentRoomIndex(index);
          p.setX(1);
       }else if(y < 0){
          this.generateUp(); 
-         int index =model.getIndexByDirection(0);
+         int index =model.getIndexByDirection(Type.KEY_UP);
          model.setCurrentRoomIndex(index);
-         p.setY(height - s * 2 -1);
-      }else if(y + s * 2 > height){
+         p.setY(height - sy -1);
+      }else if(y + sy > height){
          this.generateDown(); 
-         int index =model.getIndexByDirection(1);
+         int index =model.getIndexByDirection(Type.KEY_DOWN);
          model.setCurrentRoomIndex(index);
          p.setY(1);
       }else{
@@ -45,7 +45,7 @@ public class Controller{
       Room curRoom = model.getCurrentRoom();
       int[] adjacent = curRoom.getAdjacent();
       if(adjacent[2] == -1){
-         model.addRoom(3);//// 0 = start, 1  = up, 2 = down, 3 = left/right
+         model.addRoom(Type.ROOM_LR);
          Room newRoom = model.getNewRoom();
          newRoom.setAdjacent(new int[]{-1,-1,-1, curRoom.getIndex()});
          curRoom.setAdjacent(new int[]{-1,-1,newRoom.getIndex(),-1});
@@ -56,7 +56,7 @@ public class Controller{
       Room curRoom = model.getCurrentRoom();
       int[] adjacent = curRoom.getAdjacent();
       if(adjacent[3] == -1){
-         model.addRoom(3);//// 0 = start, 1  = up, 2 = down, 3 = left/right
+         model.addRoom(Type.ROOM_LR);
          Room newRoom = model.getNewRoom();
          newRoom.setAdjacent(new int[]{-1,-1,curRoom.getIndex(),-1});
          curRoom.setAdjacent(new int[]{-1,-1,-1, newRoom.getIndex()});
@@ -67,7 +67,7 @@ public class Controller{
       Room curRoom = model.getCurrentRoom();
       int[] adjacent = curRoom.getAdjacent();
       if(adjacent[0] == -1){
-         model.addRoom(1);//// 0 = start, 1  = up, 2 = down, 3 = left/right
+         model.addRoom(Type.ROOM_UP);
          Room newRoom = model.getNewRoom();
          newRoom.setAdjacent(new int[]{-1,curRoom.getIndex(),-1,-1});
          curRoom.setAdjacent(new int[]{newRoom.getIndex(),-1,-1,-1});
@@ -78,36 +78,36 @@ public class Controller{
       Room curRoom = model.getCurrentRoom();
       int[] adjacent = curRoom.getAdjacent();
       if(adjacent[1] == -1){
-         model.addRoom(2);//// 0 = start, 1  = up, 2 = down, 3 = left/right
+         model.addRoom(Type.ROOM_DOWN);
          Room newRoom = model.getNewRoom();
          newRoom.setAdjacent(new int[]{curRoom.getIndex(),-1,-1,-1});
          curRoom.setAdjacent(new int[]{-1,newRoom.getIndex(),-1,-1});
       }
    }
    
-   
    public void crashBlock(){
         Room r = model.getCurrentRoom();
         Player p = model.getPlayer();
         float x = p.getX();
         float y = p.getY();
-        float s = p.getSize();
-        float bSize = model.getBlockSize();
+        float sx = p.getSizeX();
+        float sy = p.getSizeY();
+        float bSize = model.getGridSize();
         
-        int left_l = (int)(x/s) - 1, left_r = (int)(x/s);
-        int right_l = (int)((x + s)/s), right_r = (int)((x + s)/s) + 1;
-        int up_l = (int)(y/s) - 1, up_r = (int)(y/s);
-        int down_l = (int)((y + 2 * s)/s), down_r = (int)((y + 2 * s)/s) + 1;        
+        int left_l = (int)(x/sx) - 1, left_r = (int)(x/sx);
+        int right_l = (int)((x + sx)/sx), right_r = (int)((x + sx)/sx) + 1;
+        int up_l = (int)(y/sx) - 1, up_r = (int)(y/sx);
+        int down_l = (int)((y + sy)/sx), down_r = (int)((y + sy)/sx) + 1;        
         if(up_l >= 0 && down_r <= 19){
              if(keyCode == UP){
                   for(int i = up_l; i <= up_r; i++){
                     int left_line = left_r < 0 ? right_l : left_r;
                     int right_line = right_l > 29 ? left_r : right_l; 
                     for(int j = left_line; j <= right_line; j++){
-                      int k = r.itemType[i][j];
-                      if(k == 1){
+                      int k = r.blockType[i][j];
+                      if(k == Type.ITEM_WALL){
                           float by = i * bSize;
-                          if(y <= by + bSize) p.setY(by + s + 1);
+                          if(y <= by + bSize) p.setY(by + sx + 1);
                       }
                     }
                   }
@@ -117,10 +117,10 @@ public class Controller{
                     int left_line = left_r < 0 ? right_l : left_r;
                     int right_line = right_l > 29 ? left_r : right_l; 
                     for(int j = left_line; j <= right_line; j++){
-                      int k = r.itemType[i][j];
-                      if(k == 1){
+                      int k = r.blockType[i][j];
+                      if(k == Type.ITEM_WALL){
                           float by = i * bSize;
-                          if(y + 2 * s >= by) p.setY(by - 2 * s - 5);
+                          if(y + sy >= by) p.setY(by - sy - 5);
                       }
                     }
                    }
@@ -131,8 +131,8 @@ public class Controller{
               if(keyCode == LEFT){
                   for(int i = up_r; i <= down_l; i++){
                     for(int j = left_l; j <= left_r; j++){
-                      int k = r.itemType[i][j];
-                      if(k == 1){
+                      int k = r.blockType[i][j];
+                      if(k == Type.ITEM_WALL){
                           float bx = j * bSize;
                           if(x <= bx + bSize) p.setX(bx + bSize + 1);              
                       }
@@ -142,10 +142,10 @@ public class Controller{
               if(keyCode == RIGHT){
                   for(int i = up_r; i <= down_l; i++){
                     for(int j = right_l; j <= right_r; j++){
-                      int k = r.itemType[i][j];
-                      if(k == 1){
+                      int k = r.blockType[i][j];
+                      if(k == Type.ITEM_WALL){
                           float bx = j * bSize;
-                          if(x + s >= bx) p.setX(bx - s - 1);          
+                          if(x + sx >= bx) p.setX(bx - sx - 1);          
                       }
                     } 
                   }
@@ -153,18 +153,28 @@ public class Controller{
        }
     }
    
-   public void changePlayerPos(int type){
-     Player p = model.getPlayer();
-     if(type == 1){
-        p.setX(p.getX() - 15);
-     }else if(type == 2){
-        p.setX(p.getX() + 15);
-     }else if(type == 3){
-        p.setY(p.getY() - 15);
-     }else if(type == 4){
-        p.setY(p.getY() + 15);
-     }
+   public void moveEnemy(){
+     //change ghost pos
+     
+     //change player pos
+     
+     
+     //change enemy pos in current room
+     
    }
    
+   
+   public void movePlayer(int dir){
+     Player p = model.getPlayer();
+     if(dir == Type.KEY_LEFT){
+        p.setX(p.getX() - p.getSpeed());
+     }else if(dir == Type.KEY_RIGHT){
+        p.setX(p.getX() + p.getSpeed());
+     }else if(dir == Type.KEY_UP){
+        p.setY(p.getY() - p.getSpeed());
+     }else if(dir == Type.KEY_DOWN){
+        p.setY(p.getY() + p.getSpeed());
+     }
+   }
 
 }

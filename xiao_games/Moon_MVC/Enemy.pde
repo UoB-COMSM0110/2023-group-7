@@ -1,16 +1,20 @@
-class Enemy{
-  private int id;
-  
-  Enemy(int id){
-     this.id = id;
+class Enemy extends BasicProp{
+  private int[] spawn;
+
+  Enemy(){};
+   
+  public void setSpawn(int[] spawn){
+     this.spawn[0] = spawn[0];
+     this.spawn[1] = spawn[1];
   }
   
-  public int getId(){
-     return this.id;
-  }
-  
-  public void setEnemyId(int id){
-    this.id = id;
+  public void move(){
+     int i = (int)random(4);
+     if(i == 0 || i == 1){
+          setX(getX()+ getSpeed());
+     }else{
+         setX(getX()- getSpeed());
+     }
   }
   
 }

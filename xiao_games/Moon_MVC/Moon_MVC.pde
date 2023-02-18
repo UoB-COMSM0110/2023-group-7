@@ -1,11 +1,37 @@
 Controller controller;
 View view;
 
+static abstract class Type {
+  
+  static final int KEY_UP = 0;
+  static final int KEY_DOWN = 1;
+  static final int KEY_LEFT = 2;
+  static final int KEY_RIGHT = 3;
+  
+  static final int ROOM_START = 0;
+  static final int ROOM_UP = 1;
+  static final int ROOM_DOWN = 2;
+  static final int ROOM_LR = 3;
+    
+  static final int ENEMY_GHOST = 0;
+  static final int ENEMY_WORM = 1;
+  static final int ENEMY_GUNNER = 2;
+  
+  static final int ITEM_EMPTY = 0;
+  static final int ITEM_WALL = 1;
+  static final int ITEM_GOLD = 2;
+  static final int ITEM_LADDER = 2;
+
+  
+}
+
+
 void setup(){
     size(900,600);
+    int gridSize = height/20;
     Model model = new Model();
-    model.addPlayer(new Player(width/2, height/2, height/20,"imgs/player.png"));
-    model.addBlock(new Block(height/20));
+    model.setGridSize(gridSize);
+    model.addPlayer(new Player(width/2, height/2, gridSize, gridSize * 2, gridSize/3, "imgs/player.png"));
     controller = new Controller(model);
     view = new View(model);
 }
@@ -17,16 +43,16 @@ void draw(){
 
 public void keyPressed(){
   if(keyCode == LEFT){
-    controller.changePlayerPos(1);
+    controller.movePlayer(Type.KEY_LEFT);
   }
   if(keyCode == RIGHT){
-    controller.changePlayerPos(2);
+    controller.movePlayer(Type.KEY_RIGHT);
   }
   if(keyCode == UP){
-    controller.changePlayerPos(3);
+    controller.movePlayer(Type.KEY_UP);
   }
   if(keyCode == DOWN){
-    controller.changePlayerPos(4);
+    controller.movePlayer(Type.KEY_DOWN);
   }
   
 }

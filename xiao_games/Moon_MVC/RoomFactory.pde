@@ -1,27 +1,29 @@
-public class RoomGenerator{    
-    private Map map;
+public class RoomFactory extends Factory{    
     
-    public RoomGenerator(Map map){
-       this.map = map;
+    private EnemyFactory enemyFactory;
+    private BlockFactory blockFactory;
+   
+    public RoomFactory(EnemyFactory e, BlockFactory b){
+      this.enemyFactory = e;
+      this.blockFactory = b;
     }
     
-    // 0 = start, 1  = up, 2 = down, 3 = left/right
-    public Room newRoom(int type, int index){
-        //TO DELETE
-        map.printRooms();
-        
-        if(type == 0){
-           return  generateStart(index);
-        }else if(type == 1){
-           return  generateUp(index);
-        }else if(type == 2){
-           return  generateDown(index);
+    public Room newRoom(int type){
+        Room r;
+        if(type == Type.ROOM_START){
+           r =  generateStart(this.getId());
+        }else if(type == Type.ROOM_UP){
+           r =  generateUp(this.getId());
+        }else if(type == Type.ROOM_DOWN){
+           r =  generateDown(this.getId());
         }else{
-           return  generateLR(index);
+           r =  generateLR(this.getId());
         }
+        this.increaseId();
+        return r;
     }
     
-    private Room generateStart(int index){
+    private Room generateStart(int id){
         int i = (int)random(5);//0~4
         Room r;
         if(i == 0){
@@ -35,11 +37,11 @@ public class RoomGenerator{
         }else{
            r = roomType4();
         }
-        r.setIndex(index);
+        r.setIndex(id);
         return r;
     }
     
-    private Room generateUp(int index){
+    private Room generateUp(int id){
         int i = (int)random(10);//0~9
         Room r;
         if(i >= 0 && i < 3){
@@ -51,11 +53,11 @@ public class RoomGenerator{
         }else{
           r = roomType5();
         }
-        r.setIndex(index);
+        r.setIndex(id);
         return r;
     }
     
-   private Room generateDown(int index){
+   private Room generateDown(int id){
         int i = (int)random(10);//0~9
         Room r;
         if(i >= 0 && i < 3){
@@ -67,11 +69,11 @@ public class RoomGenerator{
         }else{
            r = roomType5();
         }
-        r.setIndex(index);
+        r.setIndex(id);
         return r;
     }
     
-    private Room generateLR(int index){
+    private Room generateLR(int id){
         int i = (int)random(10);//0~9
         Room r;
         if(i >= 0 && i < 3){
@@ -83,7 +85,7 @@ public class RoomGenerator{
         }else{
            r = roomType5();
         }
-        r.setIndex(index);
+        r.setIndex(id);
         return r;
     }
     
@@ -102,14 +104,16 @@ public class RoomGenerator{
         r.setType(0);
         for(int j = 0; j < 10; j++){
           for(int i = 0; i < 20; i++){
-              r.itemType[i][j] = 1;//all blocks
+              r.blockType[i][j] = Type.ITEM_WALL;//all blocks
           }
         }
         for(int j = 20; j < 30; j++){
           for(int i = 0; i < 20; i++){
-              r.itemType[i][j] = 1;//all blocks
+              r.blockType[i][j] = Type.ITEM_WALL;//all blocks
           }
         }
+        
+        r.addEnemy(enemyFactory.newEnemy(Type.ENEMY_WORM));
         
         return r;
     }
@@ -123,19 +127,22 @@ public class RoomGenerator{
         
         for(int i = 0; i < 4; i++){
           for(int j = 0; j < 10; j++){
-              r.itemType[i][j] = 1;//all blocks
+              r.blockType[i][j] = Type.ITEM_WALL;//all blocks
           }
         }
         for(int i = 0; i < 4; i++){
           for(int j = 20; j < 30; j++){
-              r.itemType[i][j] = 1;//all blocks
+              r.blockType[i][j] = Type.ITEM_WALL;//all blocks
           }
         }
         for(int i = 16; i < 20; i++){
           for(int j = 0; j < 30; j++){
-              r.itemType[i][j] = 1;//all blocks
+              r.blockType[i][j] = Type.ITEM_WALL;//all blocks
           }
         }
+        
+                r.addEnemy(enemyFactory.newEnemy(Type.ENEMY_WORM));
+
         return r;
     }
    
@@ -148,14 +155,17 @@ public class RoomGenerator{
         
          for(int i = 0; i < 4; i++){
           for(int j = 0; j < 30; j++){
-              r.itemType[i][j] = 1;//all blocks
+              r.blockType[i][j] = Type.ITEM_WALL;//all blocks
           }
         }
         for(int i = 16; i < 20; i++){
           for(int j = 0; j < 30; j++){
-              r.itemType[i][j] = 1;//all blocks
+              r.blockType[i][j] = Type.ITEM_WALL;//all blocks
           }
         }
+        
+        r.addEnemy(enemyFactory.newEnemy(Type.ENEMY_WORM));
+
         return r;
     }
 
@@ -168,20 +178,23 @@ public class RoomGenerator{
 
          for(int i = 0; i < 4; i++){
           for(int j = 0; j < 30; j++){
-              r.itemType[i][j] = 1;//all blocks
+              r.blockType[i][j] = Type.ITEM_WALL;//all blocks
           }
         }
         
        for(int i = 16; i < 20; i++){
           for(int j = 0; j < 10; j++){
-              r.itemType[i][j] = 1;//all blocks
+              r.blockType[i][j] = Type.ITEM_WALL;//all blocks
           }
         }
         for(int i = 16; i < 20; i++){
           for(int j = 20; j < 30; j++){
-              r.itemType[i][j] = 1;//all blocks
+              r.blockType[i][j] = Type.ITEM_WALL;//all blocks
           }
         }
+        
+                r.addEnemy(enemyFactory.newEnemy(Type.ENEMY_WORM));
+
         return r;
     }
 
@@ -194,24 +207,27 @@ public class RoomGenerator{
         
         for(int i = 0; i < 4; i++){
           for(int j = 0; j < 10; j++){
-              r.itemType[i][j] = 1;//all blocks
+              r.blockType[i][j] = Type.ITEM_WALL;//all blocks
           }
         }
         for(int i = 0; i < 4; i++){
           for(int j = 20; j < 30; j++){
-              r.itemType[i][j] = 1;//all blocks
+              r.blockType[i][j] = Type.ITEM_WALL;//all blocks
           }
         }
         for(int i = 16; i < 20; i++){
           for(int j = 0; j < 10; j++){
-              r.itemType[i][j] = 1;//all blocks
+              r.blockType[i][j] = Type.ITEM_WALL;//all blocks
           }
         }
         for(int i = 16; i < 20; i++){
           for(int j = 20; j < 30; j++){
-              r.itemType[i][j] = 1;//all blocks
+              r.blockType[i][j] = Type.ITEM_WALL;//all blocks
           }
         }
+        
+                r.addEnemy(enemyFactory.newEnemy(Type.ENEMY_WORM));
+
         return r;
     }
     
