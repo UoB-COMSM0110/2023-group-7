@@ -89,13 +89,28 @@ public class RoomFactory extends Factory{
         return r;
     }
     
+    //TO DELETE
+    void tmpBlock(Room r){
+        r.blockType[3][5] = Type.ITEM_GOLD;
+        r.blockType[3][6] = Type.ITEM_GOLD;
+        r.blockType[16][9] = Type.ITEM_GOLD;
+        r.blockType[17][8] = Type.ITEM_GOLD;
+        r.blockType[16][20] = Type.ITEM_LADDER;
+        r.blockType[17][20] = Type.ITEM_LADDER;
+        r.blockType[18][20] = Type.ITEM_LADDER;
+        r.blockType[19][20] = Type.ITEM_LADDER;
+        r.addEnemy(enemyFactory.newEnemy(Type.ENEMY_WORM));
+        r.addEnemy(enemyFactory.newEnemy(Type.ENEMY_GUNNER));
+
+    }
+    
     // 0 |
     private Room roomType0(){
         //TO DELETE
         println("RoomType: 0 |");
         
         //TODO
-        //new Room's block on edge should be consistent with current Room
+        //new Room's block on boundary should be consistent with current Room
         //1. get current Room
         //2. check edge blocks of current Room
         //3. make sure blocks on adjacent sides of two rooms are consistent
@@ -113,7 +128,8 @@ public class RoomFactory extends Factory{
           }
         }
         
-        r.addEnemy(enemyFactory.newEnemy(Type.ENEMY_WORM));
+        // TO DELETE
+        tmpBlock(r);
         
         return r;
     }
@@ -141,7 +157,8 @@ public class RoomFactory extends Factory{
           }
         }
         
-                r.addEnemy(enemyFactory.newEnemy(Type.ENEMY_WORM));
+        // TO DELETE
+        tmpBlock(r);
 
         return r;
     }
@@ -164,7 +181,8 @@ public class RoomFactory extends Factory{
           }
         }
         
-        r.addEnemy(enemyFactory.newEnemy(Type.ENEMY_WORM));
+        // TO DELETE
+        tmpBlock(r);
 
         return r;
     }
@@ -193,8 +211,9 @@ public class RoomFactory extends Factory{
           }
         }
         
-                r.addEnemy(enemyFactory.newEnemy(Type.ENEMY_WORM));
 
+        // TO DELETE
+        tmpBlock(r);
         return r;
     }
 
@@ -226,7 +245,8 @@ public class RoomFactory extends Factory{
           }
         }
         
-                r.addEnemy(enemyFactory.newEnemy(Type.ENEMY_WORM));
+        // TO DELETE
+        tmpBlock(r);
 
         return r;
     }
@@ -237,6 +257,8 @@ public class RoomFactory extends Factory{
         println("RoomType: 5 ?");
         Room r = new Room();
         r.setType(5);
+        // TO DELETE
+        tmpBlock(r);
         return r;
     }
 

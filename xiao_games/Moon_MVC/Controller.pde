@@ -6,39 +6,55 @@ public class Controller{
    };
    
    public void display(){
-      changeRoomNum();
+      changeRoomAndPlayerPos();
       crashBlock();
    }
    
-   public void changeRoomNum(){
+   public void changeRoomAndPlayerPos(){
       Player p = model.getPlayer();
       float x = p.getX();
       float y = p.getY();
       float sx = p.getSizeX();
       float sy = p.getSizeY();
       if(x <= 0){
+         goLeft(p, sx);
+      }else if(x + sx > width){
+         goRight(p); 
+      }else if(y < 0){
+         goUp(p, sy);
+      }else if(y + sy > height){
+         goDown(p);
+      }else{
+         return;
+      }
+   }
+   
+   public void goLeft(Player p, float sx){
          this.generateLeft();
          int index =model.getIndexByDirection(Type.KEY_LEFT);         
          model.setCurrentRoomIndex(index);
          p.setX(width - sx - 1);
-      }else if(x + sx > width){
+   }
+   
+      public void goRight(Player p){
          this.generateRight(); 
          int index =model.getIndexByDirection(Type.KEY_RIGHT);
          model.setCurrentRoomIndex(index);
          p.setX(1);
-      }else if(y < 0){
-         this.generateUp(); 
-         int index =model.getIndexByDirection(Type.KEY_UP);
-         model.setCurrentRoomIndex(index);
-         p.setY(height - sy -1);
-      }else if(y + sy > height){
-         this.generateDown(); 
-         int index =model.getIndexByDirection(Type.KEY_DOWN);
-         model.setCurrentRoomIndex(index);
-         p.setY(1);
-      }else{
-         return;
-      }
+   }
+   
+   public void goUp(Player p, float sy){
+       this.generateUp(); 
+       int index =model.getIndexByDirection(Type.KEY_UP);
+       model.setCurrentRoomIndex(index);
+       p.setY(height - sy -1);
+   }
+   
+   public void goDown(Player p){
+       this.generateDown(); 
+       int index =model.getIndexByDirection(Type.KEY_DOWN);
+       model.setCurrentRoomIndex(index);
+       p.setY(1);
    }
    
    public void generateLeft(){
@@ -97,18 +113,30 @@ public class Controller{
         int left_l = (int)(x/sx) - 1, left_r = (int)(x/sx);
         int right_l = (int)((x + sx)/sx), right_r = (int)((x + sx)/sx) + 1;
         int up_l = (int)(y/sx) - 1, up_r = (int)(y/sx);
-        int down_l = (int)((y + sy)/sx), down_r = (int)((y + sy)/sx) + 1;        
+        int down_l = (int)((y + sy)/sx), down_r = (int)((y + sy)/sx) + 1;
+        
+         //only check blocks which player towards
         if(up_l >= 0 && down_r <= 19){
              if(keyCode == UP){
                   for(int i = up_l; i <= up_r; i++){
+                    //avoid 'index out of bound' exception
                     int left_line = left_r < 0 ? right_l : left_r;
                     int right_line = right_l > 29 ? left_r : right_l; 
                     for(int j = left_line; j <= right_line; j++){
+                      //get type of block, reset player's position
                       int k = r.blockType[i][j];
+                      //if block is Wall
                       if(k == Type.ITEM_WALL){
                           float by = i * bSize;
                           if(y <= by + bSize) p.setY(by + sx + 1);
                       }
+                      //if block is ladder, allow user to climb up and down
+                      
+                      //need more precise detection
+                      //if block is gold, if player use attack, remove block from blocks and changhe itemType in itemType[][] in Room r
+                      
+                      //if some special block such as weapon or chest, need to find them by Id in blcks in Room r, and remove them
+                      
                     }
                   }
              }
@@ -126,8 +154,7 @@ public class Controller{
                    }
               }
            }
-           if(left_l >= 0 && right_r <= 29 &&
-           up_r >= 0 && down_l <= 19){
+           if(left_l >= 0 && right_r <= 29){
               if(keyCode == LEFT){
                   for(int i = up_r; i <= down_l; i++){
                     for(int j = left_l; j <= left_r; j++){
@@ -156,13 +183,9 @@ public class Controller{
    public void moveEnemy(){
      //change ghost pos
      
-     //change player pos
-     
-     
      //change enemy pos in current room
      
    }
-   
    
    public void movePlayer(int dir){
      Player p = model.getPlayer();

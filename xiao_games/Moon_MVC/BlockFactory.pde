@@ -19,7 +19,7 @@ public class BlockFactory extends Factory{
     private void init(){
        this.addImg(loadImage("imgs/empty.png"));
        this.addImg(loadImage("imgs/wall.png"));
-       this.addImg(loadImage("imgs/gold_core.png"));
+       this.addImg(loadImage("imgs/gold.png"));
        this.addImg(loadImage("imgs/ladder.png"));
     }
     

@@ -20,8 +20,7 @@ static abstract class Type {
   static final int ITEM_EMPTY = 0;
   static final int ITEM_WALL = 1;
   static final int ITEM_GOLD = 2;
-  static final int ITEM_LADDER = 2;
-
+  static final int ITEM_LADDER = 3;
   
 }
 
@@ -37,7 +36,9 @@ void setup(){
 }
 
 void draw(){
+    /* change data in each frame */
     controller.display();
+    /* draw everything in each frame */
     view.paint();
 }
 
@@ -54,5 +55,4 @@ public void keyPressed(){
   if(keyCode == DOWN){
     controller.movePlayer(Type.KEY_DOWN);
   }
-  
 }
