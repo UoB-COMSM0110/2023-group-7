@@ -101,6 +101,8 @@ public class Controller{
       }
    }
    
+
+   
    public void crashBlock(){
         Room r = model.getCurrentRoom();
         Player p = model.getPlayer();
@@ -126,7 +128,7 @@ public class Controller{
                       //get type of block, reset player's position
                       int k = r.blockType[i][j];
                       //if block is Wall
-                      if(k == Type.ITEM_WALL){
+                      if(k != Type.ITEM_EMPTY){
                           float by = i * bSize;
                           if(y <= by + bSize) p.setY(by + sx + 1);
                       }
@@ -136,7 +138,6 @@ public class Controller{
                       //if block is gold, if player use attack, remove block from blocks and changhe itemType in itemType[][] in Room r
                       
                       //if some special block such as weapon or chest, need to find them by Id in blcks in Room r, and remove them
-                      
                     }
                   }
              }
@@ -145,8 +146,9 @@ public class Controller{
                     int left_line = left_r < 0 ? right_l : left_r;
                     int right_line = right_l > 29 ? left_r : right_l; 
                     for(int j = left_line; j <= right_line; j++){
+                      
                       int k = r.blockType[i][j];
-                      if(k == Type.ITEM_WALL){
+                      if(k != Type.ITEM_EMPTY){
                           float by = i * bSize;
                           if(y + sy >= by) p.setY(by - sy - 5);
                       }
@@ -159,7 +161,7 @@ public class Controller{
                   for(int i = up_r; i <= down_l; i++){
                     for(int j = left_l; j <= left_r; j++){
                       int k = r.blockType[i][j];
-                      if(k == Type.ITEM_WALL){
+                      if(k != Type.ITEM_EMPTY){
                           float bx = j * bSize;
                           if(x <= bx + bSize) p.setX(bx + bSize + 1);              
                       }
@@ -170,7 +172,7 @@ public class Controller{
                   for(int i = up_r; i <= down_l; i++){
                     for(int j = right_l; j <= right_r; j++){
                       int k = r.blockType[i][j];
-                      if(k == Type.ITEM_WALL){
+                      if(k != Type.ITEM_EMPTY){
                           float bx = j * bSize;
                           if(x + sx >= bx) p.setX(bx - sx - 1);          
                       }

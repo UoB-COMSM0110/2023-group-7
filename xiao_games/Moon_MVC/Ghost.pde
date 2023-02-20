@@ -1,8 +1,8 @@
 public class Ghost extends Enemy{
    
   public Ghost(int sizeX, int sizeY){
-     this.setX(0);
-     this.setY(0);
+     this.setX(width/2);
+     this.setY(height/2);
      this.setSizeX(sizeX);
      this.setSizeY(sizeY);
   }
