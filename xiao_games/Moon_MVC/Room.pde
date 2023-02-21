@@ -51,4 +51,8 @@ public class Room extends HandleEnemies{
        this.blocks.add(block);
     }
     
+    public int getBlockType(int i, int j){
+       return blockType[i][j];
+    }
+    
 }

@@ -6,7 +6,6 @@ public class View{
   }
   
   public void paint(){
-     background(200);
      drawRoom();
      drawEnemy();
      drawPlayer();
@@ -15,16 +14,13 @@ public class View{
   
   public void drawEnemy(){
       drawGhost();
-      //drawEnemyInRoom();
   }
   
   public void drawGhost(){
-        Player p = model.getPlayer();
        ArrayList<Enemy> enemies = model.getEnemies();
        for(int i = 0; i < enemies.size(); i++){
            Enemy e = enemies.get(i);
-           e.move();
-           //e.move(p.getX(), p.getY());
+           e.move(model.getPlayer().getX(), model.getPlayer().getY());
            image(e.getImg(), e.getX(), e.getY());
        }
   }
@@ -37,7 +33,7 @@ public class View{
         for(int j = 0; j < 30; j++){
           int type = r.blockType[i][j];
           Block b = model.getBlockByType(type);
-          float sx = b.getSizeX();
+          float sx = b.getWidth();
           image(b.getImg(), j * sx, i * sx);
         }
       }
@@ -52,13 +48,6 @@ public class View{
       
   }
   
-  //public void drawBlock(float x, float y, int type){
-  //      if(type != 0){
-  //         PImage img = model.getBlockImg(type);
-  //         image(img,x,y);
-  //      }
-  //}
-  
   public void drawPlayer(){
       Player p = model.getPlayer();
       image(p.getImg(), p.getX(), p.getY());
@@ -66,57 +55,44 @@ public class View{
 
 
     public void showDectRange(){
-        Room r = model.getCurrentRoom();
-        Player p = model.getPlayer();
-        float x = p.getX();
-        float y = p.getY();
-        float sx = p.getSizeX();
-        float sy = p.getSizeY();
-        
-        int left_l = (int)(x/sx) - 1, left_r = (int)(x/sx);
-        int right_l = (int)((x + sx)/sx), right_r = (int)((x + sx)/sx) + 1;
-        int up_l = (int)(y/sx) - 1, up_r = (int)(y/sx);
-        int down_l = (int)((y + sy)/sx), down_r = (int)((y + sy)/sx) + 1;
-        
-         //only check blocks which player towards
-        if(up_l >= 0 && down_r <= 19){
-             if(keyCode == UP){
-                  for(int i = up_l; i <= up_r; i++){
-                    //avoid 'index out of bound' exception
-                    int left_line = left_r < 0 ? right_l : left_r;
-                    int right_line = right_l > 29 ? left_r : right_l; 
-                    for(int j = left_line; j <= right_line; j++){
-                           drawDectRect(i, j);
-                    }
-                  }
-             }
-              if(keyCode == DOWN){
-                   for(int i = down_l; i <= down_r; i++){
-                    int left_line = left_r < 0 ? right_l : left_r;
-                    int right_line = right_l > 29 ? left_r : right_l; 
-                    for(int j = left_line; j <= right_line; j++){
-                           drawDectRect(i, j);
-                    }
-                   }
-              }
-           }
-           if(left_l >= 0 && right_r <= 29){
-              if(keyCode == LEFT){
-                  for(int i = up_r; i <= down_l; i++){
-                    for(int j = left_l; j <= left_r; j++){
-                           drawDectRect(i, j);
-                    } 
-                  }
-              }
-              if(keyCode == RIGHT){
-                  for(int i = up_r; i <= down_l; i++){
-                    for(int j = right_l; j <= right_r; j++){
-                         drawDectRect(i, j);
-                    } 
-                  }
-              }
-       }
+      Player p = model.getPlayer();
+      float x = p.getX();
+      float y = p.getY();
+      float sx = p.getWidth();
+      float sy = p.getHeight();
+      float bSize = model.getGridSize();      
+      int left, right, upper, below, L, R, h1, h2, h3;
+      //check block left
+      //left = (int)((x)/bSize) - 1;
+      //h1 = (int)(y/bSize);
+      //h2 = h1 + 1;
+      //h3 = h1 + 2;
+      //drawDectRect(h1,left);
+      //drawDectRect(h2, left);
+      //drawDectRect(h3, left);
+
+      //check block right
+      //right = (int)((x + sx)/bSize) + 1;
+      //drawDectRect(h1,right);
+      //drawDectRect(h2, right);
+      //drawDectRect(h3, right);
+
+      ////check block upper
+      //upper = (int)(y/bSize) - 1;
+      //R = (int)((x + sx)/bSize);
+      //L = R - 1;
+      //drawDectRect(upper, L);
+      //drawDectRect(upper, R);
+
+      //check block below
+      below = (int)((y + sy)/bSize)+1;
+      R = (int)((x + sx)/bSize);
+      L = R - 1;
+      drawDectRect(below, L);
+      drawDectRect(below, R);
+
     }
+    
     
     void drawDectRect(int i , int j){
        noFill();

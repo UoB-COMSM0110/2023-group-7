@@ -4,18 +4,19 @@ public class Controller{
    public Controller(Model mod){
       this.model = mod;
    };
-   
+      
    public void display(){
       changeRoomAndPlayerPos();
-      crashBlock();
+      checkAround(model.getPlayer());
+      model.getPlayer().move();
    }
    
    public void changeRoomAndPlayerPos(){
       Player p = model.getPlayer();
       float x = p.getX();
       float y = p.getY();
-      float sx = p.getSizeX();
-      float sy = p.getSizeY();
+      float sx = p.getWidth();
+      float sy = p.getHeight();
       if(x <= 0){
          goLeft(p, sx);
       }else if(x + sx > width){
@@ -24,23 +25,23 @@ public class Controller{
          goUp(p, sy);
       }else if(y + sy > height){
          goDown(p);
-      }else{
-         return;
       }
    }
    
    public void goLeft(Player p, float sx){
-         this.generateLeft();
-         int index =model.getIndexByDirection(Type.KEY_LEFT);         
-         model.setCurrentRoomIndex(index);
-         p.setX(width - sx - 1);
+       this.generateLeft();
+       int index =model.getIndexByDirection(Type.KEY_LEFT);         
+       model.setCurrentRoomIndex(index);
+       p.setX(width - sx - 1);
+       getGhost().setX(getGhost().getX() + width);
    }
    
-      public void goRight(Player p){
-         this.generateRight(); 
-         int index =model.getIndexByDirection(Type.KEY_RIGHT);
-         model.setCurrentRoomIndex(index);
-         p.setX(1);
+   public void goRight(Player p){
+       this.generateRight(); 
+       int index =model.getIndexByDirection(Type.KEY_RIGHT);
+       model.setCurrentRoomIndex(index);
+       p.setX(1);
+       getGhost().setX(getGhost().getX() - width);
    }
    
    public void goUp(Player p, float sy){
@@ -48,6 +49,7 @@ public class Controller{
        int index =model.getIndexByDirection(Type.KEY_UP);
        model.setCurrentRoomIndex(index);
        p.setY(height - sy -1);
+       getGhost().setY(getGhost().getY() + height);
    }
    
    public void goDown(Player p){
@@ -55,6 +57,7 @@ public class Controller{
        int index =model.getIndexByDirection(Type.KEY_DOWN);
        model.setCurrentRoomIndex(index);
        p.setY(1);
+       getGhost().setY(getGhost().getY() - height);
    }
    
    public void generateLeft(){
@@ -101,105 +104,133 @@ public class Controller{
       }
    }
    
-
-   
-   public void crashBlock(){
-        Room r = model.getCurrentRoom();
-        Player p = model.getPlayer();
-        float x = p.getX();
-        float y = p.getY();
-        float sx = p.getSizeX();
-        float sy = p.getSizeY();
-        float bSize = model.getGridSize();
-        
-        int left_l = (int)(x/sx) - 1, left_r = (int)(x/sx);
-        int right_l = (int)((x + sx)/sx), right_r = (int)((x + sx)/sx) + 1;
-        int up_l = (int)(y/sx) - 1, up_r = (int)(y/sx);
-        int down_l = (int)((y + sy)/sx), down_r = (int)((y + sy)/sx) + 1;
-        
-         //only check blocks which player towards
-        if(up_l >= 0 && down_r <= 19){
-             if(keyCode == UP){
-                  for(int i = up_l; i <= up_r; i++){
-                    //avoid 'index out of bound' exception
-                    int left_line = left_r < 0 ? right_l : left_r;
-                    int right_line = right_l > 29 ? left_r : right_l; 
-                    for(int j = left_line; j <= right_line; j++){
-                      //get type of block, reset player's position
-                      int k = r.blockType[i][j];
-                      //if block is Wall
-                      if(k != Type.ITEM_EMPTY){
-                          float by = i * bSize;
-                          if(y <= by + bSize) p.setY(by + sx + 1);
-                      }
-                      //if block is ladder, allow user to climb up and down
-                      
-                      //need more precise detection
-                      //if block is gold, if player use attack, remove block from blocks and changhe itemType in itemType[][] in Room r
-                      
-                      //if some special block such as weapon or chest, need to find them by Id in blcks in Room r, and remove them
-                    }
-                  }
-             }
-              if(keyCode == DOWN){
-                   for(int i = down_l; i <= down_r; i++){
-                    int left_line = left_r < 0 ? right_l : left_r;
-                    int right_line = right_l > 29 ? left_r : right_l; 
-                    for(int j = left_line; j <= right_line; j++){
-                      
-                      int k = r.blockType[i][j];
-                      if(k != Type.ITEM_EMPTY){
-                          float by = i * bSize;
-                          if(y + sy >= by) p.setY(by - sy - 5);
-                      }
-                    }
-                   }
-              }
-           }
-           if(left_l >= 0 && right_r <= 29){
-              if(keyCode == LEFT){
-                  for(int i = up_r; i <= down_l; i++){
-                    for(int j = left_l; j <= left_r; j++){
-                      int k = r.blockType[i][j];
-                      if(k != Type.ITEM_EMPTY){
-                          float bx = j * bSize;
-                          if(x <= bx + bSize) p.setX(bx + bSize + 1);              
-                      }
-                    } 
-                  }
-              }
-              if(keyCode == RIGHT){
-                  for(int i = up_r; i <= down_l; i++){
-                    for(int j = right_l; j <= right_r; j++){
-                      int k = r.blockType[i][j];
-                      if(k != Type.ITEM_EMPTY){
-                          float bx = j * bSize;
-                          if(x + sx >= bx) p.setX(bx - sx - 1);          
-                      }
-                    } 
-                  }
-              }
+   public boolean collisionDetectionTwoObje(BasicProp a, BasicProp b){
+       if(a.getX() + a.getWidth() > b.getX() &&
+          a.getX() < b.getX() + b.getWidth() &&
+          a.getY() + a.getHeight() > b.getY() &&
+          a.getY() < b.getY() + b.getHeight()){
+          return true;   
        }
-    }
-   
-   public void moveEnemy(){
-     //change ghost pos
-     
-     //change enemy pos in current room
-     
+       return false;
    }
    
-   public void movePlayer(int dir){
+   public void checkAround(BasicProp o){
+      checkLeft(o);
+      checkRight(o);
+      checkUp(o);
+      checkDown(o);     
+      println(o.getX() + ", " + (o.getX()+ o.getWidth()) + ", " + o.getY() + o.getHeight());
+     
+   }
+
+    public void checkUp(BasicProp o){
+      Room r = model.getCurrentRoom();
+      float x = o.getX(), y = o.getY();
+      float w = o.getWidth(), h = o.getHeight();
+      float s = model.getGridSize();
+      int upper = (int)(y/s) - 1;
+      int R = (int)((x + w)/s);
+      int L = R - 1;
+      if(upper >= 0){
+         int flag1 = L >= 0 ? r.getBlockType(upper,L) : r.getBlockType(0, 0);
+         int flag2 = R < 30 ? r.getBlockType(upper, R) : r.getBlockType(19, 29);
+         if(flag1 != Type.ITEM_EMPTY || flag2 != Type.ITEM_EMPTY){
+           if(y + o.getSpeedY() <= upper * s + s){
+              o.setSpeedY(0);
+              o.setY(upper * s + s + 1);
+           }
+         }
+      }
+   }
+ 
+    public void checkDown(BasicProp o){
+      if(o.getClimb()) return;
+      Room r = model.getCurrentRoom();
+      float x = o.getX(), y = o.getY();
+      float w = o.getWidth(), h = o.getHeight();
+      float s = model.getGridSize();
+      int below = (int)((y + h)/s) + 1;
+      int R = (int)((x + w)/s);
+      int L = R - 1;
+      if(below < 20){
+         int flag1 = L >= 0 ? r.getBlockType(below,L) : r.getBlockType(0, 0);
+         int flag2 = R < 30 ? r.getBlockType(below, R) : r.getBlockType(19, 29);
+         if((flag1 != Type.ITEM_EMPTY && x != L * s + s + 1) || flag2 != Type.ITEM_EMPTY){ 
+           if(y + h + o.getSpeedY()>= below * s){
+              o.setFall(false);
+              o.setJump(false);
+              o.setSpeedY(0);
+              o.setY(below * s - h - 1);
+            }
+         }else{
+            o.setFall(true);
+         }
+      }
+   }
+ 
+    public void checkLeft(BasicProp o){
+      Room r = model.getCurrentRoom();
+      float x = o.getX(), y = o.getY();
+      float h = o.getHeight();
+      float s = model.getGridSize();
+      int left = (int)(x/s) - 1;
+      int h1 = (int)(y/s);
+      int h2 = h1 + 1;
+      int h3 = h2 + 1;
+      if(left >= 0){
+         int flag1 = h1 >= 0 ? r.getBlockType(h1,left) : r.getBlockType(0, left);
+         int flag2 = h2 < 20 ? r.getBlockType(h2, left) : r.getBlockType(19, left);
+         int flag3 = h3 < 20 ? r.getBlockType(h3, left) : r.getBlockType(19, left);
+         if(flag1 != Type.ITEM_EMPTY || flag2 != Type.ITEM_EMPTY || (flag3 != Type.ITEM_EMPTY && y + h > h3 * s)){
+           if(x + o.getSpeedX() <= left * s + s){
+              o.setSpeedX(0);
+              o.setX(left * s + s + 1);
+           }
+         }
+      }
+   }
+   
+   public void checkRight(BasicProp o){
+      Room r = model.getCurrentRoom();
+      float x = o.getX(), y = o.getY();
+      float w = o.getWidth(), h = o.getHeight();
+      float s = model.getGridSize();
+      int right = (int)((x + w)/s) + 1;
+      int h1 = (int)(y/s);
+      int h2 = h1 + 1;
+      int h3 = h2 + 1;
+      if(right < 30){
+         int flag1 = h1 >= 0 ? r.getBlockType(h1, right) : r.getBlockType(0, right);
+         int flag2 = h2 < 20 ? r.getBlockType(h2, right) : r.getBlockType(19, right);
+         int flag3 = h3 < 20 ? r.getBlockType(h3, right) : r.getBlockType(19, right);
+         if(flag1 != Type.ITEM_EMPTY || flag2 != Type.ITEM_EMPTY || (flag3 != Type.ITEM_EMPTY && y + h > h3 * s)){
+           if(x + w + o.getSpeedX() >= right * s){
+              o.setSpeedX(0);
+              o.setX(right * s - w - 1);
+           }
+         }
+      }
+   }
+   
+   public Enemy getGhost(){
+       return model.getGhost();
+   }
+   
+   public void givePlayerSpeedX(int dir){
      Player p = model.getPlayer();
      if(dir == Type.KEY_LEFT){
-        p.setX(p.getX() - p.getSpeed());
+        p.setSpeedX(-8);
      }else if(dir == Type.KEY_RIGHT){
-        p.setX(p.getX() + p.getSpeed());
+        p.setSpeedX(8);
+     }else if(dir == Type.KEY_RELEASED){
+        p.setSpeedX(0);
      }else if(dir == Type.KEY_UP){
-        p.setY(p.getY() - p.getSpeed());
-     }else if(dir == Type.KEY_DOWN){
-        p.setY(p.getY() + p.getSpeed());
+        if(p.getJump())return;
+        p.setJump(true);
+        p.setFall(true);
+        p.setSpeedY(-10);
      }
    }
-
+   
+   
 }

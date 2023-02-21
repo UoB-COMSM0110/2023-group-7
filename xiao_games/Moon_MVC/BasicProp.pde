@@ -1,8 +1,17 @@
 class BasicProp{
-  private int id, type, speed, value;
-  private int  sizeX, sizeY;
-  private float x, y;
+  private int id, type, value;
+  private int  w, h;
+  private float x, y, speedX, speedY;
   private PImage img;
+  private boolean fall, jump, climb;
+  
+  BasicProp(){
+    this.fall = true;
+    this.jump = false;
+    this.climb = false;
+  }
+  
+  
   
   public void setId(int id){
       this.id = id;
@@ -28,12 +37,20 @@ class BasicProp{
       return this.type;
   }
   
-  public void setSpeed(int speed){
-      this.speed = speed;
+  public void setSpeedX(float speed){
+      this.speedX = speed;
   }
   
-  public int getSpeed(){
-      return this.speed;
+  public float getSpeedX(){
+      return this.speedX;
+  }
+  
+  public void setSpeedY(float speed){
+      this.speedY = speed;
+  }
+  
+  public float getSpeedY(){
+      return this.speedY;
   }
   
   public void setX(float x){
@@ -52,21 +69,22 @@ class BasicProp{
       return this.y;
   }
   
-  public void setSizeX(int size){
-      this.sizeX = size;
+  public void setWidth(int size){
+      this.w = size;
   }
   
-  public int getSizeX(){
-      return this.sizeX;
+  public int getWidth(){
+      return this.w;
   }
   
-  public void setSizeY(int size){
-      this.sizeY = size;
+  public void setHeight(int size){
+      this.h = size;
   }
   
-  public int getSizeY(){
-      return this.sizeY;
+  public int getHeight(){
+      return this.h;
   }
+  
   
   public void setImg(PImage img){
       this.img = img;
@@ -76,17 +94,41 @@ class BasicProp{
       return this.img;
   }
   
-  //public void setPos(int[] pos){
-  //   this.pos[0] = pos[0];
-  //   this.pos[1] = pos[1];
-  //}
-
-  //public int[] getPos(){
-  //   return this.pos;
-  //}
+  public void setFall(boolean flag){
+      this.fall = flag;
+  }
+  
+  public boolean getFall(){
+      return this.fall;
+  }
+  
+  public void setClimb(boolean flag){
+      this.climb = flag;
+  }
+  
+  public boolean getClimb(){
+      return this.climb;
+  }
+  
+  public void setJump(boolean flag){
+      this.jump = flag;
+  }
+  
+  public boolean getJump(){
+      return this.jump;
+  }
   
   public void move(){
-     
+     this.x += this.speedX;
+     if(this.jump){
+          this.y += this.speedY;
+          this.speedY += 0.5;
+     }
+     if(this.fall && !this.jump){
+          if(speedY < 0) speedY = 0;
+          this.speedY += 0.5;
+          this.y += this.speedY;
+     }
   }
   
   public void move(float px, float py){};

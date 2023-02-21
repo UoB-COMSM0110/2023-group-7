@@ -1,7 +1,8 @@
+
+
 public class Model{
    private Map map;
    private Player player;
-   //private int currentEnemyId;
    private int gridSize;
    private EnemyFactory enemyFactory;
    private RoomFactory roomFactory;
@@ -13,7 +14,7 @@ public class Model{
        this.blockFactory = new BlockFactory();
        this.roomFactory = new RoomFactory(enemyFactory, blockFactory);
        map = new Map();
-       map.addEnemy(enemyFactory.newEnemy(Type.ENEMY_GHOST)); //<>//
+       map.addEnemy(enemyFactory.newEnemy(Type.ENEMY_GHOST)); //<>// //<>//
        map.addRoom(roomFactory.newRoom(Type.ROOM_START));
        this.basicBlock = new ArrayList();
        this.init();
@@ -50,19 +51,7 @@ public class Model{
    public ArrayList<Enemy> getEnemies(){
        return map.getEnemies();
    }
-   
-   //public void addBlock(Block block){
-   //     this.block = block;
-   //}
-   
-   //public float getBlockSize(){
-   //   return block.getSizeX();
-   //}
-   
-   //public PImage getBlockImg(int type){
-   //   return block.getImg(type);
-   //}
-   
+      
    public void addRoom(int type){
       map.addRoom(roomFactory.newRoom(type));
    }
@@ -83,7 +72,9 @@ public class Model{
        map.setCurrentRoomIndex(index);
    }
    
-
+   public Enemy getGhost(){
+      return map.getEnemeyById(0);
+   }
    
    //public void setGameWin(boolean flag){
    //    this.gameWin = flag;

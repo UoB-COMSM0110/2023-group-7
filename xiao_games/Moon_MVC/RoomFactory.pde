@@ -93,12 +93,28 @@ public class RoomFactory extends Factory{
     void tmpBlock(Room r){
         r.blockType[3][5] = Type.ITEM_GOLD;
         r.blockType[3][6] = Type.ITEM_GOLD;
+        
+        r.blockType[13][6] = Type.ITEM_GOLD;
+        r.blockType[14][6] = Type.ITEM_GOLD;
+        r.blockType[14][7] = Type.ITEM_GOLD;
+        r.blockType[15][7] = Type.ITEM_GOLD;
+        r.blockType[15][8] = Type.ITEM_GOLD;
         r.blockType[16][9] = Type.ITEM_GOLD;
         r.blockType[17][8] = Type.ITEM_GOLD;
         r.blockType[16][20] = Type.ITEM_LADDER;
         r.blockType[17][20] = Type.ITEM_LADDER;
         r.blockType[18][20] = Type.ITEM_LADDER;
         r.blockType[19][20] = Type.ITEM_LADDER;
+        
+        r.blockType[15][24] = Type.ITEM_GOLD;
+        r.blockType[14][24] = Type.ITEM_GOLD;
+
+
+        r.blockType[16][21] = Type.ITEM_LADDER;
+        r.blockType[17][21] = Type.ITEM_LADDER;
+        r.blockType[18][21] = Type.ITEM_LADDER;
+        r.blockType[19][21] = Type.ITEM_LADDER;
+        
         r.addEnemy(enemyFactory.newEnemy(Type.ENEMY_WORM));
         r.addEnemy(enemyFactory.newEnemy(Type.ENEMY_GUNNER));
 
@@ -117,6 +133,7 @@ public class RoomFactory extends Factory{
         
         Room r = new Room();
         r.setType(0);
+        
         for(int j = 0; j < 10; j++){
           for(int i = 0; i < 20; i++){
               r.blockType[i][j] = Type.ITEM_WALL;//all blocks
@@ -156,7 +173,7 @@ public class RoomFactory extends Factory{
               r.blockType[i][j] = Type.ITEM_WALL;//all blocks
           }
         }
-        
+       
         // TO DELETE
         tmpBlock(r);
 

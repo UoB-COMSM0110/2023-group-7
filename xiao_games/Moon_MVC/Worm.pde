@@ -1,13 +1,12 @@
 public class Worm extends Enemy{
    
-  public Worm(int sizeX, int sizeY){
-     this.setSizeX(sizeX);
-     this.setSizeY(sizeY);
+  public Worm(int w, int h){
+     this.setType(Type.ENEMY_WORM);
+      this.setSpeedX(0.5);
+      this.setFall(true);
+     this.setWidth(w);
+     this.setHeight(h);
   }
   
-   public void move(int px, int py){
-       this.setX(px + 30);
-       this.setY(py - 30);
-   } 
   
 }

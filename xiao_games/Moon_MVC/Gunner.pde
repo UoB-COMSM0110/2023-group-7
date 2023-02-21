@@ -1,13 +1,13 @@
 public class Gunner extends Enemy{
 
-    public Gunner(int sizeX, int sizeY){
-     this.setSizeX(sizeX);
-     this.setSizeY(sizeY);
+    public Gunner(int w, int h){
+      this.setType(Type.ENEMY_GUNNER);
+      this.setSpeedX(2);
+      this.setFall(true);
+      this.setWidth(w);
+      this.setHeight(h);
     }
   
-    public void move(int px, int py){
-       this.setX(px - 30);
-       this.setY(py - 30);
-   } 
+    
   
 }

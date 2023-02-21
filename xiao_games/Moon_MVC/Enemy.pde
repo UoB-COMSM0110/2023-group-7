@@ -9,22 +9,13 @@ class Enemy extends BasicProp{
   }
   
   public void move(){
-    
-     if(getX() + getSizeX() > width){
-         setX(getX() - getSpeed());
-         return;
-     }
-     if(getX() < 0){
-         setX(getX() + getSpeed());
-         return;
-     }
      
-     int i = (int)random(4);
-     if(i == 0 || i == 1){
-          setX(getX()+ getSpeed());
-     }else{
-         setX(getX()- getSpeed());
+     if(this.getX() + this.getWidth() > width || this.getX() < 0){
+         this.setSpeedX(-this.getSpeedX());
      }
+    
+     this.setX(this.getX() + this.getSpeedX());
+  
   }
   
 }
