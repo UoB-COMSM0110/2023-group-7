@@ -3,11 +3,11 @@ public class EnemyFactory extends Factory{
     public EnemyFactory(){
        this.setImgs(new ArrayList());
        this.setId(0);
-       this.init();  //<>// //<>//
+       this.init();  //<>// //<>// //<>//
     }
     
     private void init(){
-       this.addImg(loadImage("imgs/ememy/ghost.png"));  //<>// //<>//
+       this.addImg(loadImage("imgs/ememy/ghost.png"));  //<>// //<>// //<>//
        this.addImg(loadImage("imgs/ememy/worm.png"));
        this.addImg(loadImage("imgs/ememy/gunner.png"));
     }
@@ -15,7 +15,7 @@ public class EnemyFactory extends Factory{
     public Enemy newEnemy(int type){
        Enemy e; 
        if(type == Type.ENEMY_GHOST){
-           e = new Ghost((int)(height * 1.5/20), (int)(height * 1.5 /20));  //<>// //<>//
+           e = new Ghost((int)(height * 1.5/20), (int)(height * 1.5 /20));  //<>// //<>// //<>//
        }else if(type == Type.ENEMY_WORM){
            e = new Worm((int)(height/20), (int)(height * 0.5 /20));
            e.setX(width/3);
@@ -26,7 +26,7 @@ public class EnemyFactory extends Factory{
            e.setY(height/2);
        }else{
            e = new Enemy();
-       } //<>//
+       } //<>// //<>//
        e.setId(this.getId());
        e.setImg(this.getImgs().get(type));
        e.getImg().resize(e.getWidth(), e.getHeight());

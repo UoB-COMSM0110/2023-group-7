@@ -14,7 +14,7 @@ public class Model{
        this.blockFactory = new BlockFactory();
        this.roomFactory = new RoomFactory(enemyFactory, blockFactory);
        map = new Map();
-       map.addEnemy(enemyFactory.newEnemy(Type.ENEMY_GHOST)); //<>// //<>//
+       map.addEnemy(enemyFactory.newEnemy(Type.ENEMY_GHOST)); //<>// //<>// //<>//
        map.addRoom(roomFactory.newRoom(Type.ROOM_START));
        this.basicBlock = new ArrayList();
        this.init();
@@ -22,10 +22,12 @@ public class Model{
    
    //add all types of blocks to model, so View.class can get PImage of them more conveniently
    public void init(){
-      basicBlock.add(blockFactory.newBlock(Type.ITEM_EMPTY));
-      basicBlock.add(blockFactory.newBlock(Type.ITEM_WALL));
-      basicBlock.add(blockFactory.newBlock(Type.ITEM_GOLD));
-      basicBlock.add(blockFactory.newBlock(Type.ITEM_LADDER));
+      basicBlock.add(blockFactory.newBlock(Type.BLOCK_EMPTY));
+      basicBlock.add(blockFactory.newBlock(Type.BLOCK_WALL));
+      basicBlock.add(blockFactory.newBlock(Type.BLOCK_GOLD));
+      basicBlock.add(blockFactory.newBlock(Type.BLOCK_LADDER));
+      basicBlock.add(blockFactory.newBlock(Type.BLOCK_BOUNCE));
+      basicBlock.add(blockFactory.newBlock(Type.BLOCK_PORTAL));
    }
    
    public Block getBlockByType(int type){

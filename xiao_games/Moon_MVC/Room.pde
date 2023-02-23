@@ -55,4 +55,15 @@ public class Room extends HandleEnemies{
        return blockType[i][j];
     }
     
+    public Block getBlockByPos(int i, int j){
+       for(int k = 0; k < blocks.size(); k++){
+         int[] pos = blocks.get(k).getPos();
+         if( pos[0] == i && pos[1] == j){
+            return blocks.get(k);
+         }
+       }
+       return null;
+    }
+    
+    
 }

@@ -77,12 +77,12 @@ public class View{
       //drawDectRect(h2, right);
       //drawDectRect(h3, right);
 
-      ////check block upper
-      //upper = (int)(y/bSize) - 1;
-      //R = (int)((x + sx)/bSize);
-      //L = R - 1;
-      //drawDectRect(upper, L);
-      //drawDectRect(upper, R);
+      //check block upper
+      upper = (int)(y/bSize) - 1;
+      R = (int)((x + sx)/bSize);
+      L = R - 1;
+      drawDectRect(upper, L);
+      drawDectRect(upper, R);
 
       //check block below
       below = (int)((y + sy)/bSize)+1;

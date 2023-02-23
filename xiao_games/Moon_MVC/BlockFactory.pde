@@ -21,6 +21,8 @@ public class BlockFactory extends Factory{
        this.addImg(loadImage("imgs/wall.png"));
        this.addImg(loadImage("imgs/gold.png"));
        this.addImg(loadImage("imgs/ladder.png"));
+       this.addImg(loadImage("imgs/bounce_up.png"));
+       this.addImg(loadImage("imgs/portal.png"));
     }
     
 

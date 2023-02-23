@@ -7,6 +7,7 @@ public class Controller{
       
    public void display(){
       changeRoomAndPlayerPos();
+      //checkPortal();
       checkAround(model.getPlayer());
       model.getPlayer().move();
    }
@@ -114,13 +115,31 @@ public class Controller{
        return false;
    }
    
+   public boolean collisionDetectionWithBlock(BasicProp a, int i, int j){
+       int s = height/20;
+       if(a.getX() + a.getWidth() > j * s &&
+          a.getX() < j * s + s &&
+          a.getY() + a.getHeight() > i * s &&
+          a.getY() < i * s + s){
+          return true;   
+       }
+       return false;
+   }
+   
+   public void usePortal(Block b){
+       Player o = model.getPlayer();
+       float  s = model.getGridSize();
+       int[] portal = b.getPortal();
+       println(portal[0] + portal[1]);
+       o.setY(s * portal[0] - 2 * s -1);
+       o.setX(s * portal[1] + s + 1);
+   }
+   
    public void checkAround(BasicProp o){
       checkLeft(o);
       checkRight(o);
       checkUp(o);
       checkDown(o);     
-      println(o.getX() + ", " + (o.getX()+ o.getWidth()) + ", " + o.getY() + o.getHeight());
-     
    }
 
     public void checkUp(BasicProp o){
@@ -134,17 +153,17 @@ public class Controller{
       if(upper >= 0){
          int flag1 = L >= 0 ? r.getBlockType(upper,L) : r.getBlockType(0, 0);
          int flag2 = R < 30 ? r.getBlockType(upper, R) : r.getBlockType(19, 29);
-         if(flag1 != Type.ITEM_EMPTY || flag2 != Type.ITEM_EMPTY){
-           if(y + o.getSpeedY() <= upper * s + s){
-              o.setSpeedY(0);
-              o.setY(upper * s + s + 1);
-           }
+         if((flag1 != Type.BLOCK_EMPTY && x != L * s + s + 1) || flag2 != Type.BLOCK_EMPTY){
+            if(y + o.getSpeedY() <= upper * s + s){
+                o.setSpeedY(0);
+                o.setFall(false);
+                o.setY(upper * s + s + 1);
+             }
          }
       }
    }
  
     public void checkDown(BasicProp o){
-      if(o.getClimb()) return;
       Room r = model.getCurrentRoom();
       float x = o.getX(), y = o.getY();
       float w = o.getWidth(), h = o.getHeight();
@@ -155,16 +174,29 @@ public class Controller{
       if(below < 20){
          int flag1 = L >= 0 ? r.getBlockType(below,L) : r.getBlockType(0, 0);
          int flag2 = R < 30 ? r.getBlockType(below, R) : r.getBlockType(19, 29);
-         if((flag1 != Type.ITEM_EMPTY && x != L * s + s + 1) || flag2 != Type.ITEM_EMPTY){ 
-           if(y + h + o.getSpeedY()>= below * s){
-              o.setFall(false);
-              o.setJump(false);
-              o.setSpeedY(0);
-              o.setY(below * s - h - 1);
-            }
-         }else{
-            o.setFall(true);
+         //portal
+         if((flag1 == Type.BLOCK_PORTAL && x < L * s + s + 1) || flag2 == Type.BLOCK_PORTAL){
+             Block b = flag2 == Type.BLOCK_PORTAL ? r.getBlockByPos(below , R) : r.getBlockByPos(below , L);
+             usePortal(b);
+             return;
          }
+         //bounce
+         if((flag1 == Type.BLOCK_BOUNCE && x < L * s + s + 1) || flag2 == Type.BLOCK_BOUNCE){
+             o.setSpeedY(-15);
+             o.setJump(true);
+             return;
+         }
+         if((flag1 != Type.BLOCK_EMPTY && x < L * s + s + 1) || flag2 != Type.BLOCK_EMPTY){
+             if(y + h + o.getSpeedY()>= below * s){
+                  o.setFall(false);
+                  o.setJump(false);
+                  o.setSpeedY(0);
+                  o.setY(below * s - h - 1);
+                }
+             }else{
+                o.setFall(true);
+                o.setJump(true);
+             }
       }
    }
  
@@ -181,11 +213,12 @@ public class Controller{
          int flag1 = h1 >= 0 ? r.getBlockType(h1,left) : r.getBlockType(0, left);
          int flag2 = h2 < 20 ? r.getBlockType(h2, left) : r.getBlockType(19, left);
          int flag3 = h3 < 20 ? r.getBlockType(h3, left) : r.getBlockType(19, left);
-         if(flag1 != Type.ITEM_EMPTY || flag2 != Type.ITEM_EMPTY || (flag3 != Type.ITEM_EMPTY && y + h > h3 * s)){
-           if(x + o.getSpeedX() <= left * s + s){
-              o.setSpeedX(0);
-              o.setX(left * s + s + 1);
-           }
+         if(flag1 != Type.BLOCK_EMPTY || flag2 != Type.BLOCK_EMPTY || (flag3 != Type.BLOCK_EMPTY && y + h > h3 * s)){
+           
+              if(x + o.getSpeedX() <= left * s + s){
+                  o.setSpeedX(0);
+                  o.setX(left * s + s + 1);
+               }
          }
       }
    }
@@ -203,11 +236,12 @@ public class Controller{
          int flag1 = h1 >= 0 ? r.getBlockType(h1, right) : r.getBlockType(0, right);
          int flag2 = h2 < 20 ? r.getBlockType(h2, right) : r.getBlockType(19, right);
          int flag3 = h3 < 20 ? r.getBlockType(h3, right) : r.getBlockType(19, right);
-         if(flag1 != Type.ITEM_EMPTY || flag2 != Type.ITEM_EMPTY || (flag3 != Type.ITEM_EMPTY && y + h > h3 * s)){
-           if(x + w + o.getSpeedX() >= right * s){
-              o.setSpeedX(0);
-              o.setX(right * s - w - 1);
-           }
+
+         if(flag1 != Type.BLOCK_EMPTY || flag2 != Type.BLOCK_EMPTY || (flag3 != Type.BLOCK_EMPTY && y + h > h3 * s)){
+             if(x + w + o.getSpeedX() >= right * s){
+                o.setSpeedX(0);
+                o.setX(right * s - w - 1);
+             }
          }
       }
    }
@@ -216,18 +250,22 @@ public class Controller{
        return model.getGhost();
    }
    
-   public void givePlayerSpeedX(int dir){
+   public void controlPlayer(int dir){
      Player p = model.getPlayer();
      if(dir == Type.KEY_LEFT){
         p.setSpeedX(-8);
-     }else if(dir == Type.KEY_RIGHT){
+     }
+     else if(dir == Type.KEY_RIGHT){
         p.setSpeedX(8);
-     }else if(dir == Type.KEY_RELEASED){
+     }
+     else if(dir == Type.KEY_RELEASED){
         p.setSpeedX(0);
-     }else if(dir == Type.KEY_UP){
+     }
+     else if(dir == Type.KEY_SPACE){
         if(p.getJump())return;
         p.setJump(true);
         p.setFall(true);
+        p.setClimb(false);
         p.setSpeedY(-10);
      }
    }

@@ -91,29 +91,59 @@ public class RoomFactory extends Factory{
     
     //TO DELETE
     void tmpBlock(Room r){
-        r.blockType[3][5] = Type.ITEM_GOLD;
-        r.blockType[3][6] = Type.ITEM_GOLD;
+        r.blockType[3][5] = Type.BLOCK_GOLD;
+        r.blockType[3][6] = Type.BLOCK_GOLD;
         
-        r.blockType[13][6] = Type.ITEM_GOLD;
-        r.blockType[14][6] = Type.ITEM_GOLD;
-        r.blockType[14][7] = Type.ITEM_GOLD;
-        r.blockType[15][7] = Type.ITEM_GOLD;
-        r.blockType[15][8] = Type.ITEM_GOLD;
-        r.blockType[16][9] = Type.ITEM_GOLD;
-        r.blockType[17][8] = Type.ITEM_GOLD;
-        r.blockType[16][20] = Type.ITEM_LADDER;
-        r.blockType[17][20] = Type.ITEM_LADDER;
-        r.blockType[18][20] = Type.ITEM_LADDER;
-        r.blockType[19][20] = Type.ITEM_LADDER;
         
-        r.blockType[15][24] = Type.ITEM_GOLD;
-        r.blockType[14][24] = Type.ITEM_GOLD;
+        //r.blockType[10][5] = Type.BLOCK_LADDER;
+        //r.blockType[11][5] = Type.BLOCK_LADDER;
+        //r.blockType[12][5] = Type.BLOCK_LADDER;
+        //r.blockType[13][5] = Type.BLOCK_LADDER;
+        
+        r.blockType[13][6] = Type.BLOCK_GOLD;
+        r.blockType[14][6] = Type.BLOCK_GOLD;
+        r.blockType[14][7] = Type.BLOCK_GOLD;
+        r.blockType[15][7] = Type.BLOCK_GOLD;
+        r.blockType[15][8] = Type.BLOCK_GOLD;
+        r.blockType[16][9] = Type.BLOCK_GOLD;
+        r.blockType[17][8] = Type.BLOCK_GOLD;
+        
+        r.blockType[16][3] = Type.BLOCK_PORTAL;
+        r.blockType[16][25] = Type.BLOCK_PORTAL;
+        
+        Block b1 = blockFactory.newBlock(Type.BLOCK_PORTAL);
+        b1.setPos(16, 3);
+        b1.setPortal(16, 25);
+        r.addBlock(b1);
+        
+        Block b2 = blockFactory.newBlock(Type.BLOCK_PORTAL);
+        b2.setPos(16, 25);
+        b2.setPortal(16, 3);
+        r.addBlock(b2);
+        
+        r.blockType[16][21] = Type.BLOCK_BOUNCE;
+        Block b3 = blockFactory.newBlock(Type.BLOCK_BOUNCE);
+        b3.setPos(16, 21);
+        r.addBlock(b3);
+        
+        r.blockType[10][15] = Type.BLOCK_BOUNCE;
+        Block b4 = blockFactory.newBlock(Type.BLOCK_BOUNCE);
+        b4.setPos(10, 15);
+        r.addBlock(b4);
+        
+ 
+        
+        //r.blockType[17][20] = Type.BLOCK_LADDER;
+        //r.blockType[18][20] = Type.BLOCK_LADDER;
+        //r.blockType[19][20] = Type.BLOCK_LADDER;
+        
+        r.blockType[15][24] = Type.BLOCK_GOLD;
+        r.blockType[14][24] = Type.BLOCK_GOLD;
 
 
-        r.blockType[16][21] = Type.ITEM_LADDER;
-        r.blockType[17][21] = Type.ITEM_LADDER;
-        r.blockType[18][21] = Type.ITEM_LADDER;
-        r.blockType[19][21] = Type.ITEM_LADDER;
+        //r.blockType[17][21] = Type.BLOCK_LADDER;
+        //r.blockType[18][21] = Type.BLOCK_LADDER;
+        //r.blockType[19][21] = Type.BLOCK_LADDER;
         
         r.addEnemy(enemyFactory.newEnemy(Type.ENEMY_WORM));
         r.addEnemy(enemyFactory.newEnemy(Type.ENEMY_GUNNER));
@@ -136,12 +166,12 @@ public class RoomFactory extends Factory{
         
         for(int j = 0; j < 10; j++){
           for(int i = 0; i < 20; i++){
-              r.blockType[i][j] = Type.ITEM_WALL;//all blocks
+              r.blockType[i][j] = Type.BLOCK_WALL;//all blocks
           }
         }
         for(int j = 20; j < 30; j++){
           for(int i = 0; i < 20; i++){
-              r.blockType[i][j] = Type.ITEM_WALL;//all blocks
+              r.blockType[i][j] = Type.BLOCK_WALL;//all blocks
           }
         }
         
@@ -160,17 +190,17 @@ public class RoomFactory extends Factory{
         
         for(int i = 0; i < 4; i++){
           for(int j = 0; j < 10; j++){
-              r.blockType[i][j] = Type.ITEM_WALL;//all blocks
+              r.blockType[i][j] = Type.BLOCK_WALL;//all blocks
           }
         }
         for(int i = 0; i < 4; i++){
           for(int j = 20; j < 30; j++){
-              r.blockType[i][j] = Type.ITEM_WALL;//all blocks
+              r.blockType[i][j] = Type.BLOCK_WALL;//all blocks
           }
         }
         for(int i = 16; i < 20; i++){
           for(int j = 0; j < 30; j++){
-              r.blockType[i][j] = Type.ITEM_WALL;//all blocks
+              r.blockType[i][j] = Type.BLOCK_WALL;//all blocks
           }
         }
        
@@ -189,12 +219,12 @@ public class RoomFactory extends Factory{
         
          for(int i = 0; i < 4; i++){
           for(int j = 0; j < 30; j++){
-              r.blockType[i][j] = Type.ITEM_WALL;//all blocks
+              r.blockType[i][j] = Type.BLOCK_WALL;//all blocks
           }
         }
         for(int i = 16; i < 20; i++){
           for(int j = 0; j < 30; j++){
-              r.blockType[i][j] = Type.ITEM_WALL;//all blocks
+              r.blockType[i][j] = Type.BLOCK_WALL;//all blocks
           }
         }
         
@@ -213,18 +243,18 @@ public class RoomFactory extends Factory{
 
          for(int i = 0; i < 4; i++){
           for(int j = 0; j < 30; j++){
-              r.blockType[i][j] = Type.ITEM_WALL;//all blocks
+              r.blockType[i][j] = Type.BLOCK_WALL;//all blocks
           }
         }
         
        for(int i = 16; i < 20; i++){
           for(int j = 0; j < 10; j++){
-              r.blockType[i][j] = Type.ITEM_WALL;//all blocks
+              r.blockType[i][j] = Type.BLOCK_WALL;//all blocks
           }
         }
         for(int i = 16; i < 20; i++){
           for(int j = 20; j < 30; j++){
-              r.blockType[i][j] = Type.ITEM_WALL;//all blocks
+              r.blockType[i][j] = Type.BLOCK_WALL;//all blocks
           }
         }
         
@@ -243,22 +273,22 @@ public class RoomFactory extends Factory{
         
         for(int i = 0; i < 4; i++){
           for(int j = 0; j < 10; j++){
-              r.blockType[i][j] = Type.ITEM_WALL;//all blocks
+              r.blockType[i][j] = Type.BLOCK_WALL;//all blocks
           }
         }
         for(int i = 0; i < 4; i++){
           for(int j = 20; j < 30; j++){
-              r.blockType[i][j] = Type.ITEM_WALL;//all blocks
+              r.blockType[i][j] = Type.BLOCK_WALL;//all blocks
           }
         }
         for(int i = 16; i < 20; i++){
           for(int j = 0; j < 10; j++){
-              r.blockType[i][j] = Type.ITEM_WALL;//all blocks
+              r.blockType[i][j] = Type.BLOCK_WALL;//all blocks
           }
         }
         for(int i = 16; i < 20; i++){
           for(int j = 20; j < 30; j++){
-              r.blockType[i][j] = Type.ITEM_WALL;//all blocks
+              r.blockType[i][j] = Type.BLOCK_WALL;//all blocks
           }
         }
         
