@@ -5,8 +5,8 @@ IntList pkeys = new IntList();
 
 static abstract class Type {
   
-  static final int BOARD_MAX_WIDTH = 29;
   static final int BOARD_MAX_HEIGHT = 20;
+  static final int BOARD_MAX_WIDTH = 29;
   static final int BOARD_GRIDSIZE = 30;
   
   static final int KEY_LEFT = 37;
@@ -15,6 +15,8 @@ static abstract class Type {
   static final int KEY_DOWN = 40;
   static final int KEY_SPACE = 32;
   static final int KEY_RELEASED = 0;
+
+  static final int KEY_F_SHOT = 102;
 
   static final int TO_LEFT = 2;
   static final int TO_UP = 0;
@@ -69,9 +71,11 @@ void draw(){
 public void keyListener(){
     if(pkeys.size()== 0) return;
     for(int i=pkeys.size()-1; i>=0; i--){
-      //left = 37, up = 38, right = 39,  down = 40
       if(pkeys.get(i) == Type.KEY_RIGHT || pkeys.get(i) == Type.KEY_LEFT || pkeys.get(i) == Type.KEY_SPACE){
         controller.controlPlayer(pkeys.get(i));
+      }
+      if(pkeys.get(i) == Type.KEY_F_SHOT){
+         controller.shotBullet();
       }
     }
 

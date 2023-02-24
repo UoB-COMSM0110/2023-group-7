@@ -113,16 +113,17 @@ public class Controller{
        return false;
    }
    
-   //public boolean collisionDetectionWithBlock(BasicProp a, int i, int j){
-   //    int s = Type.BOARD_GRIDSIZE;
-   //    if(a.getX() + a.getWidth() > j * s &&
-   //       a.getX() < j * s + s &&
-   //       a.getY() + a.getHeight() > i * s &&
-   //       a.getY() < i * s + s){
-   //       return true;   
-   //    }
-   //    return false;
-   //}
+   public boolean collisionDetectionWithBlock(BasicProp a, int i, int j){
+       int s = Type.BOARD_GRIDSIZE;
+       if(a.getX() + a.getWidth() > j * s &&
+          a.getX() < j * s + s &&
+          a.getY() + a.getHeight() > i * s &&
+          a.getY() < i * s + s){
+          return true;   
+       }
+       return false;
+   }
+   
    
    public void usePortal(Block b){
        Player o = model.getPlayer(); // o is obj = player
@@ -133,20 +134,47 @@ public class Controller{
    }
    
    public void checkAllAround(){
-      //collision detection between enemies and blocks, enemies and player
+      //collision detection between enemies and blocks, enemies and player,enemies and bullets
       Room r = model.getCurrentRoom();
       Player p = model.getPlayer();
       ArrayList<Enemy> enemies = r.getEnemies();
+      ArrayList<Bullet> bullets = r.getBullets();
       for(int i = 0; i < enemies.size(); i++){
          Enemy e = enemies.get(i);
          checkAround(e);
          if(collisionDetectionTwoObj(p,e)){
-            //int enemyId = e.getId();
-            //r.removeEnemyById(enemyId);
-            
+            //TO DO
+            //delete 1HP of player
+         }
+         for(int j = 0; j < bullets.size(); j++){
+             Bullet b = bullets.get(j);
+             //if b out of board, remove
+             if(b.getY() > height || b.getY() < 0 || b.getX() > width || b.getX() < 0){
+                bullets.remove(j--);
+             }
+             //check bullets and enemies
+             else if(collisionDetectionTwoObj(b,e)){
+                enemies.remove(i);
+                bullets.remove(j--);
+                break;
+             }
          }
       }
-     
+      
+      //collision detection between bullets and blocks
+       //if b crash blocks, remove
+         for(int i = 0; i < Type.BOARD_MAX_HEIGHT; i++){
+            for(int j = 0; j < Type.BOARD_MAX_WIDTH; j++){
+                if(r.getBlockType(i,j) != Type.BLOCK_EMPTY){
+                        for(int k = 0; k < bullets.size(); k++){
+                             Bullet b = bullets.get(k);
+                            if(collisionDetectionWithBlock(b, i, j)){
+                                 bullets.remove(k--);
+                             }
+                       }
+                }
+            }
+         }
       //collision detection between player and blocks
       checkAround(p);
    }
@@ -300,24 +328,31 @@ public class Controller{
    public void controlPlayer(int dir){
      Player p = model.getPlayer();
      if(dir == Type.KEY_LEFT){
+        p.setLeft(true);
         p.setSpeedX(-Type.PLAYER_SPEED_X);
      }
-     else if(dir == Type.KEY_RIGHT){
+     if(dir == Type.KEY_RIGHT){
+        p.setLeft(false);
         p.setSpeedX(Type.PLAYER_SPEED_X);
      }
-     else if(dir == Type.KEY_RELEASED){
+     if(dir == Type.KEY_RELEASED){
         p.setSpeedX(0);
      }
-     else if(dir == Type.KEY_SPACE){
+     if(dir == Type.KEY_SPACE){
         if(p.getJump())return;
         p.setJump(true);
         p.setFall(true);
         p.setSpeedY(-Type.PLAYER_SPEED_Y);
      }
-     else if(dir == Type.KEY_UP){
+     if(dir == Type.KEY_UP){
        p.setTransported(false);
      }
    }
    
+   public void shotBullet(){
+      Room r = model.getCurrentRoom();
+      Player p = model.getPlayer();
+      r.getBullets().add(new Bullet(p.getX() + p.getWidth()/2, p.getY()+ p.getHeight()/2, p.getLeft() ? -Type.PLAYER_SPEED_X : Type.PLAYER_SPEED_X));
+   }
    
 }

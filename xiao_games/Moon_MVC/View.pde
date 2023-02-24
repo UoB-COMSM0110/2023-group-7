@@ -48,6 +48,16 @@ public class View{
           image(e.getImg(), e.getX(), e.getY());
       }
       
+      ArrayList<Bullet> bullets = r.getBullets();
+      //draw bullets
+      for(int i = 0; i < bullets.size(); i++){
+         Bullet b = bullets.get(i);
+         b.move();
+         fill(255);
+         ellipse(b.getX(), b.getY(), b.getWidth(), b.getHeight());
+         noFill();
+      }
+      
   }
   
   public void drawPlayer(){

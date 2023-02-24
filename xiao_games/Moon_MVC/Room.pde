@@ -4,11 +4,13 @@ public class Room extends HandleEnemies{
     private int[] adjacent;// 0-up, 1-down, 2-left, 3-right
     private int[][] blockType; // 0 == empty, 1 == block, 3 == chest...
     private ArrayList<Block> blocks;
+    private ArrayList<Bullet> bullets;
     
     public Room(){
         this.blockType = new int[20][29];
         this.adjacent = new int[4];
         this.setEnemies();
+        this.bullets = new ArrayList();
         this.blocks = new ArrayList();
         for(int i = 0; i < 4; i++){
             this.adjacent[i] = Type.NO_ROOM;
@@ -65,5 +67,12 @@ public class Room extends HandleEnemies{
        return null;
     }
     
+    public ArrayList<Bullet> getBullets(){
+       return bullets;
+    }
+    
+    public void addBullet(Bullet b){
+       this.bullets.add(b);
+    }
     
 }
