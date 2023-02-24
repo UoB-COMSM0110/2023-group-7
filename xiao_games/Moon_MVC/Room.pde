@@ -11,7 +11,7 @@ public class Room extends HandleEnemies{
         this.setEnemies();
         this.blocks = new ArrayList();
         for(int i = 0; i < 4; i++){
-            this.adjacent[i] = -1;
+            this.adjacent[i] = Type.NO_ROOM;
         }
     }
     
@@ -33,7 +33,7 @@ public class Room extends HandleEnemies{
     
     public void setAdjacent(int[] newIndex){
        for(int i = 0; i < 4; i++){
-           if(newIndex[i] != -1){
+           if(newIndex[i] != Type.NO_ROOM){
               this.adjacent[i] = newIndex[i];
            }
        }

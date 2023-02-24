@@ -9,13 +9,20 @@ static abstract class Type {
   static final int BOARD_MAX_HEIGHT = 20;
   static final int BOARD_GRIDSIZE = 30;
   
-  static final int KEY_UP = 0;
-  static final int KEY_DOWN = 1;
-  static final int KEY_LEFT = 2;
-  static final int KEY_RIGHT = 3;
-  static final int KEY_RELEASED = 4;
-  static final int KEY_SPACE = 5;
+  static final int KEY_LEFT = 37;
+  static final int KEY_UP = 38;
+  static final int KEY_RIGHT = 39;
+  static final int KEY_DOWN = 40;
+  static final int KEY_SPACE = 32;
+  static final int KEY_RELEASED = 0;
 
+  static final int TO_LEFT = 2;
+  static final int TO_UP = 0;
+  static final int TO_RIGHT = 3;
+  static final int TO_DOWN = 1;
+  static final int NO_ROOM = -1;
+
+  
   static final int ROOM_START = 0;
   static final int ROOM_UP = 1;
   static final int ROOM_DOWN = 2;
@@ -31,8 +38,12 @@ static abstract class Type {
   static final int BLOCK_BOUNCE = 3;
   static final int BLOCK_PORTAL = 4;
 
+  static final float SPEED_INCREMENT = 0.5;
   
   static final int PLAYER = 100;
+  static final float PLAYER_SPEED_X = 5;
+  static final float PLAYER_SPEED_Y = 10;
+
 
 }
 
@@ -59,26 +70,20 @@ public void keyListener(){
     if(pkeys.size()== 0) return;
     for(int i=pkeys.size()-1; i>=0; i--){
       //left = 37, up = 38, right = 39,  down = 40
-      if(pkeys.get(i) == 39){
-        controller.controlPlayer(Type.KEY_RIGHT);
-      }
-      if(pkeys.get(i) == 37){
-         controller.controlPlayer(Type.KEY_LEFT);
-      }
-      if(pkeys.get(i) == 32){
-        controller.controlPlayer(Type.KEY_SPACE);
+      if(pkeys.get(i) == Type.KEY_RIGHT || pkeys.get(i) == Type.KEY_LEFT || pkeys.get(i) == Type.KEY_SPACE){
+        controller.controlPlayer(pkeys.get(i));
       }
     }
 
 }
 
 public void keyPressed(){
-    //left = 37, up = 38, right = 39,  down = 40
+
     if(!pkeys.hasValue(int(key))) {
-      if(keyCode == LEFT) pkeys.append(37);
-      else if(keyCode == UP) pkeys.append(38);
-      else if(keyCode == RIGHT) pkeys.append(39);
-      else if(keyCode == DOWN) pkeys.append(40);
+      if(keyCode == LEFT) pkeys.append(Type.KEY_LEFT);
+      else if(keyCode == UP) pkeys.append(Type.KEY_UP);
+      else if(keyCode == RIGHT) pkeys.append(Type.KEY_RIGHT);
+      else if(keyCode == DOWN) pkeys.append(Type.KEY_DOWN);
       else pkeys.append(int(key));
     }
 }
@@ -86,10 +91,10 @@ public void keyPressed(){
 public void keyReleased(){
     
     for(int i=pkeys.size()-1; i>=0; i--){
-      if((keyCode == LEFT && pkeys.get(i) == 37 )
-      || (keyCode == UP && pkeys.get(i) == 38)
-      || (keyCode == RIGHT && pkeys.get(i) == 39)
-      || (keyCode == DOWN && pkeys.get(i) == 40)
+      if((keyCode == LEFT && pkeys.get(i) == Type.KEY_LEFT )
+      || (keyCode == UP && pkeys.get(i) == Type.KEY_UP)
+      || (keyCode == RIGHT && pkeys.get(i) == Type.KEY_RIGHT)
+      || (keyCode == DOWN && pkeys.get(i) == Type.KEY_DOWN)
       ||  pkeys.get(i) == int(key)){
           pkeys.remove(i); 
       }

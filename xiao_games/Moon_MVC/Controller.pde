@@ -6,8 +6,7 @@ public class Controller{
       
    public void display(){
       changeRoomAndPlayerPos();
-      checkEnemeyAround();
-      checkAround(model.getPlayer());
+      checkAllAround();
       model.getPlayer().move();
    }
    
@@ -27,10 +26,10 @@ public class Controller{
          goDown(p);
       }
    }
-   
+
    public void goLeft(Player p, float sx){
        this.generateLeft();
-       int index =model.getIndexByDirection(Type.KEY_LEFT);         
+       int index =model.getIndexByDirection(Type.TO_LEFT);         
        model.setCurrentRoomIndex(index);
        p.setX(width - sx - 1);
        getGhost().setX(getGhost().getX() + width);
@@ -38,7 +37,7 @@ public class Controller{
    
    public void goRight(Player p){
        this.generateRight(); 
-       int index =model.getIndexByDirection(Type.KEY_RIGHT);
+       int index =model.getIndexByDirection(Type.TO_RIGHT);
        model.setCurrentRoomIndex(index);
        p.setX(1);
        getGhost().setX(getGhost().getX() - width);
@@ -46,7 +45,7 @@ public class Controller{
    
    public void goUp(Player p, float sy){
        this.generateUp(); 
-       int index =model.getIndexByDirection(Type.KEY_UP);
+       int index =model.getIndexByDirection(Type.TO_UP);
        model.setCurrentRoomIndex(index);
        p.setY(height - sy -1);
        getGhost().setY(getGhost().getY() + height);
@@ -54,7 +53,7 @@ public class Controller{
    
    public void goDown(Player p){
        this.generateDown(); 
-       int index =model.getIndexByDirection(Type.KEY_DOWN);
+       int index =model.getIndexByDirection(Type.TO_DOWN);
        model.setCurrentRoomIndex(index);
        p.setY(1);
        getGhost().setY(getGhost().getY() - height);
@@ -63,48 +62,48 @@ public class Controller{
    public void generateLeft(){
       Room curRoom = model.getCurrentRoom();
       int[] adjacent = curRoom.getAdjacent();
-      if(adjacent[2] == -1){
+      if(adjacent[Type.TO_LEFT] == Type.NO_ROOM){
          model.addRoom(Type.ROOM_LR);
          Room newRoom = model.getNewRoom();
-         newRoom.setAdjacent(new int[]{-1,-1,-1, curRoom.getIndex()});
-         curRoom.setAdjacent(new int[]{-1,-1,newRoom.getIndex(),-1});
+         newRoom.setAdjacent(new int[]{Type.NO_ROOM,Type.NO_ROOM,Type.NO_ROOM, curRoom.getIndex()});
+         curRoom.setAdjacent(new int[]{Type.NO_ROOM,Type.NO_ROOM,newRoom.getIndex(),Type.NO_ROOM});
       }
    }
    
    public void generateRight(){
       Room curRoom = model.getCurrentRoom();
       int[] adjacent = curRoom.getAdjacent();
-      if(adjacent[3] == -1){
+      if(adjacent[Type.TO_RIGHT] == Type.NO_ROOM){
          model.addRoom(Type.ROOM_LR);
          Room newRoom = model.getNewRoom();
-         newRoom.setAdjacent(new int[]{-1,-1,curRoom.getIndex(),-1});
-         curRoom.setAdjacent(new int[]{-1,-1,-1, newRoom.getIndex()});
+         newRoom.setAdjacent(new int[]{Type.NO_ROOM,Type.NO_ROOM,curRoom.getIndex(),Type.NO_ROOM});
+         curRoom.setAdjacent(new int[]{Type.NO_ROOM,Type.NO_ROOM,Type.NO_ROOM, newRoom.getIndex()});
       }
    }
    
    public void generateUp(){
       Room curRoom = model.getCurrentRoom();
       int[] adjacent = curRoom.getAdjacent();
-      if(adjacent[0] == -1){
+      if(adjacent[Type.TO_UP] == Type.NO_ROOM){
          model.addRoom(Type.ROOM_UP);
          Room newRoom = model.getNewRoom();
-         newRoom.setAdjacent(new int[]{-1,curRoom.getIndex(),-1,-1});
-         curRoom.setAdjacent(new int[]{newRoom.getIndex(),-1,-1,-1});
+         newRoom.setAdjacent(new int[]{Type.NO_ROOM,curRoom.getIndex(),Type.NO_ROOM,Type.NO_ROOM});
+         curRoom.setAdjacent(new int[]{newRoom.getIndex(),Type.NO_ROOM,Type.NO_ROOM,Type.NO_ROOM});
       }
    }
    
    public void generateDown(){
       Room curRoom = model.getCurrentRoom();
       int[] adjacent = curRoom.getAdjacent();
-      if(adjacent[1] == -1){
+      if(adjacent[Type.TO_DOWN] == Type.NO_ROOM){
          model.addRoom(Type.ROOM_DOWN);
          Room newRoom = model.getNewRoom();
-         newRoom.setAdjacent(new int[]{curRoom.getIndex(),-1,-1,-1});
-         curRoom.setAdjacent(new int[]{-1,newRoom.getIndex(),-1,-1});
+         newRoom.setAdjacent(new int[]{curRoom.getIndex(),Type.NO_ROOM,Type.NO_ROOM,Type.NO_ROOM});
+         curRoom.setAdjacent(new int[]{Type.NO_ROOM,newRoom.getIndex(),Type.NO_ROOM,Type.NO_ROOM});
       }
    }
    
-   public boolean collisionDetectionTwoObje(BasicProp a, BasicProp b){
+   public boolean collisionDetectionTwoObj(BasicProp a, BasicProp b){
        if(a.getX() + a.getWidth() > b.getX() &&
           a.getX() < b.getX() + b.getWidth() &&
           a.getY() + a.getHeight() > b.getY() &&
@@ -114,16 +113,16 @@ public class Controller{
        return false;
    }
    
-   public boolean collisionDetectionWithBlock(BasicProp a, int i, int j){
-       int s = Type.BOARD_GRIDSIZE;
-       if(a.getX() + a.getWidth() > j * s &&
-          a.getX() < j * s + s &&
-          a.getY() + a.getHeight() > i * s &&
-          a.getY() < i * s + s){
-          return true;   
-       }
-       return false;
-   }
+   //public boolean collisionDetectionWithBlock(BasicProp a, int i, int j){
+   //    int s = Type.BOARD_GRIDSIZE;
+   //    if(a.getX() + a.getWidth() > j * s &&
+   //       a.getX() < j * s + s &&
+   //       a.getY() + a.getHeight() > i * s &&
+   //       a.getY() < i * s + s){
+   //       return true;   
+   //    }
+   //    return false;
+   //}
    
    public void usePortal(Block b){
        Player o = model.getPlayer(); // o is obj = player
@@ -133,14 +132,24 @@ public class Controller{
        o.setX(s * portal[1] + 1);  //set player X
    }
    
-   public void checkEnemeyAround(){
+   public void checkAllAround(){
+      //collision detection between enemies and blocks, enemies and player
       Room r = model.getCurrentRoom();
+      Player p = model.getPlayer();
       ArrayList<Enemy> enemies = r.getEnemies();
       for(int i = 0; i < enemies.size(); i++){
-         checkAround(enemies.get(i));
+         Enemy e = enemies.get(i);
+         checkAround(e);
+         if(collisionDetectionTwoObj(p,e)){
+            //int enemyId = e.getId();
+            //r.removeEnemyById(enemyId);
+            
+         }
       }
+     
+      //collision detection between player and blocks
+      checkAround(p);
    }
-   
    
    public void checkAround(BasicProp o){
       checkLeft(o);
@@ -184,7 +193,6 @@ public class Controller{
          
          if(o.getType() == Type.PLAYER){
               //portal
-              println(o.getTransported());
              if(!o.getTransported() && ((flag1 == Type.BLOCK_PORTAL && x < L * s + s + 1) || flag2 == Type.BLOCK_PORTAL)){
                  Block b = flag2 == Type.BLOCK_PORTAL ? r.getBlockByPos(below , R) : r.getBlockByPos(below , L);
                  usePortal(b);
@@ -292,10 +300,10 @@ public class Controller{
    public void controlPlayer(int dir){
      Player p = model.getPlayer();
      if(dir == Type.KEY_LEFT){
-        p.setSpeedX(-5);
+        p.setSpeedX(-Type.PLAYER_SPEED_X);
      }
      else if(dir == Type.KEY_RIGHT){
-        p.setSpeedX(5);
+        p.setSpeedX(Type.PLAYER_SPEED_X);
      }
      else if(dir == Type.KEY_RELEASED){
         p.setSpeedX(0);
@@ -304,7 +312,7 @@ public class Controller{
         if(p.getJump())return;
         p.setJump(true);
         p.setFall(true);
-        p.setSpeedY(-10);
+        p.setSpeedY(-Type.PLAYER_SPEED_Y);
      }
      else if(dir == Type.KEY_UP){
        p.setTransported(false);

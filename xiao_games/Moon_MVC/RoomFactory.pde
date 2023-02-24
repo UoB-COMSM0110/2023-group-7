@@ -130,21 +130,7 @@ public class RoomFactory extends Factory{
         Block b4 = blockFactory.newBlock(Type.BLOCK_BOUNCE);
         b4.setPos(10, 15);
         r.addBlock(b4);
-        
- 
-        
-        //r.blockType[17][20] = Type.BLOCK_LADDER;
-        //r.blockType[18][20] = Type.BLOCK_LADDER;
-        //r.blockType[19][20] = Type.BLOCK_LADDER;
-        
-        r.blockType[15][24] = Type.BLOCK_GOLD;
-        r.blockType[14][24] = Type.BLOCK_GOLD;
 
-
-        //r.blockType[17][21] = Type.BLOCK_LADDER;
-        //r.blockType[18][21] = Type.BLOCK_LADDER;
-        //r.blockType[19][21] = Type.BLOCK_LADDER;
-        
         r.addEnemy(enemyFactory.newEnemy(Type.ENEMY_WORM));
         r.addEnemy(enemyFactory.newEnemy(Type.ENEMY_GUNNER));
 

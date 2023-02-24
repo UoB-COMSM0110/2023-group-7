@@ -21,4 +21,14 @@ public class HandleEnemies{
        return null;
    }
    
+   public void removeEnemyById(int id){
+       for(int i = 0; i < enemies.size(); i++){
+           if(enemies.get(i).getId() == id){
+              enemies.remove(i);
+              println("remove" + id);
+              return;
+           }
+       }
+   }
+   
 }
