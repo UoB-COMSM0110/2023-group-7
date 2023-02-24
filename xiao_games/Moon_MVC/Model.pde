@@ -25,7 +25,7 @@ public class Model{
       basicBlock.add(blockFactory.newBlock(Type.BLOCK_EMPTY));
       basicBlock.add(blockFactory.newBlock(Type.BLOCK_WALL));
       basicBlock.add(blockFactory.newBlock(Type.BLOCK_GOLD));
-      basicBlock.add(blockFactory.newBlock(Type.BLOCK_LADDER));
+      //basicBlock.add(blockFactory.newBlock(Type.BLOCK_LADDER));
       basicBlock.add(blockFactory.newBlock(Type.BLOCK_BOUNCE));
       basicBlock.add(blockFactory.newBlock(Type.BLOCK_PORTAL));
    }

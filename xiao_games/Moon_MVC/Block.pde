@@ -1,7 +1,7 @@
 class Block extends BasicProp{
    
-    private int[] pos;
-    private int[] portal;
+    private int[] pos;//where this block is, the position in itemType[][] in Room.class
+    private int[] portal;//where portal block can transfer palyer to
 
     public Block(int size){
        this.portal = new int[2];

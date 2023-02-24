@@ -26,7 +26,8 @@ public class EnemyFactory extends Factory{
            e.setY(height/2);
        }else{
            e = new Enemy();
-       } //<>// //<>//
+       }  //<>//
+       e.setFall(true);
        e.setId(this.getId());
        e.setImg(this.getImgs().get(type));
        e.getImg().resize(e.getWidth(), e.getHeight());

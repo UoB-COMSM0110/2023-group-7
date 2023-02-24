@@ -15,6 +15,12 @@ class Enemy extends BasicProp{
      }
     
      this.setX(this.getX() + this.getSpeedX());
+     
+     //if(this.getFall()){
+     //     if(this.getSpeedY() < 0) this.setSpeedY(0);
+     //     this.setSpeedY(this.getSpeedY()+ 0.5);
+     //     this.setY(this.getY() + this.getSpeedY());
+     //}
   
   }
   

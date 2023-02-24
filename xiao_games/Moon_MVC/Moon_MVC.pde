@@ -25,9 +25,9 @@ static abstract class Type {
   static final int BLOCK_EMPTY = 0;
   static final int BLOCK_WALL = 1;
   static final int BLOCK_GOLD = 2;
-  static final int BLOCK_LADDER = 3;
-  static final int BLOCK_BOUNCE = 4;
-  static final int BLOCK_PORTAL = 5;
+  //static final int BLOCK_LADDER = 3;
+  static final int BLOCK_BOUNCE = 3;
+  static final int BLOCK_PORTAL = 4;
 
   
   static final int PLAYER = 100;
