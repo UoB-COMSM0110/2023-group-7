@@ -8,8 +8,8 @@ public class View{
   public void paint(){
      drawRoom();
      drawEnemy();
-     drawPlayer();
-     showDectRange();
+     drawPlayer();     
+     showAround(model.getPlayer());
   }
   
   public void drawEnemy(){
@@ -28,21 +28,23 @@ public class View{
   
   public void drawRoom(){
      Room r = model.getCurrentRoom(); 
+     
      //draw room
      for(int i = 0; i < 20; i++){
-        for(int j = 0; j < 30; j++){
+        for(int j = 0; j < 29; j++){
           int type = r.blockType[i][j];
           Block b = model.getBlockByType(type);
           float sx = b.getWidth();
           image(b.getImg(), j * sx, i * sx);
         }
       }
-      
+
       //draw enemies
       ArrayList<Enemy> enemies = r.getEnemies();
       for(int i = 0; i < enemies.size(); i++){
           Enemy e = enemies.get(i);
           e.move();
+          showAround(e);
           image(e.getImg(), e.getX(), e.getY());
       }
       
@@ -52,53 +54,87 @@ public class View{
       Player p = model.getPlayer();
       image(p.getImg(), p.getX(), p.getY());
   }
+  
+  public void drawRect(float i, float j, float s){
+     noFill();
+     strokeWeight(1);
+     rect(j * s, i * s, s, s);
+  }
 
+  public void showAround(BasicProp o){
+       showLeft(o);
+       showRight(o);
+       showUp(o);
+       showDown(o); 
+   }
 
-    public void showDectRange(){
-      Player p = model.getPlayer();
-      float x = p.getX();
-      float y = p.getY();
-      float sx = p.getWidth();
-      float sy = p.getHeight();
-      float bSize = model.getGridSize();      
-      int left, right, upper, below, L, R, h1, h2, h3;
-      //check block left
-      //left = (int)((x)/bSize) - 1;
-      //h1 = (int)(y/bSize);
-      //h2 = h1 + 1;
-      //h3 = h1 + 2;
-      //drawDectRect(h1,left);
-      //drawDectRect(h2, left);
-      //drawDectRect(h3, left);
+    public void showUp(BasicProp o){
+      float x = o.getX(), y = o.getY();
+      float w = o.getWidth();
+      float s = Type.BOARD_GRIDSIZE;
+      int upper = (int)(y/s) - 1;
+      int R = (int)((x + w)/s);
+      int L = R - 1;
+           stroke(255);
 
-      //check block right
-      //right = (int)((x + sx)/bSize) + 1;
-      //drawDectRect(h1,right);
-      //drawDectRect(h2, right);
-      //drawDectRect(h3, right);
+      drawRect(upper, R, s);
+      drawRect(upper, L, s);
 
-      //check block upper
-      upper = (int)(y/bSize) - 1;
-      R = (int)((x + sx)/bSize);
-      L = R - 1;
-      drawDectRect(upper, L);
-      drawDectRect(upper, R);
+   }
+ 
+    public void showDown(BasicProp o){
+      float x = o.getX(), y = o.getY();
+      float w = o.getWidth(), h = o.getHeight();
+      float s = Type.BOARD_GRIDSIZE;
+      int below = (int)((y + h)/s) + 1;
+      int R = (int)((x + w)/s);
+      int L = R - 1;
+           stroke(255);
 
-      //check block below
-      below = (int)((y + sy)/bSize)+1;
-      R = (int)((x + sx)/bSize);
-      L = R - 1;
-      drawDectRect(below, L);
-      drawDectRect(below, R);
+      drawRect(below, R, s);
+      drawRect(below, L, s);
+      
+      
+   }
+ 
+    public void showLeft(BasicProp o){
+      float x = o.getX(), y = o.getY();
+      float s = Type.BOARD_GRIDSIZE;
+      int left = (int)(x/s) - 1;
+      int h1 = (int)(y/s);
+      int h2 = h1 + 1;
+      int h3 = h2 + 1;
+           stroke(155);
 
-    }
-    
+      drawRect(h1, left, s);
+      drawRect(h2, left, s);
+      drawRect(h3, left, s);
+
+      
+   }
+   
+   public void showRight(BasicProp o){
+      float x = o.getX(), y = o.getY();
+      float w = o.getWidth();
+      float s = Type.BOARD_GRIDSIZE;
+      int right = (int)((x + w)/s) + 1;
+      int h1 = (int)(y/s);
+      int h2 = h1 + 1;
+      int h3 = h2 + 1;
+           stroke(155);
+
+      drawRect(h1, right, s);
+      drawRect(h2, right, s);
+      drawRect(h3, right, s);
+      
+      
+   }
     
     void drawDectRect(int i , int j){
        noFill();
        stroke(255);
        strokeWeight(1);
-       rect(j * model.getGridSize(),i * model.getGridSize(), model.getGridSize(), model.getGridSize());
+       rect(j * Type.BOARD_GRIDSIZE,i * Type.BOARD_GRIDSIZE, Type.BOARD_GRIDSIZE, Type.BOARD_GRIDSIZE);
     }
 
 }

@@ -10,18 +10,15 @@ class Enemy extends BasicProp{
   
   public void move(){
      
+     super.move();
+    
+     if(this.getY() + this.getHeight() > height || this.getY() < 0){
+         this.setY(height/2);
+     }
+    
      if(this.getX() + this.getWidth() > width || this.getX() < 0){
          this.setSpeedX(-this.getSpeedX());
      }
-    
-     this.setX(this.getX() + this.getSpeedX());
-     
-     //if(this.getFall()){
-     //     if(this.getSpeedY() < 0) this.setSpeedY(0);
-     //     this.setSpeedY(this.getSpeedY()+ 0.5);
-     //     this.setY(this.getY() + this.getSpeedY());
-     //}
-  
   }
   
 }

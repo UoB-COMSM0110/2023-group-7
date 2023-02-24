@@ -3,7 +3,7 @@
 public class Model{
    private Map map;
    private Player player;
-   private int gridSize;
+   //private int gridSize;
    private EnemyFactory enemyFactory;
    private RoomFactory roomFactory;
    private BlockFactory blockFactory;
@@ -14,7 +14,7 @@ public class Model{
        this.blockFactory = new BlockFactory();
        this.roomFactory = new RoomFactory(enemyFactory, blockFactory);
        map = new Map();
-       map.addEnemy(enemyFactory.newEnemy(Type.ENEMY_GHOST)); //<>// //<>// //<>//
+       map.addEnemy(enemyFactory.newEnemy(Type.ENEMY_GHOST));  //<>//
        map.addRoom(roomFactory.newRoom(Type.ROOM_START));
        this.basicBlock = new ArrayList();
        this.init();
@@ -42,13 +42,13 @@ public class Model{
         this.player = player;
    }
    
-   public void setGridSize(int size){
-      this.gridSize = size;
-   }
+   //public void setGridSize(int size){
+   //   this.gridSize = size;
+   //}
    
-   public int getGridSize(){
-      return this.gridSize;
-   }
+   //public int getGridSize(){
+   //   return this.gridSize;
+   //}
    
    public ArrayList<Enemy> getEnemies(){
        return map.getEnemies();

@@ -6,7 +6,7 @@ public class Room extends HandleEnemies{
     private ArrayList<Block> blocks;
     
     public Room(){
-        this.blockType = new int[20][30];
+        this.blockType = new int[20][29];
         this.adjacent = new int[4];
         this.setEnemies();
         this.blocks = new ArrayList();

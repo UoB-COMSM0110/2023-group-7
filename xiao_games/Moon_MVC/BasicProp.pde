@@ -3,15 +3,13 @@ class BasicProp{
   private int  w, h;
   private float x, y, speedX, speedY;
   private PImage img;
-  private boolean fall, jump, climb;
+  private boolean fall, jump, transported;
   
   BasicProp(){
     this.fall = true;
     this.jump = false;
-    this.climb = false;
+    this.transported = false;
   }
-  
-  
   
   public void setId(int id){
       this.id = id;
@@ -102,12 +100,12 @@ class BasicProp{
       return this.fall;
   }
   
-  public void setClimb(boolean flag){
-      this.climb = flag;
+  public void setTransported(boolean flag){
+      this.transported = flag;
   }
   
-  public boolean getClimb(){
-      return this.climb;
+  public boolean getTransported(){
+      return this.transported;
   }
   
   public void setJump(boolean flag){
@@ -122,16 +120,19 @@ class BasicProp{
      this.x += this.speedX;
      if(this.jump){
           this.y += this.speedY;
-          this.speedY += 0.5;
+          if(speedY < 10) this.speedY += 0.5;
      }
      if(this.fall && !this.jump){
           if(speedY < 0) speedY = 0;
-          this.speedY += 0.5;
+          if(speedY < 10) this.speedY += 0.5;
           this.y += this.speedY;
      }
   }
   
-  public void move(float px, float py){};
+  public void move(float px, float py){
+     this.x = px;
+     this.y = py;
+  };
   
   public void jump(){};
   

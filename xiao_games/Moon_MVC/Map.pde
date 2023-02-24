@@ -3,13 +3,13 @@ class Map extends HandleEnemies{
     private int currentRoomIndex;
     
     //TO DELETE
-    public void printRooms(){
-       print("RoomList: ");
-       for(int i = 0; i < rooms.size(); i++){
-          print(rooms.get(i).getType() + ", ");
-       }
-       println("");
-    }
+    //public void printRooms(){
+    //   print("RoomList: ");
+    //   for(int i = 0; i < rooms.size(); i++){
+    //      print(rooms.get(i).getType() + ", ");
+    //   }
+    //   println("");
+    //}
     
     public Map(){
         this.rooms = new ArrayList();

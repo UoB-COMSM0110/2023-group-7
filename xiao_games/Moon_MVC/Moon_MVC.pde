@@ -5,6 +5,10 @@ IntList pkeys = new IntList();
 
 static abstract class Type {
   
+  static final int BOARD_MAX_WIDTH = 29;
+  static final int BOARD_MAX_HEIGHT = 20;
+  static final int BOARD_GRIDSIZE = 30;
+  
   static final int KEY_UP = 0;
   static final int KEY_DOWN = 1;
   static final int KEY_LEFT = 2;
@@ -12,7 +16,6 @@ static abstract class Type {
   static final int KEY_RELEASED = 4;
   static final int KEY_SPACE = 5;
 
-  
   static final int ROOM_START = 0;
   static final int ROOM_UP = 1;
   static final int ROOM_DOWN = 2;
@@ -25,7 +28,6 @@ static abstract class Type {
   static final int BLOCK_EMPTY = 0;
   static final int BLOCK_WALL = 1;
   static final int BLOCK_GOLD = 2;
-  //static final int BLOCK_LADDER = 3;
   static final int BLOCK_BOUNCE = 3;
   static final int BLOCK_PORTAL = 4;
 
@@ -36,11 +38,9 @@ static abstract class Type {
 
 
 void setup(){
-    size(900,600);
-    int gridSize = height/20;
+    size(870,600);
     Model model = new Model();
-    model.setGridSize(gridSize);
-    model.addPlayer(new Player(width/3, height/2, gridSize - 5, gridSize * 2 -10, "imgs/player.png"));
+    model.addPlayer(new Player(width/3, height/2, Type.BOARD_GRIDSIZE - 5, Type.BOARD_GRIDSIZE * 2 - 10, "imgs/player.png"));
     controller = new Controller(model);
     view = new View(model);
 }
@@ -65,14 +65,8 @@ public void keyListener(){
       if(pkeys.get(i) == 37){
          controller.controlPlayer(Type.KEY_LEFT);
       }
-     if(pkeys.get(i) == 38){
-         controller.controlPlayer(Type.KEY_UP);
-      }
       if(pkeys.get(i) == 32){
         controller.controlPlayer(Type.KEY_SPACE);
-      }
-      if(pkeys.get(i) == 40){
-        controller.controlPlayer(Type.KEY_DOWN);
       }
     }
 
@@ -103,6 +97,10 @@ public void keyReleased(){
     
     if(keyCode == RIGHT || keyCode == LEFT){
       controller.controlPlayer(Type.KEY_RELEASED);
+    }
+    
+    if(keyCode == UP){
+      controller.controlPlayer(Type.KEY_UP);
     }
     
 }

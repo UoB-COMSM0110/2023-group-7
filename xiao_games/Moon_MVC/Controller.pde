@@ -1,18 +1,12 @@
 public class Controller{
    Model model;
-   
    public Controller(Model mod){
       this.model = mod;
    };
       
    public void display(){
       changeRoomAndPlayerPos();
-      //checkPortal();
-      Room r = model.getCurrentRoom();
-      //ArrayList<Enemy> enemies = r.getEnemies();
-      //for(int i = 0; i < enemies.size(); i++){
-      //  checkAround(enemies.get(i));
-      //}
+      checkEnemeyAround();
       checkAround(model.getPlayer());
       model.getPlayer().move();
    }
@@ -121,7 +115,7 @@ public class Controller{
    }
    
    public boolean collisionDetectionWithBlock(BasicProp a, int i, int j){
-       int s = height/20;
+       int s = Type.BOARD_GRIDSIZE;
        if(a.getX() + a.getWidth() > j * s &&
           a.getX() < j * s + s &&
           a.getY() + a.getHeight() > i * s &&
@@ -132,13 +126,21 @@ public class Controller{
    }
    
    public void usePortal(Block b){
-       Player o = model.getPlayer();
-       float  s = model.getGridSize();
-       int[] portal = b.getPortal();
-       println(portal[0] + portal[1]);
-       o.setY(s * portal[0] - 2 * s -1);
-       o.setX(s * portal[1] + s + 1);
+       Player o = model.getPlayer(); // o is obj = player
+       float  s = Type.BOARD_GRIDSIZE;//s is block size
+       int[] portal = b.getPortal(); 
+       o.setY(s * portal[0] - 2 * s - 1); //set player Y
+       o.setX(s * portal[1] + 1);  //set player X
    }
+   
+   public void checkEnemeyAround(){
+      Room r = model.getCurrentRoom();
+      ArrayList<Enemy> enemies = r.getEnemies();
+      for(int i = 0; i < enemies.size(); i++){
+         checkAround(enemies.get(i));
+      }
+   }
+   
    
    public void checkAround(BasicProp o){
       checkLeft(o);
@@ -150,14 +152,14 @@ public class Controller{
     public void checkUp(BasicProp o){
       Room r = model.getCurrentRoom();
       float x = o.getX(), y = o.getY();
-      float w = o.getWidth(), h = o.getHeight();
-      float s = model.getGridSize();
+      float w = o.getWidth();
+      float s = Type.BOARD_GRIDSIZE;
       int upper = (int)(y/s) - 1;
       int R = (int)((x + w)/s);
       int L = R - 1;
       if(upper >= 0){
          int flag1 = L >= 0 ? r.getBlockType(upper,L) : r.getBlockType(0, 0);
-         int flag2 = R < 30 ? r.getBlockType(upper, R) : r.getBlockType(19, 29);
+         int flag2 = R < Type.BOARD_MAX_WIDTH ? r.getBlockType(upper, R) : r.getBlockType(upper, Type.BOARD_MAX_WIDTH - 1);
          if((flag1 != Type.BLOCK_EMPTY && x != L * s + s + 1) || flag2 != Type.BLOCK_EMPTY){
             if(y + o.getSpeedY() <= upper * s + s){
                 o.setSpeedY(0);
@@ -172,25 +174,47 @@ public class Controller{
       Room r = model.getCurrentRoom();
       float x = o.getX(), y = o.getY();
       float w = o.getWidth(), h = o.getHeight();
-      float s = model.getGridSize();
+      float s = Type.BOARD_GRIDSIZE;
       int below = (int)((y + h)/s) + 1;
       int R = (int)((x + w)/s);
       int L = R - 1;
       if(below < 20){
          int flag1 = L >= 0 ? r.getBlockType(below,L) : r.getBlockType(0, 0);
-         int flag2 = R < 30 ? r.getBlockType(below, R) : r.getBlockType(19, 29);
-         //portal
-         if(o.getType() == Type.PLAYER && (flag1 == Type.BLOCK_PORTAL && x < L * s + s + 1) || flag2 == Type.BLOCK_PORTAL){
-             Block b = flag2 == Type.BLOCK_PORTAL ? r.getBlockByPos(below , R) : r.getBlockByPos(below , L);
-             usePortal(b);
-             return;
+         int flag2 = R < Type.BOARD_MAX_WIDTH ? r.getBlockType(below, R) : r.getBlockType(below, Type.BOARD_MAX_WIDTH - 1);
+         
+         if(o.getType() == Type.PLAYER){
+              //portal
+              println(o.getTransported());
+             if(!o.getTransported() && ((flag1 == Type.BLOCK_PORTAL && x < L * s + s + 1) || flag2 == Type.BLOCK_PORTAL)){
+                 Block b = flag2 == Type.BLOCK_PORTAL ? r.getBlockByPos(below , R) : r.getBlockByPos(below , L);
+                 usePortal(b);
+                 o.setTransported(true);
+                 return;
+             }
+             //bounce
+             if((flag1 == Type.BLOCK_BOUNCE && x < L * s + s + 1) || flag2 == Type.BLOCK_BOUNCE){
+                 o.setSpeedY(-15);
+                 o.setJump(true);
+                 return;
+             }
          }
-         //bounce
-         if(o.getType() == Type.PLAYER && (flag1 == Type.BLOCK_BOUNCE && x < L * s + s + 1) || flag2 == Type.BLOCK_BOUNCE){
-             o.setSpeedY(-15);
-             o.setJump(true);
-             return;
+         
+         //if enemies, change direction
+         if(o.getType() != Type.PLAYER){
+             if((flag1 ==  Type.BLOCK_EMPTY && flag2 !=  Type.BLOCK_EMPTY)
+              || (flag2 ==  Type.BLOCK_EMPTY && flag1 !=  Type.BLOCK_EMPTY)
+             ){
+                o.setSpeedX(-o.getSpeedX());
+                o.setX(o.getX() + o.getSpeedX());
+             }
          }
+         
+         
+         if(flag1 == Type.BLOCK_EMPTY && flag2 == Type.BLOCK_EMPTY){
+               o.setFall(true);
+               o.setJump(true);
+         }
+         
          if((flag1 != Type.BLOCK_EMPTY && x < L * s + s + 1) || flag2 != Type.BLOCK_EMPTY){
              if(y + h + o.getSpeedY()>= below * s){
                   o.setFall(false);
@@ -202,6 +226,7 @@ public class Controller{
                   o.setJump(true);
              }
          }
+
          
       }
    }
@@ -210,22 +235,25 @@ public class Controller{
       Room r = model.getCurrentRoom();
       float x = o.getX(), y = o.getY();
       float h = o.getHeight();
-      float s = model.getGridSize();
+      float s = Type.BOARD_GRIDSIZE;
       int left = (int)(x/s) - 1;
       int h1 = (int)(y/s);
       int h2 = h1 + 1;
       int h3 = h2 + 1;
       if(left >= 0){
          int flag1 = h1 >= 0 ? r.getBlockType(h1,left) : r.getBlockType(0, left);
-         int flag2 = h2 < 20 ? r.getBlockType(h2, left) : r.getBlockType(19, left);
-         int flag3 = h3 < 20 ? r.getBlockType(h3, left) : r.getBlockType(19, left);
+         int flag2 = h2 < Type.BOARD_MAX_HEIGHT ? r.getBlockType(h2, left) : r.getBlockType(Type.BOARD_MAX_HEIGHT - 1, left);
+         int flag3 = h3 < Type.BOARD_MAX_HEIGHT ? r.getBlockType(h3, left) : r.getBlockType(Type.BOARD_MAX_HEIGHT - 1, left);
          if(flag1 != Type.BLOCK_EMPTY || flag2 != Type.BLOCK_EMPTY || (flag3 != Type.BLOCK_EMPTY && y + h > h3 * s)){
+              // reach the end, shoud stop
               if(x + o.getSpeedX() <= left * s + s){
-                  o.setSpeedX(0);
-                  o.setX(left * s + s + 1);
+                  // if enemy, should change move direction
                   if(o.getType() != Type.PLAYER){
                      o.setSpeedX(-o.getSpeedX());
+                  }else{
+                     o.setSpeedX(0);
                   }
+                  o.setX(left * s + s + 1);
                }
          }
       }
@@ -235,22 +263,23 @@ public class Controller{
       Room r = model.getCurrentRoom();
       float x = o.getX(), y = o.getY();
       float w = o.getWidth(), h = o.getHeight();
-      float s = model.getGridSize();
+      float s = Type.BOARD_GRIDSIZE;
       int right = (int)((x + w)/s) + 1;
       int h1 = (int)(y/s);
       int h2 = h1 + 1;
       int h3 = h2 + 1;
-      if(right < 30){
+      if(right < 29){
          int flag1 = h1 >= 0 ? r.getBlockType(h1, right) : r.getBlockType(0, right);
-         int flag2 = h2 < 20 ? r.getBlockType(h2, right) : r.getBlockType(19, right);
-         int flag3 = h3 < 20 ? r.getBlockType(h3, right) : r.getBlockType(19, right);
+         int flag2 = h2 < Type.BOARD_MAX_HEIGHT ? r.getBlockType(h2, right) : r.getBlockType(Type.BOARD_MAX_HEIGHT - 1, right);
+         int flag3 = h3 < Type.BOARD_MAX_HEIGHT ? r.getBlockType(h3, right) : r.getBlockType(Type.BOARD_MAX_HEIGHT - 1, right);
          if(flag1 != Type.BLOCK_EMPTY || flag2 != Type.BLOCK_EMPTY || (flag3 != Type.BLOCK_EMPTY && y + h > h3 * s)){
              if(x + w + o.getSpeedX() >= right * s){
-                o.setSpeedX(0);
-                o.setX(right * s - w - 1);
-                if(o.getType() != Type.PLAYER){
+                  if(o.getType() != Type.PLAYER){
                      o.setSpeedX(-o.getSpeedX());
-                }
+                  }else{
+                     o.setSpeedX(0);
+                  }
+                o.setX(right * s - w - 1);
              }
          }
       }
@@ -263,10 +292,10 @@ public class Controller{
    public void controlPlayer(int dir){
      Player p = model.getPlayer();
      if(dir == Type.KEY_LEFT){
-        p.setSpeedX(-8);
+        p.setSpeedX(-5);
      }
      else if(dir == Type.KEY_RIGHT){
-        p.setSpeedX(8);
+        p.setSpeedX(5);
      }
      else if(dir == Type.KEY_RELEASED){
         p.setSpeedX(0);
@@ -275,8 +304,10 @@ public class Controller{
         if(p.getJump())return;
         p.setJump(true);
         p.setFall(true);
-        p.setClimb(false);
         p.setSpeedY(-10);
+     }
+     else if(dir == Type.KEY_UP){
+       p.setTransported(false);
      }
    }
    
