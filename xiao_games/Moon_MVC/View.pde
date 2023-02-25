@@ -44,9 +44,11 @@ public class View{
       for(int i = 0; i < enemies.size(); i++){
           Enemy e = enemies.get(i);
           e.move();
-          //showAround(e);
-          //image(e.getImg(), e.getX(), e.getY());
-          image(model.getGifs().get(e.getType()), e.getX(), e.getY());
+           if(e.getLeft()){
+                image(model.getGifs().get(e.getType() * 2 - 1), e.getX(), e.getY());
+           }else{
+                image(model.getGifs().get(e.getType() * 2), e.getX(), e.getY());
+           }
       }
       
       ArrayList<Bullet> bullets = r.getBullets();
@@ -63,21 +65,24 @@ public class View{
   
   public void drawPlayer(){
       Player p = model.getPlayer();
+      
       if(p.getLeft()){
-        drawMirror(p);
-      }else{
-        image(p.getImg(), p.getX(), p.getY());     
-      }
+            image(model.getGifs().get(p.getType() * 2 - 1), p.getX(), p.getY());
+       }else{
+            image(model.getGifs().get(p.getType() * 2), p.getX(), p.getY());
+       }
+    
+        //image(p.getImg(), p.getX(), p.getY());     
   }
   
-  public void drawMirror(BasicProp p){
-        imageMode(CENTER);
-        translate(p.getX()+ p.getWidth()/2, p.getY()+ p.getHeight()/2);
-        scale(-1, 1);
-        image(p.getImg(), 0,0);
-        translate(0,0);
-        imageMode(CORNER);
-  }
+  //public void drawMirror(BasicProp p){
+  //      imageMode(CENTER);
+  //      translate(p.getX()+ p.getWidth()/2, p.getY()+ p.getHeight()/2);
+  //      scale(-1, 1);
+  //      image(p.getImg(), 0,0);
+  //      translate(0,0);
+  //      imageMode(CORNER);
+  //}
   
   public void drawRect(float i, float j, float s){
      noFill();

@@ -36,7 +36,10 @@ static abstract class Type {
   static final int ENEMY_GHOST = 0;
   static final int ENEMY_WORM = 1;
   static final int ENEMY_GUNNER = 2;
+  static final int ENEMY_JUMPER = 3;
   
+  static final int PLAYER = 4;
+
   static final int BLOCK_EMPTY = 0;
   static final int BLOCK_WALL = 1;
   static final int BLOCK_GOLD = 2;
@@ -47,7 +50,6 @@ static abstract class Type {
   static final float SPEED_BULLET = 7;
 
   
-  static final int PLAYER = 100;
   static final float PLAYER_SPEED_X = 5;
   
   static final float PLAYER_SPEED_Y = 10;
@@ -75,19 +77,42 @@ void draw(){
 }
 
 public ArrayList<Gif> loadGifs(){
-    //player = 0,1
-    //ghost = 0
-    //gunner = 1,2
+    //ghost = 0, worm 1 -> 1 2 gunner 2 -> 3 4 jumper 3 -> 5 6 player 7 8
+    // left = type * 2 - 1, right = type * 2
+    
      ArrayList<Gif> gifs = new ArrayList();
      Gif ghost = new Gif(this, "imgs/enemy/ghost.gif");
      ghost.loop();
      gifs.add(ghost);
-     Gif worm = new Gif(this, "imgs/enemy/worm.gif");
-     worm.loop();
-     gifs.add(worm);
-     Gif gunner = new Gif(this, "imgs/enemy/gunner.gif");
-     gunner.loop();
-     gifs.add(gunner);
+     
+     Gif wormLeft = new Gif(this, "imgs/enemy/slime_left.gif");
+     wormLeft.loop();
+     gifs.add(wormLeft);
+     Gif wormRight = new Gif(this, "imgs/enemy/slime_right.gif");
+     wormRight.loop();
+     gifs.add(wormRight);
+     
+     Gif gunnerLeft = new Gif(this, "imgs/enemy/gunner_left.gif");
+     gunnerLeft.loop();
+     gifs.add(gunnerLeft);
+     Gif gunnerRight = new Gif(this, "imgs/enemy/gunner_right.gif");
+     gunnerRight.loop();
+     gifs.add(gunnerRight);
+     
+     Gif jumperLeft = new Gif(this, "imgs/enemy/jumper_left.gif");
+     jumperLeft.loop();
+     gifs.add(jumperLeft);
+     Gif jumperRight = new Gif(this, "imgs/enemy/jumper_right.gif");
+     jumperRight.loop();
+     gifs.add(jumperRight);
+     
+     Gif playerLeft = new Gif(this, "imgs/player/player_left.gif");
+     playerLeft.loop();
+     gifs.add(playerLeft);
+     Gif playerRight = new Gif(this, "imgs/player/player_right.gif");
+     playerRight.loop();
+     gifs.add(playerRight);
+     
      return gifs;
 }
 

@@ -154,7 +154,7 @@ public class Controller{
              }
              //check bullets and enemies
              else if(collisionDetectionTwoObj(b,e)){
-                enemies.remove(i);
+                enemies.remove(i--);
                 bullets.remove(j--);
                 break;
              }
@@ -328,6 +328,7 @@ public class Controller{
      Player p = model.getPlayer();
      if(dir == Type.KEY_LEFT){
         p.setLeft(true);
+        //println(p.getLeft());
         p.setSpeedX(-Type.PLAYER_SPEED_X);
      }
      if(dir == Type.KEY_RIGHT){

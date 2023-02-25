@@ -12,12 +12,12 @@ class Enemy extends BasicProp{
      
      super.move();
      
-      //if(this.getSpeedX() > 0){
-      //  this.setLeft(false);
-      //}
-      //if(this.getSpeedX() < 0){
-      //  this.setLeft(true);
-      //}
+      if(this.getSpeedX() > 0){
+        this.setLeft(false);
+      }
+      if(this.getSpeedX() < 0){
+        this.setLeft(true);
+      }
      
      if(this.getY() + this.getHeight() > height || this.getY() < 0){
          this.setY(height/2);
