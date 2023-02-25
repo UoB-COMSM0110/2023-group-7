@@ -245,7 +245,6 @@ public class Controller{
              }
          }
          
-         
          if(flag1 == Type.BLOCK_EMPTY && flag2 == Type.BLOCK_EMPTY){
                o.setFall(true);
                o.setJump(true);
@@ -352,7 +351,8 @@ public class Controller{
    public void shotBullet(){
       Room r = model.getCurrentRoom();
       Player p = model.getPlayer();
-      r.getBullets().add(new Bullet(p.getX() + p.getWidth()/2, p.getY()+ p.getHeight()/2, p.getLeft() ? -Type.PLAYER_SPEED_X : Type.PLAYER_SPEED_X));
+      //println("bullet");
+      r.getBullets().add(new Bullet(p.getX() + p.getWidth()/2, p.getY()+ p.getHeight()/2, p.getLeft() ? -Type.SPEED_BULLET : Type.SPEED_BULLET));
    }
    
 }

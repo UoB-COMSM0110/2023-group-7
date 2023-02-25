@@ -9,7 +9,7 @@ public class View{
      drawRoom();
      drawEnemy();
      drawPlayer();     
-     showAround(model.getPlayer());
+     //showAround(model.getPlayer());
   }
   
   public void drawEnemy(){
@@ -21,7 +21,7 @@ public class View{
        for(int i = 0; i < enemies.size(); i++){
            Enemy e = enemies.get(i);
            e.move(model.getPlayer().getX(), model.getPlayer().getY());
-           image(e.getImg(), e.getX(), e.getY());
+           image(model.getGifs().get(e.getType()), e.getX(), e.getY());
        }
   }
   
@@ -44,8 +44,9 @@ public class View{
       for(int i = 0; i < enemies.size(); i++){
           Enemy e = enemies.get(i);
           e.move();
-          showAround(e);
-          image(e.getImg(), e.getX(), e.getY());
+          //showAround(e);
+          //image(e.getImg(), e.getX(), e.getY());
+          image(model.getGifs().get(e.getType()), e.getX(), e.getY());
       }
       
       ArrayList<Bullet> bullets = r.getBullets();
@@ -62,7 +63,20 @@ public class View{
   
   public void drawPlayer(){
       Player p = model.getPlayer();
-      image(p.getImg(), p.getX(), p.getY());
+      if(p.getLeft()){
+        drawMirror(p);
+      }else{
+        image(p.getImg(), p.getX(), p.getY());     
+      }
+  }
+  
+  public void drawMirror(BasicProp p){
+        imageMode(CENTER);
+        translate(p.getX()+ p.getWidth()/2, p.getY()+ p.getHeight()/2);
+        scale(-1, 1);
+        image(p.getImg(), 0,0);
+        translate(0,0);
+        imageMode(CORNER);
   }
   
   public void drawRect(float i, float j, float s){

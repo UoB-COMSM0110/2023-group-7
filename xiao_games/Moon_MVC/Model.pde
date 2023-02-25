@@ -8,6 +8,8 @@ public class Model{
    private RoomFactory roomFactory;
    private BlockFactory blockFactory;
    private ArrayList<Block> basicBlock;
+   private ArrayList<Gif> gifs;
+
    
    public Model(){
        this.enemyFactory = new EnemyFactory();
@@ -29,6 +31,14 @@ public class Model{
       basicBlock.add(blockFactory.newBlock(Type.BLOCK_BOUNCE));
       basicBlock.add(blockFactory.newBlock(Type.BLOCK_PORTAL));
    }
+   
+    public void setGifs(ArrayList<Gif> gifs){
+       this.gifs = gifs;
+    }
+    
+    public ArrayList<Gif> getGifs(){
+      return this.gifs;
+    }
    
    public Block getBlockByType(int type){
      return basicBlock.get(type);

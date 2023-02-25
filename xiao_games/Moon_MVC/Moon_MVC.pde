@@ -1,3 +1,6 @@
+//need install: tools > manage tools> libraries > GifAnimation
+import gifAnimation.*;
+
 Controller controller;
 View view;
 
@@ -41,25 +44,28 @@ static abstract class Type {
   static final int BLOCK_PORTAL = 4;
 
   static final float SPEED_INCREMENT = 0.5;
+  static final float SPEED_BULLET = 7;
+
   
   static final int PLAYER = 100;
   static final float PLAYER_SPEED_X = 5;
+  
   static final float PLAYER_SPEED_Y = 10;
 
 
 }
 
-
 void setup(){
     size(870,600);
     Model model = new Model();
+    model.setGifs(loadGifs());
     model.addPlayer(new Player(width/3, height/2, Type.BOARD_GRIDSIZE - 5, Type.BOARD_GRIDSIZE * 2 - 10, "imgs/player.png"));
     controller = new Controller(model);
     view = new View(model);
 }
 
 void draw(){
-  
+    //frameRate(20);
     keyListener();
     /* change data in each frame */
     controller.display();
@@ -68,15 +74,32 @@ void draw(){
   
 }
 
+public ArrayList<Gif> loadGifs(){
+    //player = 0,1
+    //ghost = 0
+    //gunner = 1,2
+     ArrayList<Gif> gifs = new ArrayList();
+     Gif ghost = new Gif(this, "imgs/enemy/ghost.gif");
+     ghost.loop();
+     gifs.add(ghost);
+     Gif worm = new Gif(this, "imgs/enemy/worm.gif");
+     worm.loop();
+     gifs.add(worm);
+     Gif gunner = new Gif(this, "imgs/enemy/gunner.gif");
+     gunner.loop();
+     gifs.add(gunner);
+     return gifs;
+}
+
 public void keyListener(){
     if(pkeys.size()== 0) return;
     for(int i=pkeys.size()-1; i>=0; i--){
       if(pkeys.get(i) == Type.KEY_RIGHT || pkeys.get(i) == Type.KEY_LEFT || pkeys.get(i) == Type.KEY_SPACE){
         controller.controlPlayer(pkeys.get(i));
       }
-      if(pkeys.get(i) == Type.KEY_F_SHOT){
-         controller.shotBullet();
-      }
+      //if(pkeys.get(i) == Type.KEY_F_SHOT){
+      //   controller.shotBullet();
+      //}
     }
 
 }
@@ -110,6 +133,10 @@ public void keyReleased(){
     
     if(keyCode == UP){
       controller.controlPlayer(Type.KEY_UP);
+    }
+    
+    if(int(key) == Type.KEY_F_SHOT){
+         controller.shotBullet();
     }
     
 }

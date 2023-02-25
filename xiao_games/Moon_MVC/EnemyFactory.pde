@@ -7,9 +7,9 @@ public class EnemyFactory extends Factory{
     }
     
     private void init(){
-       this.addImg(loadImage("imgs/ememy/ghost.png")); //<>//
-       this.addImg(loadImage("imgs/ememy/worm.png"));
-       this.addImg(loadImage("imgs/ememy/gunner.png"));
+       this.addImg(loadImage("imgs/enemy/ghost.png")); //<>//
+       this.addImg(loadImage("imgs/enemy/worm.png"));
+       this.addImg(loadImage("imgs/enemy/gunner.png"));
     }
     
     public Enemy newEnemy(int type){
