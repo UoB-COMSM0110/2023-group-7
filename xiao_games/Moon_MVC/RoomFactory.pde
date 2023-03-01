@@ -6,14 +6,14 @@ public class RoomFactory extends Factory{
     private BlockFactory blockFactory;
     private final int sectionSize=9;
     private String[] level;
-    private List<Integer> sectionIndex = new ArrayList<>(12);
+    private List<Integer> sectionIndex = new ArrayList<>(14);
     private boolean portal;
     private int[] portalCoordinates = new int[4];
    
     public RoomFactory(EnemyFactory e, BlockFactory b){
       this.enemyFactory = e;
       this.blockFactory = b;
-      for(int i=0; i<12; i++){
+      for(int i=0; i<14; i++){
         sectionIndex.add(i);
       }
     }
@@ -125,6 +125,10 @@ public class RoomFactory extends Factory{
             case '3':
               r.blockType[rowNum+row][colNum+col] = Type.BLOCK_BOUNCE;
               break;
+            case '5':
+              r.blockType[rowNum+row][colNum+col] = Type.BLOCK_SPIKE;
+              break;
+            
             case 'p':
               setPortal(true);
               setPortalCoordinates(rowNum+row,colNum+col,'p');

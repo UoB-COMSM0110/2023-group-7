@@ -233,6 +233,10 @@ public class Controller{
              if((flag1 == Type.BLOCK_BOUNCE && x < L * s + s + 1) || flag2 == Type.BLOCK_BOUNCE){
                  o.setHighJump(true);
              }
+             //spike - basic implemenation for now as we don't yet have a death mechanic
+             if(o.getFall() && (flag2 == Type.BLOCK_SPIKE)){
+               System.out.println("Death by spikes");
+             }
          }
          
          //if enemies, change direction
@@ -321,7 +325,7 @@ public class Controller{
    
    //added this boolean so that we can turn off collision detection for blocks other than the background
    public boolean collisionDetect(int flag){
-     if(flag == Type.BLOCK_EMPTY || flag == Type.BLOCK_CRATE){
+     if(flag == Type.BLOCK_EMPTY || flag == Type.BLOCK_CRATE || flag == Type.BLOCK_SPIKE){
        return false;
      }
      return true;

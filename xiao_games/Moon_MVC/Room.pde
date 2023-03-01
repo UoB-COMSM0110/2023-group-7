@@ -16,7 +16,7 @@ public class Room extends HandleEnemies{
         for(int i = 0; i < 4; i++){
             this.adjacent[i] = Type.NO_ROOM;
         }
-        sections = new String[12];
+        sections = new String[14];
         sections[0]="levels/section1.csv";
         sections[1]="levels/section2.csv";
         sections[2]="levels/section3.csv";
@@ -29,6 +29,8 @@ public class Room extends HandleEnemies{
         sections[9]="levels/section10.csv";
         sections[10]="levels/section11.csv";
         sections[11]="levels/section12.csv";
+        sections[12]="levels/section13.csv";
+        sections[13]="levels/section14.csv";
     }
     
     public void setType(int type){

@@ -47,6 +47,7 @@ static abstract class Type {
   static final int BLOCK_PORTAL = 4;
   static final int BLOCK_BORDER = 5;
   static final int BLOCK_CRATE = 6;
+  static final int BLOCK_SPIKE = 7;
   
 
   static final float SPEED_INCREMENT = 0.5;
