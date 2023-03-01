@@ -228,29 +228,31 @@ public class Controller{
                  return;
              }
              //bounce
+             o.setHighJump(false);
              if((flag1 == Type.BLOCK_BOUNCE && x < L * s + s + 1) || flag2 == Type.BLOCK_BOUNCE){
-                 o.setSpeedY(-15);
-                 o.setJump(true);
-                 return;
+                 o.setHighJump(true);
              }
          }
          
          //if enemies, change direction
          if(o.getType() != Type.PLAYER){
-             if((flag1 ==  Type.BLOCK_EMPTY && flag2 !=  Type.BLOCK_EMPTY)
-              || (flag2 ==  Type.BLOCK_EMPTY && flag1 !=  Type.BLOCK_EMPTY)
+             //if((flag1 ==  Type.BLOCK_EMPTY && flag2 !=  Type.BLOCK_EMPTY)
+              //|| (flag2 ==  Type.BLOCK_EMPTY && flag1 !=  Type.BLOCK_EMPTY)
+             if((!collisionDetect(flag1) && collisionDetect(flag2))
+              || (!collisionDetect(flag2) && collisionDetect(flag1))
              ){
                 o.setSpeedX(-o.getSpeedX());
                 o.setX(o.getX() + o.getSpeedX());
              }
          }
          
-         if(flag1 == Type.BLOCK_EMPTY && flag2 == Type.BLOCK_EMPTY){
+         //if(flag1 == Type.BLOCK_EMPTY && flag2 == Type.BLOCK_EMPTY){
+         if(!collisionDetect(flag1) && !collisionDetect(flag2)){
                o.setFall(true);
                o.setJump(true);
          }
-         
-         if((flag1 != Type.BLOCK_EMPTY && x < L * s + s + 1) || flag2 != Type.BLOCK_EMPTY){
+         //if((flag1 != Type.BLOCK_EMPTY && x < L * s + s + 1) || flag2 != Type.BLOCK_EMPTY){
+         if((collisionDetect(flag1) && x < L * s + s + 1) || collisionDetect(flag2)){
              if(y + h + o.getSpeedY()>= below * s){
                   o.setFall(false);
                   o.setJump(false);
@@ -261,8 +263,6 @@ public class Controller{
                   o.setJump(true);
              }
          }
-
-         
       }
    }
  
@@ -279,7 +279,7 @@ public class Controller{
          int flag1 = h1 >= 0 ? r.getBlockType(h1,left) : r.getBlockType(0, left);
          int flag2 = h2 < Type.BOARD_MAX_HEIGHT ? r.getBlockType(h2, left) : r.getBlockType(Type.BOARD_MAX_HEIGHT - 1, left);
          int flag3 = h3 < Type.BOARD_MAX_HEIGHT ? r.getBlockType(h3, left) : r.getBlockType(Type.BOARD_MAX_HEIGHT - 1, left);
-         if(flag1 != Type.BLOCK_EMPTY || flag2 != Type.BLOCK_EMPTY || (flag3 != Type.BLOCK_EMPTY && y + h > h3 * s)){
+         if(collisionDetect(flag1) || collisionDetect(flag2) || (collisionDetect(flag3) && y + h > h3 * s)){
               // reach the end, shoud stop
               if(x + o.getSpeedX() <= left * s + s){
                   // if enemy, should change move direction
@@ -307,7 +307,7 @@ public class Controller{
          int flag1 = h1 >= 0 ? r.getBlockType(h1, right) : r.getBlockType(0, right);
          int flag2 = h2 < Type.BOARD_MAX_HEIGHT ? r.getBlockType(h2, right) : r.getBlockType(Type.BOARD_MAX_HEIGHT - 1, right);
          int flag3 = h3 < Type.BOARD_MAX_HEIGHT ? r.getBlockType(h3, right) : r.getBlockType(Type.BOARD_MAX_HEIGHT - 1, right);
-         if(flag1 != Type.BLOCK_EMPTY || flag2 != Type.BLOCK_EMPTY || (flag3 != Type.BLOCK_EMPTY && y + h > h3 * s)){
+         if(collisionDetect(flag1) || collisionDetect(flag2) || (collisionDetect(flag3) && y + h > h3 * s)){
              if(x + w + o.getSpeedX() >= right * s){
                   if(o.getType() != Type.PLAYER){
                      o.setSpeedX(-o.getSpeedX());
@@ -319,6 +319,15 @@ public class Controller{
          }
       }
    }
+   
+   //added this boolean so that we can turn off collision detection for blocks other than the background
+   public boolean collisionDetect(int flag){
+     if(flag == Type.BLOCK_EMPTY || flag == Type.BLOCK_CRATE){
+       return false;
+     }
+     return true;
+   }
+   
    
    public Enemy getGhost(){
        return model.getGhost();
@@ -340,9 +349,14 @@ public class Controller{
      }
      if(dir == Type.KEY_SPACE){
         if(p.getJump())return;
+        if(p.getHighJump()){
+          p.setSpeedY(-15);
+        }
+        else{
         p.setJump(true);
         p.setFall(true);
         p.setSpeedY(-Type.PLAYER_SPEED_Y);
+        }
      }
      if(dir == Type.KEY_UP){
        p.setTransported(false);

@@ -1,11 +1,25 @@
+import java.util.*;
+
 public class RoomFactory extends Factory{    
     
     private EnemyFactory enemyFactory;
     private BlockFactory blockFactory;
+    private final int sectionSize=9;
+    private String[] level;
+    private List<Integer> sectionIndex = new ArrayList<>(12);
+    private boolean portal;
+    private int[] portalCoordinates = new int[4];
    
     public RoomFactory(EnemyFactory e, BlockFactory b){
       this.enemyFactory = e;
       this.blockFactory = b;
+      for(int i=0; i<12; i++){
+        sectionIndex.add(i);
+      }
+    }
+    
+    public int getSectionIndex(int i){
+      return sectionIndex.get(i);
     }
     
     public Room newRoom(int type){
@@ -48,10 +62,8 @@ public class RoomFactory extends Factory{
            r = roomType0();
         }else if(i >= 3 && i < 6){
            r = roomType3();
-        }else if(i >=6 && i < 9){
-           r = roomType4();
         }else{
-          r = roomType5();
+           r = roomType4();
         }
         r.setIndex(id);
         return r;
@@ -77,221 +89,232 @@ public class RoomFactory extends Factory{
         int i = (int)random(10);//0~9
         Room r;
         if(i >= 0 && i < 3){
-           r = roomType2();
-        }else if(i >= 3 && i < 6){
            r = roomType1();
-        }else if(i >=6 && i < 9){
-           r = roomType4();
+        }else if(i >= 3 && i < 6){
+           r = roomType2();
         }else{
-           r = roomType5();
+           r = roomType4();
         }
         r.setIndex(id);
         return r;
     }
     
-    //TO DELETE
-    void tmpBlock(Room r){
-        r.blockType[3][5] = Type.BLOCK_GOLD;
-        r.blockType[3][6] = Type.BLOCK_GOLD;
-        
-        
-        //r.blockType[10][5] = Type.BLOCK_LADDER;
-        //r.blockType[11][5] = Type.BLOCK_LADDER;
-        //r.blockType[12][5] = Type.BLOCK_LADDER;
-        //r.blockType[13][5] = Type.BLOCK_LADDER;
-        
-        r.blockType[13][6] = Type.BLOCK_GOLD;
-        r.blockType[14][6] = Type.BLOCK_GOLD;
-        r.blockType[14][7] = Type.BLOCK_GOLD;
-        r.blockType[15][7] = Type.BLOCK_GOLD;
-        r.blockType[15][8] = Type.BLOCK_GOLD;
-        r.blockType[16][9] = Type.BLOCK_GOLD;
-        r.blockType[17][8] = Type.BLOCK_GOLD;
-        
-        r.blockType[16][3] = Type.BLOCK_PORTAL;
-        r.blockType[16][25] = Type.BLOCK_PORTAL;
-        
-        Block b1 = blockFactory.newBlock(Type.BLOCK_PORTAL);
-        b1.setPos(16, 3);
-        b1.setPortal(16, 25);
-        r.addBlock(b1);
-        
-        Block b2 = blockFactory.newBlock(Type.BLOCK_PORTAL);
-        b2.setPos(16, 25);
-        b2.setPortal(16, 3);
-        r.addBlock(b2);
-        
-        r.blockType[16][21] = Type.BLOCK_BOUNCE;
-        Block b3 = blockFactory.newBlock(Type.BLOCK_BOUNCE);
-        b3.setPos(16, 21);
-        r.addBlock(b3);
-        
-        r.blockType[10][15] = Type.BLOCK_BOUNCE;
-        Block b4 = blockFactory.newBlock(Type.BLOCK_BOUNCE);
-        b4.setPos(10, 15);
-        r.addBlock(b4);
-
-        r.addEnemy(enemyFactory.newEnemy(Type.ENEMY_WORM));
-        r.addEnemy(enemyFactory.newEnemy(Type.ENEMY_GUNNER));
-
+    private void generateLevel(Room r){
+      this.level = new String[6];
+      Collections.shuffle(sectionIndex);
+      for(int i=0; i<6; i++){
+        int section = getSectionIndex(i);
+        level[i]=r.getSection(section);
+      }
     }
     
-    // 0 |
+    private void addSection(String filename, Room r, int rowNum, int colNum)
+    {
+      setPortal(false);
+      String[] lines = loadStrings(filename);
+      for(int row=0; row<sectionSize; row++){
+        String[] values=split(lines[row],",");
+        for(int col=0; col<sectionSize; col++){
+          switch(values[col].codePointAt(0)){
+            case '1':
+              r.blockType[rowNum+row][colNum+col] = Type.BLOCK_WALL;
+              break;
+            case '2':
+              r.blockType[rowNum+row][colNum+col] = Type.BLOCK_CRATE;
+              break;
+            case '3':
+              r.blockType[rowNum+row][colNum+col] = Type.BLOCK_BOUNCE;
+              break;
+            case 'p':
+              setPortal(true);
+              setPortalCoordinates(rowNum+row,colNum+col,'p');
+              r.blockType[rowNum+row][colNum+col] = Type.BLOCK_PORTAL;
+              break;
+            case 'q':
+              setPortalCoordinates(rowNum+row,colNum+col,'q');
+              r.blockType[rowNum+row][colNum+col] = Type.BLOCK_PORTAL;
+              break;
+          }
+        }
+      }
+      makePortal(r);
+    }
+    
+    
+    public void setPortal(boolean p){
+      portal = p;
+    }
+    
+    
+    public void setPortalCoordinates(int row, int col, char portal){
+      switch(portal){
+        case 'p':
+          portalCoordinates[0]=row;
+          portalCoordinates[1]=col;
+          break;
+        case 'q':
+          portalCoordinates[2]=row;
+          portalCoordinates[3]=col;
+          break;
+      }
+    }
+    
+    
+    public void makePortal(Room r){
+      if(!portal){
+        return;
+      }
+      Block b1 = blockFactory.newBlock(Type.BLOCK_PORTAL);
+      b1.setPos(portalCoordinates[0], portalCoordinates[1]);
+      b1.setPortal(portalCoordinates[2], portalCoordinates[3]);
+      r.addBlock(b1);
+        
+      Block b2 = blockFactory.newBlock(Type.BLOCK_PORTAL);
+      b2.setPos(portalCoordinates[2], portalCoordinates[3]);
+      b2.setPortal(portalCoordinates[0], portalCoordinates[1]);
+      r.addBlock(b2);
+    }
+    
+    
+    private void addBorders(Room r)
+    {
+      for(int i=0; i<20; i++){
+          for(int j=0; j<29; j++){
+            if(borderCheck(i,j)){
+              r.blockType[i][j] = Type.BLOCK_BORDER;
+            }
+          }
+          r.blockType[6][0] = Type.BLOCK_EMPTY;
+          r.blockType[7][0] = Type.BLOCK_EMPTY;
+          r.blockType[8][0] = Type.BLOCK_EMPTY;
+          r.blockType[6][28] = Type.BLOCK_EMPTY;
+          r.blockType[7][28] = Type.BLOCK_EMPTY;
+          r.blockType[8][28] = Type.BLOCK_EMPTY;
+          r.blockType[15][0] = Type.BLOCK_EMPTY;
+          r.blockType[16][0] = Type.BLOCK_EMPTY;
+          r.blockType[17][0] = Type.BLOCK_EMPTY;
+          r.blockType[15][28] = Type.BLOCK_EMPTY;
+          r.blockType[16][28] = Type.BLOCK_EMPTY;
+          r.blockType[17][28] = Type.BLOCK_EMPTY;
+          r.blockType[0][15] = Type.BLOCK_EMPTY;
+          r.blockType[0][16] = Type.BLOCK_EMPTY;
+          r.blockType[19][15] = Type.BLOCK_EMPTY;
+          r.blockType[19][16] = Type.BLOCK_EMPTY;
+        }
+    }
+    
+    
+    private boolean borderCheck(int r, int c){
+      if(r==0 || c==0){
+        return true;
+      }
+      if(r==19 || c==28){
+        return true;
+      }
+      return false;
+    }
+    
+    
+    private void fillLevel(Room r){
+      generateLevel(r);
+      addSection(level[0],r,1,1);
+      addSection(level[1],r,1,10);
+      addSection(level[2],r,1,19);
+      addSection(level[3],r,10,1);
+      addSection(level[4],r,10,10);
+      addSection(level[5],r,10,19);
+    }
+    
+    
+    //0 - Only up and down exits
     private Room roomType0(){
-        //TO DELETE
-        println("RoomType: 0 |");
-        
-        //TODO
-        //new Room's block on boundary should be consistent with current Room
-        //1. get current Room
-        //2. check edge blocks of current Room
-        //3. make sure blocks on adjacent sides of two rooms are consistent
-        
         Room r = new Room();
         r.setType(0);
-        
-        for(int j = 0; j < 10; j++){
-          for(int i = 0; i < 20; i++){
-              r.blockType[i][j] = Type.BLOCK_WALL;//all blocks
-          }
-        }
-        for(int j = 20; j < 29; j++){
-          for(int i = 0; i < 20; i++){
-              r.blockType[i][j] = Type.BLOCK_WALL;//all blocks
-          }
-        }
-        
-        // TO DELETE
-        tmpBlock(r);
-        
+        addBorders(r);
+        r.blockType[6][0] = Type.BLOCK_BORDER;
+        r.blockType[7][0] = Type.BLOCK_BORDER;
+        r.blockType[8][0] = Type.BLOCK_BORDER;
+        r.blockType[6][28] = Type.BLOCK_BORDER;
+        r.blockType[7][28] = Type.BLOCK_BORDER;
+        r.blockType[8][28] = Type.BLOCK_BORDER;
+        r.blockType[15][0] = Type.BLOCK_BORDER;
+        r.blockType[16][0] = Type.BLOCK_BORDER;
+        r.blockType[17][0] = Type.BLOCK_BORDER;
+        r.blockType[15][28] = Type.BLOCK_BORDER;
+        r.blockType[16][28] = Type.BLOCK_BORDER;
+        r.blockType[17][28] = Type.BLOCK_BORDER;
+        fillLevel(r);
         return r;
     }
     
-    // 1 丄
+    // 1 - all exits
     private Room roomType1(){
-        //TO DELETE
-        println("RoomType: 1 丄");
         Room r = new Room();
         r.setType(1);
-        
-        for(int i = 0; i < 4; i++){
-          for(int j = 0; j < 10; j++){
-              r.blockType[i][j] = Type.BLOCK_WALL;//all blocks
-          }
-        }
-        for(int i = 0; i < 4; i++){
-          for(int j = 20; j < 29; j++){
-              r.blockType[i][j] = Type.BLOCK_WALL;//all blocks
-          }
-        }
-        for(int i = 16; i < 20; i++){
-          for(int j = 0; j < 29; j++){
-              r.blockType[i][j] = Type.BLOCK_WALL;//all blocks
-          }
-        }
-       
-        // TO DELETE
-        tmpBlock(r);
-
+        addBorders(r);
+        fillLevel(r);
         return r;
     }
    
-    // 2 一
+    // 2 - only left and right exits
     private Room roomType2(){
-        //TO DELETE
-        println("RoomType: 2 一");
         Room r = new Room();
         r.setType(2);
-        
-         for(int i = 0; i < 4; i++){
-          for(int j = 0; j < 29; j++){
-              r.blockType[i][j] = Type.BLOCK_WALL;//all blocks
-          }
-        }
-        for(int i = 16; i < 20; i++){
-          for(int j = 0; j < 29; j++){
-              r.blockType[i][j] = Type.BLOCK_WALL;//all blocks
-          }
-        }
-        
-        // TO DELETE
-        tmpBlock(r);
-
+        addBorders(r);
+        r.blockType[0][15] = Type.BLOCK_BORDER;
+        r.blockType[0][16] = Type.BLOCK_BORDER;
+        r.blockType[19][15] = Type.BLOCK_BORDER;
+        r.blockType[19][16] = Type.BLOCK_BORDER;
+        fillLevel(r);
         return r;
     }
 
-    // 3 丅
+    // 3 - only bottom exits
     private Room roomType3(){
-        //TO DELETE
-        println("RoomType: 3 丅");
         Room r = new Room();
         r.setType(3);
-
-         for(int i = 0; i < 4; i++){
-          for(int j = 0; j < 29; j++){
-              r.blockType[i][j] = Type.BLOCK_WALL;//all blocks
-          }
-        }
-        
-       for(int i = 16; i < 20; i++){
-          for(int j = 0; j < 10; j++){
-              r.blockType[i][j] = Type.BLOCK_WALL;//all blocks
-          }
-        }
-        for(int i = 16; i < 20; i++){
-          for(int j = 20; j < 29; j++){
-              r.blockType[i][j] = Type.BLOCK_WALL;//all blocks
-          }
-        }
-        
-
-        // TO DELETE
-        tmpBlock(r);
+        addBorders(r);
+        r.blockType[6][0] = Type.BLOCK_BORDER;
+        r.blockType[7][0] = Type.BLOCK_BORDER;
+        r.blockType[8][0] = Type.BLOCK_BORDER;
+        r.blockType[6][28] = Type.BLOCK_BORDER;
+        r.blockType[7][28] = Type.BLOCK_BORDER;
+        r.blockType[8][28] = Type.BLOCK_BORDER;
+        r.blockType[15][0] = Type.BLOCK_BORDER;
+        r.blockType[16][0] = Type.BLOCK_BORDER;
+        r.blockType[17][0] = Type.BLOCK_BORDER;
+        r.blockType[15][28] = Type.BLOCK_BORDER;
+        r.blockType[16][28] = Type.BLOCK_BORDER;
+        r.blockType[17][28] = Type.BLOCK_BORDER;
+        r.blockType[0][15] = Type.BLOCK_BORDER;
+        r.blockType[0][16] = Type.BLOCK_BORDER;
+        fillLevel(r);
         return r;
     }
 
-    // 4 十
+    // 4 - all exits
     private Room roomType4(){
-         //TO DELETE
-        println("RoomType: 4 十");
         Room r = new Room();
         r.setType(4);
-        
-        for(int i = 0; i < 4; i++){
-          for(int j = 0; j < 10; j++){
-              r.blockType[i][j] = Type.BLOCK_WALL;//all blocks
-          }
-        }
-        for(int i = 0; i < 4; i++){
-          for(int j = 20; j < 29; j++){
-              r.blockType[i][j] = Type.BLOCK_WALL;//all blocks
-          }
-        }
-        for(int i = 16; i < 20; i++){
-          for(int j = 0; j < 10; j++){
-              r.blockType[i][j] = Type.BLOCK_WALL;//all blocks
-          }
-        }
-        for(int i = 16; i < 20; i++){
-          for(int j = 20; j < 29; j++){
-              r.blockType[i][j] = Type.BLOCK_WALL;//all blocks
-          }
-        }
-        
-        // TO DELETE
-        tmpBlock(r);
-
+        addBorders(r);
+        fillLevel(r);
         return r;
     }
     
-    // 5
+    // 5 - only top and right exit
     private Room roomType5(){
-        //TO DELETE
-        println("RoomType: 5 ?");
         Room r = new Room();
         r.setType(5);
-        // TO DELETE
-        tmpBlock(r);
+        addBorders(r);
+        r.blockType[6][0] = Type.BLOCK_BORDER;
+        r.blockType[7][0] = Type.BLOCK_BORDER;
+        r.blockType[8][0] = Type.BLOCK_BORDER;
+        r.blockType[15][0] = Type.BLOCK_BORDER;
+        r.blockType[16][0] = Type.BLOCK_BORDER;
+        r.blockType[17][0] = Type.BLOCK_BORDER;
+        r.blockType[19][15] = Type.BLOCK_BORDER;
+        r.blockType[19][16] = Type.BLOCK_BORDER;
+        fillLevel(r);
         return r;
     }
 

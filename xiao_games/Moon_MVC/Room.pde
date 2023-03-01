@@ -2,10 +2,11 @@ public class Room extends HandleEnemies{
     private int type;
     private int index;
     private int[] adjacent;// 0-up, 1-down, 2-left, 3-right
-    private int[][] blockType; // 0 == empty, 1 == block, 3 == chest...
+    private int[][] blockType;
     private ArrayList<Block> blocks;
+    private String[] sections;
     private ArrayList<Bullet> bullets;
-    
+
     public Room(){
         this.blockType = new int[20][29];
         this.adjacent = new int[4];
@@ -15,6 +16,19 @@ public class Room extends HandleEnemies{
         for(int i = 0; i < 4; i++){
             this.adjacent[i] = Type.NO_ROOM;
         }
+        sections = new String[12];
+        sections[0]="levels/section1.csv";
+        sections[1]="levels/section2.csv";
+        sections[2]="levels/section3.csv";
+        sections[3]="levels/section4.csv";
+        sections[4]="levels/section5.csv";
+        sections[5]="levels/section6.csv";  
+        sections[6]="levels/section7.csv";
+        sections[7]="levels/section8.csv";
+        sections[8]="levels/section9.csv";
+        sections[9]="levels/section10.csv";
+        sections[10]="levels/section11.csv";
+        sections[11]="levels/section12.csv";
     }
     
     public void setType(int type){
@@ -31,6 +45,10 @@ public class Room extends HandleEnemies{
     
     public int getIndex(){
         return index;
+    }
+    
+    public String getSection(int i){
+      return sections[i];
     }
     
     public void setAdjacent(int[] newIndex){

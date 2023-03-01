@@ -3,7 +3,7 @@ class BasicProp{
   private int  w, h;
   private float x, y, speedX, speedY;
   private PImage img;
-  private boolean fall, jump, transported, left;
+  private boolean fall, jump, transported, highJump, left;
   
   //private ArrayList<Gif> gifs;
 
@@ -11,6 +11,7 @@ class BasicProp{
     this.fall = true;
     this.jump = false;
     this.transported = false;
+    this.highJump = false;
     //this.gifs = new ArrayList();
   }
   
@@ -127,6 +128,14 @@ class BasicProp{
   
   public boolean getJump(){
       return this.jump;
+  }
+  
+  public boolean getHighJump(){
+    return this.highJump;
+  }
+  
+  public void setHighJump(boolean flag){
+    this.highJump = flag;
   }
   
     public void setLeft(boolean flag){
