@@ -198,7 +198,7 @@ public class Controller{
          int flag1 = L >= 0 ? r.getBlockType(upper,L) : r.getBlockType(0, 0);
          int flag2 = R < Type.BOARD_MAX_WIDTH ? r.getBlockType(upper, R) : r.getBlockType(upper, Type.BOARD_MAX_WIDTH - 1);
          //println(flag1 + "," + flag2);
-         if((collisionDetect(flag1) && x <= L * s + s + 1) || collisionDetect(flag2)){
+         if((collisionDetect(flag1) && x < L * s + s + 1) || collisionDetect(flag2)){
             if(y + o.getSpeedY() <= upper * s + s){
                 o.setSpeedY(0);
                 o.setFall(false);

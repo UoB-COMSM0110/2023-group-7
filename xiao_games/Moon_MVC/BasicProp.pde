@@ -151,10 +151,12 @@ class BasicProp{
      if(this.jump){
           this.y += this.speedY;
           if(speedY < Type.PLAYER_SPEED_Y) this.speedY += Type.SPEED_INCREMENT;
+          if(speedY > Type.PLAYER_SPEED_Y) speedY = Type.PLAYER_SPEED_Y;
      }
      if(this.fall && !this.jump){
           if(speedY < 0) speedY = 0;
           if(speedY < Type.PLAYER_SPEED_Y) this.speedY += Type.SPEED_INCREMENT;
+          if(speedY > Type.PLAYER_SPEED_Y) speedY = Type.PLAYER_SPEED_Y;
           this.y += this.speedY;
      }
   }
