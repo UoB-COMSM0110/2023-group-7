@@ -32,6 +32,7 @@ public class Model{
       basicBlock.add(blockFactory.newBlock(Type.BLOCK_PORTAL));
       basicBlock.add(blockFactory.newBlock(Type.BLOCK_BORDER));
       basicBlock.add(blockFactory.newBlock(Type.BLOCK_CRATE));
+      basicBlock.add(blockFactory.newBlock(Type.BLOCK_SPIKE));
    }
    
     public void setGifs(ArrayList<Gif> gifs){
