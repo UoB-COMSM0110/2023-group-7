@@ -183,7 +183,38 @@ public class Controller{
       checkLeft(o);
       checkRight(o);
       checkUp(o);
-      checkDown(o);     
+      checkDown(o);
+      checkMore(o);
+   }
+   
+   //if still collision, player collides with corner of block, need to reset position
+   public void checkMore(BasicProp o){
+        Room r = model.getCurrentRoom();
+        for(int i = 0; i < Type.BOARD_MAX_HEIGHT; i++){
+            for(int j = 0; j < Type.BOARD_MAX_WIDTH; j++){
+                if(collisionDetect(r.getBlockType(i,j)) && collisionDetectionWithBlock(o, i, j)){
+                    float s = Type.BOARD_GRIDSIZE;
+                    float x = o.getX(), y = o.getY(), bx = j * s, by = i * s;
+                    float w = o.getWidth(), h = o.getHeight();
+                   //if(x > bx && x < bx + s){
+                   //     o.setSpeedX(0);
+                   //     o.setX(bx + s + 1);
+                   // }
+                   // else if(x + w > bx && x + w < bx + s){
+                   //     o.setSpeedX(0);
+                   //     o.setX(bx - 1);
+                   // }
+                   if(y > by && y < by + s){
+                        o.setSpeedY(0);
+                        o.setY(by + s + 1);
+                    }
+                    else if(y + h > by && y + h < by + s){
+                        o.setSpeedY(0);
+                        o.setY(by - h - 1);
+                    }
+                }
+            }
+         }
    }
 
     public void checkUp(BasicProp o){
@@ -222,12 +253,20 @@ public class Controller{
          
          if(o.getType() == Type.PLAYER){
               //portal
-             if(!o.getTransported() && ((flag1 == Type.BLOCK_PORTAL && x < L * s + s + 1) || flag2 == Type.BLOCK_PORTAL)){
-                 Block b = flag2 == Type.BLOCK_PORTAL ? r.getBlockByPos(below , R) : r.getBlockByPos(below , L);
-                 usePortal(b);
-                 o.setTransported(true);
-                 return;
+             if(((flag1 == Type.BLOCK_PORTAL && x < L * s + s + 1) || flag2 == Type.BLOCK_PORTAL)){
+                 o.setOnPortal(true);
+                 if(!o.getTransported()){
+                     Block b = flag2 == Type.BLOCK_PORTAL ? r.getBlockByPos(below , R) : r.getBlockByPos(below , L);
+                     usePortal(b);
+                     o.setTransported(true);
+                     return;
+                 }
+             }else{
+               o.setOnPortal(false);
              }
+             
+            println(o.getOnPortal());
+
              //bounce
              o.setHighJump(false);
              if((flag1 == Type.BLOCK_BOUNCE && x < L * s + s + 1) || flag2 == Type.BLOCK_BOUNCE){
@@ -340,7 +379,6 @@ public class Controller{
      Player p = model.getPlayer();
      if(dir == Type.KEY_LEFT){
         p.setLeft(true);
-        //println(p.getLeft());
         p.setSpeedX(-Type.PLAYER_SPEED_X);
      }
      if(dir == Type.KEY_RIGHT){
@@ -362,14 +400,15 @@ public class Controller{
         }
      }
      if(dir == Type.KEY_UP){
-       p.setTransported(false);
+       if(p.getOnPortal()){
+          p.setTransported(false);
+       }
      }
    }
    
    public void shotBullet(){
       Room r = model.getCurrentRoom();
       Player p = model.getPlayer();
-      //println("bullet");
       r.getBullets().add(new Bullet(p.getX() + p.getWidth()/2, p.getY()+ p.getHeight()/2, p.getLeft() ? -Type.SPEED_BULLET : Type.SPEED_BULLET));
    }
    

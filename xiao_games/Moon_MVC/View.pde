@@ -91,9 +91,9 @@ public class View{
   }
 
   public void showAround(BasicProp o){
-       //showLeft(o);
-       //showRight(o);
-       //showUp(o);
+       showLeft(o);
+       showRight(o);
+       showUp(o);
        showDown(o); 
    }
 

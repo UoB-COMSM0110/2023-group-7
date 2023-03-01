@@ -3,7 +3,7 @@ class BasicProp{
   private int  w, h;
   private float x, y, speedX, speedY;
   private PImage img;
-  private boolean fall, jump, transported, highJump, left;
+  private boolean fall, jump, transported, highJump, left, onPortal;
   
   //private ArrayList<Gif> gifs;
 
@@ -120,6 +120,14 @@ class BasicProp{
   
   public boolean getTransported(){
       return this.transported;
+  }
+  
+  public void setOnPortal(boolean flag){
+      this.onPortal = flag;
+  }
+  
+  public boolean getOnPortal(){
+      return this.onPortal;
   }
   
   public void setJump(boolean flag){
