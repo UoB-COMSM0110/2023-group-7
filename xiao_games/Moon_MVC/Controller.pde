@@ -197,7 +197,8 @@ public class Controller{
       if(upper >= 0){
          int flag1 = L >= 0 ? r.getBlockType(upper,L) : r.getBlockType(0, 0);
          int flag2 = R < Type.BOARD_MAX_WIDTH ? r.getBlockType(upper, R) : r.getBlockType(upper, Type.BOARD_MAX_WIDTH - 1);
-         if((flag1 != Type.BLOCK_EMPTY && x != L * s + s + 1) || flag2 != Type.BLOCK_EMPTY){
+         //println(flag1 + "," + flag2);
+         if((collisionDetect(flag1) && x <= L * s + s + 1) || collisionDetect(flag2)){
             if(y + o.getSpeedY() <= upper * s + s){
                 o.setSpeedY(0);
                 o.setFall(false);
@@ -216,7 +217,7 @@ public class Controller{
       int R = (int)((x + w)/s);
       int L = R - 1;
       if(below < 20){
-         int flag1 = L >= 0 ? r.getBlockType(below,L) : r.getBlockType(0, 0);
+         int flag1 = L >= 0 ? r.getBlockType(below,L) : r.getBlockType(below, 0);
          int flag2 = R < Type.BOARD_MAX_WIDTH ? r.getBlockType(below, R) : r.getBlockType(below, Type.BOARD_MAX_WIDTH - 1);
          
          if(o.getType() == Type.PLAYER){
@@ -252,16 +253,14 @@ public class Controller{
                o.setJump(true);
          }
          //if((flag1 != Type.BLOCK_EMPTY && x < L * s + s + 1) || flag2 != Type.BLOCK_EMPTY){
-         if((collisionDetect(flag1) && x < L * s + s + 1) || collisionDetect(flag2)){
-             if(y + h + o.getSpeedY()>= below * s){
-                  o.setFall(false);
-                  o.setJump(false);
-                  o.setSpeedY(0);
-                  o.setY(below * s - h - 1);
-             }else{
-                  o.setFall(true);
-                  o.setJump(true);
-             }
+         if(((collisionDetect(flag1) && x < L * s + s + 1) || collisionDetect(flag2)) && (y + h + o.getSpeedY()>= below * s)){
+              o.setFall(false);
+              o.setJump(false);
+              o.setSpeedY(0);
+              o.setY(below * s - h - 1);
+         }else{
+            o.setFall(true);
+            o.setJump(true);
          }
       }
    }

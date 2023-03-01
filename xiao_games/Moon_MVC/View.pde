@@ -9,7 +9,7 @@ public class View{
      drawRoom();
      drawEnemy();
      drawPlayer();     
-     //showAround(model.getPlayer());
+     showAround(model.getPlayer());
   }
   
   public void drawEnemy(){
@@ -91,9 +91,9 @@ public class View{
   }
 
   public void showAround(BasicProp o){
-       showLeft(o);
-       showRight(o);
-       showUp(o);
+       //showLeft(o);
+       //showRight(o);
+       //showUp(o);
        showDown(o); 
    }
 
