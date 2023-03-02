@@ -1,9 +1,9 @@
-
-
+/**
+* Contains all data
+*/
 public class Model{
    private Map map;
    private Player player;
-   //private int gridSize;
    private EnemyFactory enemyFactory;
    private RoomFactory roomFactory;
    private BlockFactory blockFactory;
@@ -22,12 +22,13 @@ public class Model{
        this.init();
    }
    
-   //add all types of blocks to model, so View.class can get PImage of them more conveniently
+   /**
+   * Add all types of blocks to model, so View.class can get PImage of them more conveniently
+   */
    public void init(){
       basicBlock.add(blockFactory.newBlock(Type.BLOCK_EMPTY));
       basicBlock.add(blockFactory.newBlock(Type.BLOCK_WALL));
       basicBlock.add(blockFactory.newBlock(Type.BLOCK_GOLD));
-      //basicBlock.add(blockFactory.newBlock(Type.BLOCK_LADDER));
       basicBlock.add(blockFactory.newBlock(Type.BLOCK_BOUNCE));
       basicBlock.add(blockFactory.newBlock(Type.BLOCK_PORTAL));
       basicBlock.add(blockFactory.newBlock(Type.BLOCK_BORDER));
@@ -54,14 +55,6 @@ public class Model{
    public void addPlayer(Player player){
         this.player = player;
    }
-   
-   //public void setGridSize(int size){
-   //   this.gridSize = size;
-   //}
-   
-   //public int getGridSize(){
-   //   return this.gridSize;
-   //}
    
    public ArrayList<Enemy> getEnemies(){
        return map.getEnemies();

@@ -1,28 +1,23 @@
+/**
+* Basic properties and methods for subclasses
+*/
 class BasicProp{
+  //type = block type, value = score
   private int id, type, value;
+  //weight, height
   private int  w, h;
   private float x, y, speedX, speedY;
   private PImage img;
+  // transported = have used portal, left = direction is left, onPortal = player is on Portal block
   private boolean fall, jump, transported, highJump, left, onPortal;
   
-  //private ArrayList<Gif> gifs;
-
   BasicProp(){
     this.fall = true;
     this.jump = false;
     this.transported = false;
+    this.onPortal = false;
     this.highJump = false;
-    //this.gifs = new ArrayList();
   }
-  
-  //public void setGifs(ArrayList<Gif> gifs){
-  //   this.gifs = gifs;
-  //}
-  
-  //public ArrayList<Gif> getGifs(){
-  //  return this.gifs;
-  //}
-  
   
   public void setId(int id){
       this.id = id;
@@ -154,17 +149,18 @@ class BasicProp{
      return left;
   }
   
+  /**
+  * In each frame, player's position depends on x + speedX and y + speedY
+  */
   public void move(){
      this.x += this.speedX;
      if(this.jump){
           this.y += this.speedY;
           if(speedY < Type.PLAYER_SPEED_Y) this.speedY += Type.SPEED_INCREMENT;
-          if(speedY > Type.PLAYER_SPEED_Y) speedY = Type.PLAYER_SPEED_Y;
      }
      if(this.fall && !this.jump){
           if(speedY < 0) speedY = 0;
           if(speedY < Type.PLAYER_SPEED_Y) this.speedY += Type.SPEED_INCREMENT;
-          if(speedY > Type.PLAYER_SPEED_Y) speedY = Type.PLAYER_SPEED_Y;
           this.y += this.speedY;
      }
   }
@@ -175,7 +171,5 @@ class BasicProp{
   };
   
   public void jump(){};
-  
-  
   
 }

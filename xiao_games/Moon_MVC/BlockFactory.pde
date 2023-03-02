@@ -1,3 +1,6 @@
+/**
+* BlockFactory is reponsible for generating new Block object.
+*/
 public class BlockFactory extends Factory{
     
     public BlockFactory(){
@@ -6,6 +9,9 @@ public class BlockFactory extends Factory{
        this.init();
     }
     
+    /**
+    * Return a new Block object according to type passed in
+    */
     public Block newBlock(int type){
        Block b = new Block(Type.BOARD_GRIDSIZE);
        b.setType(type); 
@@ -16,6 +22,9 @@ public class BlockFactory extends Factory{
        return b;
     }
     
+    /**
+    * Preload all imgs for all typee of blocks
+    */
     private void init(){
        this.addImg(loadImage("imgs/empty.png"));
        this.addImg(loadImage("imgs/wall.png"));

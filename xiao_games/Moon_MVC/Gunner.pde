@@ -7,7 +7,5 @@ public class Gunner extends Enemy{
       this.setWidth(w);
       this.setHeight(h);
     }
-  
     
-  
 }

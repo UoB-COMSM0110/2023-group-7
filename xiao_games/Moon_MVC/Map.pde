@@ -1,3 +1,6 @@
+/**
+* Contains all rooms
+*/
 class Map extends HandleEnemies{
     private ArrayList<Room> rooms;
     private int currentRoomIndex;

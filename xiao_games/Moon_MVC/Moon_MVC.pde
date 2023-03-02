@@ -6,6 +6,9 @@ View view;
 
 IntList pkeys = new IntList(); 
 
+/**
+* Avoid using magic number
+*/
 static abstract class Type {
   
   static final int BOARD_MAX_HEIGHT = 20;
@@ -61,17 +64,23 @@ static abstract class Type {
 
 }
 
+/**
+* Initialize all project, run once
+*/
 void setup(){
     size(870,600);
     Model model = new Model();
     model.setGifs(loadGifs());
-    model.addPlayer(new Player(width/3, height/2, Type.BOARD_GRIDSIZE - 5, Type.BOARD_GRIDSIZE * 2 - 10, "imgs/player.png"));
+    model.addPlayer(new Player(width/3, height/2, Type.BOARD_GRIDSIZE - 5, Type.BOARD_GRIDSIZE * 2 - 10));
     controller = new Controller(model);
     view = new View(model);
 }
 
+/**
+* Code inside will run by order in each frame
+*/
 void draw(){
-    //frameRate(20);
+    
     keyListener();
     /* change data in each frame */
     controller.display();
@@ -80,10 +89,11 @@ void draw(){
   
 }
 
+/**
+* Load all gifs
+*/
 public ArrayList<Gif> loadGifs(){
-    //ghost = 0, worm 1 -> 1 2 gunner 2 -> 3 4 jumper 3 -> 5 6 player 7 8
-    // left = type * 2 - 1, right = type * 2
-    
+
      ArrayList<Gif> gifs = new ArrayList();
      Gif ghost = new Gif(this, "imgs/enemy/ghost.gif");
      ghost.loop();
@@ -120,21 +130,21 @@ public ArrayList<Gif> loadGifs(){
      return gifs;
 }
 
+/**
+* Processing can not record two keys at one time,
+* so we have to use a list to record keys
+*/
 public void keyListener(){
     if(pkeys.size()== 0) return;
     for(int i=pkeys.size()-1; i>=0; i--){
       if(pkeys.get(i) == Type.KEY_RIGHT || pkeys.get(i) == Type.KEY_LEFT || pkeys.get(i) == Type.KEY_SPACE){
         controller.controlPlayer(pkeys.get(i));
       }
-      //if(pkeys.get(i) == Type.KEY_F_SHOT){
-      //   controller.shotBullet();
-      //}
     }
 
 }
 
 public void keyPressed(){
-
     if(!pkeys.hasValue(int(key))) {
       if(keyCode == LEFT) pkeys.append(Type.KEY_LEFT);
       else if(keyCode == UP) pkeys.append(Type.KEY_UP);
@@ -145,7 +155,6 @@ public void keyPressed(){
 }
 
 public void keyReleased(){
-    
     for(int i=pkeys.size()-1; i>=0; i--){
       if((keyCode == LEFT && pkeys.get(i) == Type.KEY_LEFT )
       || (keyCode == UP && pkeys.get(i) == Type.KEY_UP)

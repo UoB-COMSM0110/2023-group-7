@@ -1,3 +1,6 @@
+ /**
+ * Common properties and methods for all factory classes
+ */
 public class Factory{
     private int id;
     private ArrayList<PImage> imgs;

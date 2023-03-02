@@ -1,15 +1,24 @@
+/**
+* Get and change data from model
+*/
 public class Controller{
    Model model;
    public Controller(Model mod){
       this.model = mod;
    };
-      
+   
+   /**
+   * Includes all methods to run in each frame
+   */
    public void display(){
       changeRoomAndPlayerPos();
       checkAllAround();
       model.getPlayer().move();
    }
    
+   /**
+   * Check player's direction and use corresponding method
+   */
    public void changeRoomAndPlayerPos(){
       Player p = model.getPlayer();
       float x = p.getX();
@@ -27,6 +36,10 @@ public class Controller{
       }
    }
 
+   /**
+   * If going left, set current room index in Model.class
+   * change position of player and ghost
+   */
    public void goLeft(Player p, float sx){
        this.generateLeft();
        int index =model.getIndexByDirection(Type.TO_LEFT);         
@@ -35,6 +48,9 @@ public class Controller{
        getGhost().setX(getGhost().getX() + width);
    }
    
+   /**
+   * Similar to the previous method, but the direction is to the right
+   */
    public void goRight(Player p){
        this.generateRight(); 
        int index =model.getIndexByDirection(Type.TO_RIGHT);
@@ -43,6 +59,9 @@ public class Controller{
        getGhost().setX(getGhost().getX() - width);
    }
    
+   /**
+   * Similar to the previous method, but the direction is upward
+   */
    public void goUp(Player p, float sy){
        this.generateUp(); 
        int index =model.getIndexByDirection(Type.TO_UP);
@@ -51,6 +70,9 @@ public class Controller{
        getGhost().setY(getGhost().getY() + height);
    }
    
+   /**
+   * Similar to the previous method, but the direction is downward
+   */
    public void goDown(Player p){
        this.generateDown(); 
        int index =model.getIndexByDirection(Type.TO_DOWN);
@@ -59,6 +81,10 @@ public class Controller{
        getGhost().setY(getGhost().getY() - height);
    }
    
+   /**
+   * Get current room info, if no room on the left, generate one on the left
+   * if there is already on room on the left, just return index of that room
+   */
    public void generateLeft(){
       Room curRoom = model.getCurrentRoom();
       int[] adjacent = curRoom.getAdjacent();
@@ -70,6 +96,9 @@ public class Controller{
       }
    }
    
+   /**
+   * Similar to the previous method, but the direction is to the right
+   */
    public void generateRight(){
       Room curRoom = model.getCurrentRoom();
       int[] adjacent = curRoom.getAdjacent();
@@ -81,6 +110,9 @@ public class Controller{
       }
    }
    
+   /**
+   * Similar to the previous method, but the direction is upward
+   */
    public void generateUp(){
       Room curRoom = model.getCurrentRoom();
       int[] adjacent = curRoom.getAdjacent();
@@ -92,6 +124,9 @@ public class Controller{
       }
    }
    
+   /**
+   * Similar to the previous method, but the direction is downward
+   */
    public void generateDown(){
       Room curRoom = model.getCurrentRoom();
       int[] adjacent = curRoom.getAdjacent();
@@ -102,7 +137,10 @@ public class Controller{
          curRoom.setAdjacent(new int[]{Type.NO_ROOM,newRoom.getIndex(),Type.NO_ROOM,Type.NO_ROOM});
       }
    }
-   
+     
+   /**
+   * Collision detection between two BasicProp obj
+   */
    public boolean collisionDetectionTwoObj(BasicProp a, BasicProp b){
        if(a.getX() + a.getWidth() > b.getX() &&
           a.getX() < b.getX() + b.getWidth() &&
@@ -113,6 +151,10 @@ public class Controller{
        return false;
    }
    
+   /**
+   * Collision detection between one BasicProp obj and one block
+   * block's position can be calculated by i and j
+   */
    public boolean collisionDetectionWithBlock(BasicProp a, int i, int j){
        int s = Type.BOARD_GRIDSIZE;
        if(a.getX() + a.getWidth() > j * s &&
@@ -124,15 +166,23 @@ public class Controller{
        return false;
    }
    
-   
-   public void usePortal(Block b){
-       Player o = model.getPlayer(); // o is obj = player
-       float  s = Type.BOARD_GRIDSIZE;//s is block size
-       int[] portal = b.getPortal(); 
-       o.setY(s * portal[0] - 2 * s - 1); //set player Y
-       o.setX(s * portal[1] + 1);  //set player X
+   //added this boolean so that we can turn off collision detection for blocks other than the background
+   //if return false, player can go through these type of blocks
+   public boolean collisionDetect(int flag){
+     if(flag == Type.BLOCK_EMPTY || flag == Type.BLOCK_CRATE || flag == Type.BLOCK_SPIKE){
+       return false;
+     }
+     return true;
    }
    
+   /**
+   * Collision detection between:
+   * enemies and blocks,
+   * enemies and player
+   * enemies and bullets
+   * bullets and blocks
+   * player and blocks
+   */
    public void checkAllAround(){
       //collision detection between enemies and blocks, enemies and player,enemies and bullets
       Room r = model.getCurrentRoom();
@@ -179,6 +229,9 @@ public class Controller{
       checkAround(p);
    }
    
+   /**
+   * Collision detection between player and blocks
+   */
    public void checkAround(BasicProp o){
       checkLeft(o);
       checkRight(o);
@@ -187,36 +240,9 @@ public class Controller{
       checkMore(o);
    }
    
-   //if still collision, player collides with corner of block, need to reset position
-   public void checkMore(BasicProp o){
-        Room r = model.getCurrentRoom();
-        for(int i = 0; i < Type.BOARD_MAX_HEIGHT; i++){
-            for(int j = 0; j < Type.BOARD_MAX_WIDTH; j++){
-                if(collisionDetect(r.getBlockType(i,j)) && collisionDetectionWithBlock(o, i, j)){
-                    float s = Type.BOARD_GRIDSIZE;
-                    float x = o.getX(), y = o.getY(), bx = j * s, by = i * s;
-                    float w = o.getWidth(), h = o.getHeight();
-                   //if(x > bx && x < bx + s){
-                   //     o.setSpeedX(0);
-                   //     o.setX(bx + s + 1);
-                   // }
-                   // else if(x + w > bx && x + w < bx + s){
-                   //     o.setSpeedX(0);
-                   //     o.setX(bx - 1);
-                   // }
-                   if(y > by && y < by + s){
-                        o.setSpeedY(0);
-                        o.setY(by + s + 1);
-                    }
-                    else if(y + h > by && y + h < by + s){
-                        o.setSpeedY(0);
-                        o.setY(by - h - 1);
-                    }
-                }
-            }
-         }
-   }
-
+   /**
+   * Collision detection between player and blocks above
+   */
     public void checkUp(BasicProp o){
       Room r = model.getCurrentRoom();
       float x = o.getX(), y = o.getY();
@@ -239,6 +265,10 @@ public class Controller{
       }
    }
  
+   /**
+   * Collision detection between player and blocks below
+   * Changing properties of player by checking whether player is on special blocks.
+   */
     public void checkDown(BasicProp o){
       Room r = model.getCurrentRoom();
       float x = o.getX(), y = o.getY();
@@ -264,9 +294,6 @@ public class Controller{
              }else{
                o.setOnPortal(false);
              }
-             
-            println(o.getOnPortal());
-
              //bounce
              o.setHighJump(false);
              if((flag1 == Type.BLOCK_BOUNCE && x < L * s + s + 1) || flag2 == Type.BLOCK_BOUNCE){
@@ -280,8 +307,6 @@ public class Controller{
          
          //if enemies, change direction
          if(o.getType() != Type.PLAYER){
-             //if((flag1 ==  Type.BLOCK_EMPTY && flag2 !=  Type.BLOCK_EMPTY)
-              //|| (flag2 ==  Type.BLOCK_EMPTY && flag1 !=  Type.BLOCK_EMPTY)
              if((!collisionDetect(flag1) && collisionDetect(flag2))
               || (!collisionDetect(flag2) && collisionDetect(flag1))
              ){
@@ -290,12 +315,10 @@ public class Controller{
              }
          }
          
-         //if(flag1 == Type.BLOCK_EMPTY && flag2 == Type.BLOCK_EMPTY){
          if(!collisionDetect(flag1) && !collisionDetect(flag2)){
                o.setFall(true);
                o.setJump(true);
          }
-         //if((flag1 != Type.BLOCK_EMPTY && x < L * s + s + 1) || flag2 != Type.BLOCK_EMPTY){
          if(((collisionDetect(flag1) && x < L * s + s + 1) || collisionDetect(flag2)) && (y + h + o.getSpeedY()>= below * s)){
               o.setFall(false);
               o.setJump(false);
@@ -307,7 +330,7 @@ public class Controller{
          }
       }
    }
- 
+     
     public void checkLeft(BasicProp o){
       Room r = model.getCurrentRoom();
       float x = o.getX(), y = o.getY();
@@ -361,34 +384,61 @@ public class Controller{
          }
       }
    }
-   
-   //added this boolean so that we can turn off collision detection for blocks other than the background
-   public boolean collisionDetect(int flag){
-     if(flag == Type.BLOCK_EMPTY || flag == Type.BLOCK_CRATE || flag == Type.BLOCK_SPIKE){
-       return false;
-     }
-     return true;
+
+   //if still collision, player collides with corner of block, need to reset position
+   public void checkMore(BasicProp o){
+        Room r = model.getCurrentRoom();
+        for(int i = 0; i < Type.BOARD_MAX_HEIGHT; i++){
+            for(int j = 0; j < Type.BOARD_MAX_WIDTH; j++){
+                if(collisionDetect(r.getBlockType(i,j)) && collisionDetectionWithBlock(o, i, j)){
+                    float s = Type.BOARD_GRIDSIZE;
+                    float y = o.getY(), by = i * s;
+                    float  h = o.getHeight();
+                   if(y > by && y < by + s){
+                        o.setSpeedY(0);
+                        o.setY(by + s + 1);
+                    }else if(y + h > by && y + h < by + s){
+                        o.setSpeedY(0);
+                        o.setY(by - h - 1);
+                    }
+                }
+            }
+         }
    }
    
+   /**
+   * If player use portal, player's position will be changed
+   * according to int[] portal of that portal block
+   */
+   public void usePortal(Block b){
+       Player o = model.getPlayer(); 
+       float  s = Type.BOARD_GRIDSIZE;
+       int[] portal = b.getPortal(); 
+       o.setY(s * portal[0] - 2 * s - 1);
+       o.setX(s * portal[1] + 1);
+   }
    
    public Enemy getGhost(){
        return model.getGhost();
    }
    
-   public void controlPlayer(int dir){
+   /**
+   * set properties of player according to different key passed in
+   */
+   public void controlPlayer(int keyType){
      Player p = model.getPlayer();
-     if(dir == Type.KEY_LEFT){
+     if(keyType == Type.KEY_LEFT){
         p.setLeft(true);
         p.setSpeedX(-Type.PLAYER_SPEED_X);
      }
-     if(dir == Type.KEY_RIGHT){
+     if(keyType == Type.KEY_RIGHT){
         p.setLeft(false);
         p.setSpeedX(Type.PLAYER_SPEED_X);
      }
-     if(dir == Type.KEY_RELEASED){
+     if(keyType == Type.KEY_RELEASED){
         p.setSpeedX(0);
      }
-     if(dir == Type.KEY_SPACE){
+     if(keyType == Type.KEY_SPACE){
         if(p.getJump())return;
         if(p.getHighJump()){
           p.setSpeedY(-15);
@@ -399,13 +449,16 @@ public class Controller{
         p.setSpeedY(-Type.PLAYER_SPEED_Y);
         }
      }
-     if(dir == Type.KEY_UP){
+     if(keyType == Type.KEY_UP){
        if(p.getOnPortal()){
           p.setTransported(false);
        }
      }
    }
    
+   /**
+   * Add a bullet to ArrayList<Bullet> in current room
+   */
    public void shotBullet(){
       Room r = model.getCurrentRoom();
       Player p = model.getPlayer();

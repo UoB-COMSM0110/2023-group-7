@@ -5,15 +5,15 @@ public class View{
      this.model = mod;    
   }
   
+  /**
+  * Includes all methods to run in each frame
+  */
   public void paint(){
      drawRoom();
-     drawEnemy();
-     drawPlayer();     
+     drawGhost();
+     drawPlayer();
+     // show collision detection range, can be deleted
      showAround(model.getPlayer());
-  }
-  
-  public void drawEnemy(){
-      drawGhost();
   }
   
   public void drawGhost(){
@@ -25,10 +25,12 @@ public class View{
        }
   }
   
-  
+  /**
+  * Draw blocks, enemies, and bullets in current room
+  */
   public void drawRoom(){
      Room r = model.getCurrentRoom(); 
-     
+
      //draw room
      for(int i = 0; i < 20; i++){
         for(int j = 0; j < 29; j++){
@@ -71,31 +73,24 @@ public class View{
        }else{
             image(model.getGifs().get(p.getType() * 2), p.getX(), p.getY());
        }
-    
-        //image(p.getImg(), p.getX(), p.getY());     
-  }
-  
-  //public void drawMirror(BasicProp p){
-  //      imageMode(CENTER);
-  //      translate(p.getX()+ p.getWidth()/2, p.getY()+ p.getHeight()/2);
-  //      scale(-1, 1);
-  //      image(p.getImg(), 0,0);
-  //      translate(0,0);
-  //      imageMode(CORNER);
-  //}
-  
-  public void drawRect(float i, float j, float s){
-     noFill();
-     strokeWeight(1);
-     rect(j * s, i * s, s, s);
+
   }
 
+  /**
+  * Show collision detection range, can be deleted
+  */
   public void showAround(BasicProp o){
        showLeft(o);
        showRight(o);
        showUp(o);
        showDown(o); 
    }
+
+  public void drawRect(float i, float j, float s){
+     noFill();
+     strokeWeight(1);
+     rect(j * s, i * s, s, s);
+  }
 
     public void showUp(BasicProp o){
       float x = o.getX(), y = o.getY();
@@ -150,20 +145,12 @@ public class View{
       int h1 = (int)(y/s);
       int h2 = h1 + 1;
       int h3 = h2 + 1;
-           stroke(155);
-
+      stroke(155);
       drawRect(h1, right, s);
       drawRect(h2, right, s);
       drawRect(h3, right, s);
       
       
    }
-    
-    void drawDectRect(int i , int j){
-       noFill();
-       stroke(255);
-       strokeWeight(1);
-       rect(j * Type.BOARD_GRIDSIZE,i * Type.BOARD_GRIDSIZE, Type.BOARD_GRIDSIZE, Type.BOARD_GRIDSIZE);
-    }
 
 }

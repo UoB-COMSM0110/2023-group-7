@@ -1,7 +1,8 @@
 public class Room extends HandleEnemies{
     private int type;
     private int index;
-    private int[] adjacent;// 0-up, 1-down, 2-left, 3-right
+    // 0-up, 1-down, 2-left, 3-right
+    private int[] adjacent;
     private int[][] blockType;
     private ArrayList<Block> blocks;
     private String[] sections;

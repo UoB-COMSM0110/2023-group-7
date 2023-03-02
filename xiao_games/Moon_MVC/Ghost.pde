@@ -9,6 +9,10 @@ public class Ghost extends Enemy{
      this.setHeight(h);
   }
   
+   /**
+   * Override move(float, float) in super,
+   * ghost can always move toward player's position
+   */
    public void move(float px, float py){
        if(px > this.getX()){
           if(this.getSpeedX() < 0) this.setSpeedX(-this.getSpeedX());

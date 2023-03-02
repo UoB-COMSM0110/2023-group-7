@@ -1,14 +1,19 @@
+/**
+* All blocks, such as wall, gold, portal...
+*/
 class Block extends BasicProp{
-   
-    private int[] pos;//where this block is, the position in itemType[][] in Room.class
-    private int[] portal;//where portal block can transfer palyer to
+  
+    //where this block is, the position in itemType[][] in Room.class
+    private int[] pos;
+    //where portal block can transfer palyer to
+    private int[] portal;
 
     public Block(int size){
        this.portal = new int[2];
        this.pos = new int[2];
        this.setWidth(size);
        this.setHeight(size);
-    } //<>//
+    } //<>// //<>// //<>// //<>// //<>//
     
     public int[] getPos(){
        return pos;
