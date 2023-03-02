@@ -3,8 +3,11 @@
 */
 public class Controller{
    Model model;
+   private int bulletTimer;
+   
    public Controller(Model mod){
       this.model = mod;
+      this.bulletTimer = Type.BULLET_CD;
    };
    
    /**
@@ -225,7 +228,7 @@ public class Controller{
        //if b crash blocks, remove
          for(int i = 0; i < Type.BOARD_MAX_HEIGHT; i++){
             for(int j = 0; j < Type.BOARD_MAX_WIDTH; j++){
-                if(r.getBlockType(i,j) != Type.BLOCK_EMPTY){
+                if(collisionDetect(r.getBlockType(i,j))){
                         for(int k = 0; k < bullets.size(); k++){
                              Bullet b = bullets.get(k);
                             if(collisionDetectionWithBlock(b, i, j)){
@@ -438,11 +441,11 @@ public class Controller{
    public void controlPlayer(int keyType){
      Player p = model.getPlayer();
      if(keyType == Type.KEY_LEFT){
-        p.setLeft(true);
+        if(mousePressed == false) p.setLeft(true);
         p.setSpeedX(-Type.PLAYER_SPEED_X);
      }
      if(keyType == Type.KEY_RIGHT){
-        p.setLeft(false);
+        if(mousePressed == false) p.setLeft(false);
         p.setSpeedX(Type.PLAYER_SPEED_X);
      }
      if(keyType == Type.KEY_RELEASED){
@@ -464,15 +467,40 @@ public class Controller{
           p.setTransported(false);
        }
      }
+     
+     
    }
    
    /**
    * Add a bullet to ArrayList<Bullet> in current room
    */
    public void shotBullet(){
-      Room r = model.getCurrentRoom();
       Player p = model.getPlayer();
-      r.getBullets().add(new Bullet(p.getX() + p.getWidth()/2, p.getY()+ p.getHeight()/2, p.getLeft() ? -Type.SPEED_BULLET : Type.SPEED_BULLET));
+      if(mouseX < p.getX() + p.getWidth()/2){
+        p.setLeft(true);
+      }else{
+        p.setLeft(false);
+      }
+      if(bulletTimer < Type.BULLET_CD){
+         bulletTimer++;
+         return;
+      }else{
+         bulletTimer = 0;
+      }
+      Room r = model.getCurrentRoom();
+      float bx = p.getX() + p.getWidth()/2;
+      float by = p.getY()+ p.getHeight()/2;
+      float bSpeedX = mouseX < bx ? -Type.SPEED_BULLET : Type.SPEED_BULLET;
+      float bSpeedY = abs(bSpeedX) * (abs(by - mouseY) / abs(bx - mouseX));
+      if(mouseY < by){
+        bSpeedY = - bSpeedY;
+      }
+      Bullet b = new Bullet(bx, by, bSpeedX, bSpeedY);
+      r.getBullets().add(b);
+   }
+   
+   public void resetBulletTimer(){
+      this.bulletTimer = Type.BULLET_CD;
    }
 
 }

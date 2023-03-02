@@ -8,5 +8,4 @@ public class Worm extends Enemy{
      this.setHeight(h);
   }
   
-  
 }

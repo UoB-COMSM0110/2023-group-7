@@ -13,7 +13,7 @@ class Block extends BasicProp{
        this.pos = new int[2];
        this.setWidth(size);
        this.setHeight(size);
-    } //<>// //<>// //<>// //<>// //<>// //<>//
+    }  //<>//
     
     public int[] getPos(){
        return pos;

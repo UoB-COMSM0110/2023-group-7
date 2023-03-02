@@ -14,11 +14,13 @@ static abstract class Type {
   static final int BOARD_MAX_HEIGHT = 20;
   static final int BOARD_MAX_WIDTH = 29;
   static final int BOARD_GRIDSIZE = 30;
+
+  //use WASD
+  static final int KEY_LEFT = 97;
+  static final int KEY_UP = 119;
+  static final int KEY_RIGHT = 100;
+  static final int KEY_DOWN = 115;
   
-  static final int KEY_LEFT = 37;
-  static final int KEY_UP = 38;
-  static final int KEY_RIGHT = 39;
-  static final int KEY_DOWN = 40;
   static final int KEY_SPACE = 32;
   static final int KEY_RELEASED = 0;
 
@@ -55,6 +57,7 @@ static abstract class Type {
 
   static final float SPEED_INCREMENT = 0.5;
   static final float SPEED_BULLET = 7;
+  static final int BULLET_CD = 10;
 
   
   static final float PLAYER_SPEED_X = 5;
@@ -81,6 +84,7 @@ void setup(){
 */
 void draw(){
     
+    mouseListener();
     keyListener();
     
     /* change data in each frame */
@@ -147,36 +151,43 @@ public void keyListener(){
 }
 
 public void keyPressed(){
+
+    //use WASD to move
     if(!pkeys.hasValue(int(key))) {
-      if(keyCode == LEFT) pkeys.append(Type.KEY_LEFT);
-      else if(keyCode == UP) pkeys.append(Type.KEY_UP);
-      else if(keyCode == RIGHT) pkeys.append(Type.KEY_RIGHT);
-      else if(keyCode == DOWN) pkeys.append(Type.KEY_DOWN);
-      else pkeys.append(int(key));
+      pkeys.append(int(key));
     }
+    
+    println((int)key);
 }
 
 public void keyReleased(){
+
+    //use WASD to move
     for(int i=pkeys.size()-1; i>=0; i--){
-      if((keyCode == LEFT && pkeys.get(i) == Type.KEY_LEFT )
-      || (keyCode == UP && pkeys.get(i) == Type.KEY_UP)
-      || (keyCode == RIGHT && pkeys.get(i) == Type.KEY_RIGHT)
-      || (keyCode == DOWN && pkeys.get(i) == Type.KEY_DOWN)
-      ||  pkeys.get(i) == int(key)){
+      if(pkeys.get(i) == int(key)){
           pkeys.remove(i); 
       }
     }
     
-    if(keyCode == RIGHT || keyCode == LEFT){
+    if(key == 'a' || key == 'd'){
       controller.controlPlayer(Type.KEY_RELEASED);
     }
     
-    if(keyCode == UP){
+    if(key == 'w'){
       controller.controlPlayer(Type.KEY_UP);
     }
-    
-    if(int(key) == Type.KEY_F_SHOT){
-         controller.shotBullet();
+}
+
+public void mouseListener(){
+    if(mousePressed == true && mouseButton == LEFT){
+       controller.shotBullet();
     }
-    
+}
+
+public void mouseReleased(){
+
+}
+
+public void mousePressed(){
+  
 }

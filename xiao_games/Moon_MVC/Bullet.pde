@@ -3,11 +3,11 @@
 */
 public class Bullet extends BasicProp{
    
-    Bullet(float x, float y, float speed){
+    Bullet(float x, float y, float speedX, float speedY){
        this.setX(x);
        this.setY(y);
-       this.setSpeedX(speed);
-       this.setSpeedY(0);
+       this.setSpeedX(speedX);
+       this.setSpeedY(speedY);
        this.setWidth(5);
        this.setHeight(5);
     }
