@@ -9,11 +9,23 @@ public class View{
   * Includes all methods to run in each frame
   */
   public void paint(){
-     drawRoom();
-     drawGhost();
-     drawPlayer();
-     // show collision detection range, can be deleted
-     showAround(model.getPlayer());
+    
+      if(model.getStartMenu()){
+         drawMenu();
+     }
+    
+     else if(model.getStartGame()){
+         drawRoom();
+         drawGhost();
+         drawPlayer();
+         // show collision detection range, can be deleted
+         showAround(model.getPlayer());
+     }
+     
+     else if(model.getStartMenu()){
+         drawMenu();
+     }
+     
   }
   
   public void drawGhost(){
@@ -149,8 +161,16 @@ public class View{
       drawRect(h1, right, s);
       drawRect(h2, right, s);
       drawRect(h3, right, s);
-      
-      
-   }
 
+   }
+   
+   
+   /**
+   * Game start menu should be written here
+   */
+   public void drawMenu(){
+   
+   
+   }
+   
 }

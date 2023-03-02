@@ -9,7 +9,7 @@ public class Model{
    private BlockFactory blockFactory;
    private ArrayList<Block> basicBlock;
    private ArrayList<Gif> gifs;
-
+   private boolean startMenu, startGame, gameOver, globalList, instructions;
    
    public Model(){
        this.enemyFactory = new EnemyFactory();
@@ -20,6 +20,8 @@ public class Model{
        map.addRoom(roomFactory.newRoom(Type.ROOM_START));
        this.basicBlock = new ArrayList();
        this.init();
+       
+       this.startGame = true;
    }
    
    /**
@@ -83,21 +85,45 @@ public class Model{
    public Enemy getGhost(){
       return map.getEnemeyById(0);
    }
+
+   public void setStartMenu(boolean flag){
+       this.startMenu = flag;
+   }
    
-   //public void setGameWin(boolean flag){
-   //    this.gameWin = flag;
-   //}
+   public boolean getStartMenu(){
+       return this.startMenu;
+   }
    
-   //public void setGameOver(boolean flag){
-   //    this.gameOver = flag;
-   //}
+   public void setStartGame(boolean flag){
+       this.startGame = flag;
+   }
    
-   //public void setCurrentEnemyId(int enemyId){
-   //    currentEnemyId = enemyId;
-   //}
+   public boolean getStartGame(){
+       return this.startGame;
+   }
    
-   //public int getCurrentEnemyId(){
-   //    return currentEnemyId;
-   //}
+   public void setGameOver(boolean flag){
+       this.gameOver = flag;
+   }
+   
+   public boolean getGameOver(){
+       return this.gameOver;
+   }
+   
+   public void setGlobalList(boolean flag){
+       this.globalList = flag;
+   }
+   
+   public boolean getGlobalList(){
+       return this.globalList;
+   }
+   
+   public void setInstructions(boolean flag){
+       this.instructions = flag;
+   }
+   
+   public boolean getInstructions(){
+       return this.instructions;
+   }
    
 }

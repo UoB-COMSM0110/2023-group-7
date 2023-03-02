@@ -11,9 +11,19 @@ public class Controller{
    * Includes all methods to run in each frame
    */
    public void display(){
-      changeRoomAndPlayerPos();
-      checkAllAround();
-      model.getPlayer().move();
+     
+      if(model.getStartMenu()){
+         
+      }
+      else if(model.getStartGame()){
+          changeRoomAndPlayerPos();
+          checkAllAround();
+          model.getPlayer().move();
+      }
+      else if(model.getStartMenu()){
+          
+      }
+
    }
    
    /**
@@ -464,5 +474,5 @@ public class Controller{
       Player p = model.getPlayer();
       r.getBullets().add(new Bullet(p.getX() + p.getWidth()/2, p.getY()+ p.getHeight()/2, p.getLeft() ? -Type.SPEED_BULLET : Type.SPEED_BULLET));
    }
-   
+
 }

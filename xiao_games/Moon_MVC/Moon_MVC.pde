@@ -82,8 +82,10 @@ void setup(){
 void draw(){
     
     keyListener();
+    
     /* change data in each frame */
     controller.display();
+    
     /* draw everything in each frame */
     view.paint();
   
