@@ -34,6 +34,7 @@ public class Room extends HandleEnemies{
         sections[13]="levels/section14.csv";
     }
     
+    
     public void setType(int type){
         this.type = type;
     }

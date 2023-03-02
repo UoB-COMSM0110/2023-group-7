@@ -143,7 +143,7 @@ public ArrayList<Gif> loadGifs(){
 public void keyListener(){
     if(pkeys.size()== 0) return;
     for(int i=pkeys.size()-1; i>=0; i--){
-      if(pkeys.get(i) == Type.KEY_RIGHT || pkeys.get(i) == Type.KEY_LEFT || pkeys.get(i) == Type.KEY_SPACE){
+      if(pkeys.get(i) == Type.KEY_RIGHT || pkeys.get(i) == Type.KEY_LEFT || pkeys.get(i) == Type.KEY_UP){
         controller.controlPlayer(pkeys.get(i));
       }
     }
@@ -173,8 +173,8 @@ public void keyReleased(){
       controller.controlPlayer(Type.KEY_RELEASED);
     }
     
-    if(key == 'w'){
-      controller.controlPlayer(Type.KEY_UP);
+    if(key == ' '){
+      controller.controlPlayer(Type.KEY_SPACE);
     }
 }
 

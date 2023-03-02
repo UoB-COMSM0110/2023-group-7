@@ -451,7 +451,7 @@ public class Controller{
      if(keyType == Type.KEY_RELEASED){
         p.setSpeedX(0);
      }
-     if(keyType == Type.KEY_SPACE){
+     if(keyType == Type.KEY_UP){
         if(p.getJump())return;
         if(p.getHighJump()){
           p.setSpeedY(-15);
@@ -462,7 +462,7 @@ public class Controller{
         p.setSpeedY(-Type.PLAYER_SPEED_Y);
         }
      }
-     if(keyType == Type.KEY_UP){
+     if(keyType == Type.KEY_SPACE){
        if(p.getOnPortal()){
           p.setTransported(false);
        }
