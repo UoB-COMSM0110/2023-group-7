@@ -11,10 +11,24 @@ IntList pkeys = new IntList();
 */
 static abstract class Type {
   
+  //board - baisc attributes
   static final int BOARD_MAX_HEIGHT = 20;
   static final int BOARD_MAX_WIDTH = 29;
   static final int BOARD_GRIDSIZE = 30;
 
+  //bullet - baisc attributes
+  static final float SPEED_INCREMENT = 0.5;
+  static final float SPEED_BULLET = 7;
+  static final int BULLET_CD = 10;
+  
+  //player - baisc attributes
+  static final float PLAYER_SPEED_X = 5;
+  static final float PLAYER_SPEED_Y = 10;
+  
+  //mouse
+  static final int MOUSE_RIGHT = 10;
+  
+  //keys - integer of keys
   //KEY_LEFT = A
   static final int KEY_LEFT = 97;
   //KEY_RIGHT = D
@@ -25,32 +39,33 @@ static abstract class Type {
   static final int KEY_DOWN = 115;
   static final int KEY_E = 101;
   static final int KEY_SPACE = 32;
-  
   static final int KEY_RELEASED_AD = 1000;
   static final int KEY_RELEASED_WS = 1001;
+  
+  static final int KEY_Q = 113;
 
   //temporarily for activate FlyMode
   static final int KEY_F = 102;
 
+  //room - indices for room generation
   static final int TO_LEFT = 2;
   static final int TO_UP = 0;
   static final int TO_RIGHT = 3;
   static final int TO_DOWN = 1;
   static final int NO_ROOM = -1;
-
-  
   static final int ROOM_START = 0;
   static final int ROOM_UP = 1;
   static final int ROOM_DOWN = 2;
   static final int ROOM_LR = 3;
   
+  //gifs - get gifs of enemies or player from model by order
   static final int ENEMY_GHOST = 0;
   static final int ENEMY_WORM = 1;
   static final int ENEMY_GUNNER = 2;
   static final int ENEMY_JUMPER = 3;
-  
   static final int PLAYER = 4;
 
+  //block type
   static final int BLOCK_EMPTY = 0;
   static final int BLOCK_WALL = 1;
   static final int BLOCK_GOLD = 2;
@@ -60,17 +75,24 @@ static abstract class Type {
   static final int BLOCK_CRATE = 6;
   static final int BLOCK_SPIKE = 7;
   
-
-  static final float SPEED_INCREMENT = 0.5;
-  static final float SPEED_BULLET = 7;
-  static final int BULLET_CD = 10;
-
+  // item type
+  // Primary category
+  static final int ITEM_WEAPON = 0;
+  static final int ITEM_POTION = 1;
+  //static final int ITEM_OUTFIT = 2;
+  // Secondary category
+  // coins
+  static final int COIN_COPPER = 0;
+  static final int COIN_SLIVER = 1;
+  static final int COIN_GOLD = 2;
+  // weapons
+  static final int WEAPON_PISTOL= 0;
+  static final int WEAPON_SHOTGUN = 1;
+  static final int WEAPON_LASER = 2;
+  // potions
+  static final int POTION_HP = 0;
   
-  static final float PLAYER_SPEED_X = 5;
   
-  static final float PLAYER_SPEED_Y = 10;
-
-
 }
 
 /**
@@ -80,7 +102,13 @@ void setup(){
     size(870,600);
     Model model = new Model();
     model.setGifs(loadGifs());
-    model.addPlayer(new Player(width/3, height/2, Type.BOARD_GRIDSIZE - 5, Type.BOARD_GRIDSIZE * 2 - 10));
+    ItemFactory t = new ItemFactory();
+    Player p = new Player(width/3, height/2, Type.BOARD_GRIDSIZE - 5, Type.BOARD_GRIDSIZE * 2 - 10);
+    p.addItem(t.weaponPistol());
+    p.setGifs(playerGifs());
+    model.addPlayer(p);
+    model.setItemFactory(t);
+    
     controller = new Controller(model);
     view = new View(model);
 }
@@ -99,6 +127,14 @@ void draw(){
     /* draw everything in each frame */
     view.paint();
   
+}
+
+public Gif[] playerGifs(){
+     Gif playerLeft = new Gif(this, "imgs/player/player_left.gif");
+     playerLeft.loop();
+     Gif playerRight = new Gif(this, "imgs/player/player_right.gif");
+     playerRight.loop();
+     return new Gif[]{playerLeft, playerRight};
 }
 
 /**
@@ -132,12 +168,12 @@ public ArrayList<Gif> loadGifs(){
      jumperRight.loop();
      gifs.add(jumperRight);
      
-     Gif playerLeft = new Gif(this, "imgs/player/player_left.gif");
-     playerLeft.loop();
-     gifs.add(playerLeft);
-     Gif playerRight = new Gif(this, "imgs/player/player_right.gif");
-     playerRight.loop();
-     gifs.add(playerRight);
+     //Gif playerLeft = new Gif(this, "imgs/player/player_left.gif");
+     //playerLeft.loop();
+     //gifs.add(playerLeft);
+     //Gif playerRight = new Gif(this, "imgs/player/player_right.gif");
+     //playerRight.loop();
+     //gifs.add(playerRight);
      
      return gifs;
 }
@@ -202,16 +238,25 @@ public void keyReleased(){
     if(key == 'e'){
       controller.controlPlayer(Type.KEY_E);
     }
+    
+    if(key == 'q'){
+      controller.controlPlayer(Type.KEY_Q);
+    }
+    
 }
 
 public void mouseListener(){
     if(mousePressed == true && mouseButton == LEFT){
        controller.shotBullet();
     }
+    
+    
 }
 
 public void mouseReleased(){
-  
+  if(mouseButton == RIGHT){
+      controller.controlPlayer(Type.MOUSE_RIGHT);
+  }
 }
 
 public void mousePressed(){

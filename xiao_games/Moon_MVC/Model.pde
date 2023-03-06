@@ -4,6 +4,7 @@
 public class Model{
    private Map map;
    private Player player;
+   private ItemFactory itemFactory;
    private EnemyFactory enemyFactory;
    private RoomFactory roomFactory;
    private BlockFactory blockFactory;
@@ -16,7 +17,7 @@ public class Model{
        this.blockFactory = new BlockFactory();
        this.roomFactory = new RoomFactory(enemyFactory, blockFactory);
        map = new Map();
-       map.addEnemy(enemyFactory.newEnemy(Type.ENEMY_GHOST));  //<>// //<>// //<>//
+       map.addEnemy(enemyFactory.newEnemy(Type.ENEMY_GHOST));  //<>// //<>//
        map.addRoom(roomFactory.newRoom(Type.ROOM_START));
        this.basicBlock = new ArrayList();
        this.init();
@@ -37,7 +38,7 @@ public class Model{
       basicBlock.add(blockFactory.newBlock(Type.BLOCK_CRATE));
       basicBlock.add(blockFactory.newBlock(Type.BLOCK_SPIKE));
    }
-   
+      
     public void setGifs(ArrayList<Gif> gifs){
        this.gifs = gifs;
     }
@@ -46,6 +47,14 @@ public class Model{
       return this.gifs;
     }
    
+   public void setItemFactory(ItemFactory t){
+      this.itemFactory = t;
+   }
+   
+   public Item newItem(int[] pos){
+      return itemFactory.newItem(pos);
+   }
+
    public Block getBlockByType(int type){
      return basicBlock.get(type);
    }

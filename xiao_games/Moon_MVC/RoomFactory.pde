@@ -172,7 +172,6 @@ public class RoomFactory extends Factory{
       b1.setPos(portalCoordinates[0], portalCoordinates[1]);
       b1.setPortal(portalCoordinates[2], portalCoordinates[3]);
       r.addBlock(b1);
-        
       Block b2 = blockFactory.newBlock(Type.BLOCK_PORTAL);
       b2.setPos(portalCoordinates[2], portalCoordinates[3]);
       b2.setPortal(portalCoordinates[0], portalCoordinates[1]);

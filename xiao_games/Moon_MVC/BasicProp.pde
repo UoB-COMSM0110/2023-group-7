@@ -6,7 +6,7 @@ class BasicProp{
   private int id, type, value;
   //weight, height
   private int w, h;
-  private int fallDistance;
+  private float fallDistance;
   //speedXIncrement - to speed up or slow down speed
   private float x, y, speedX, speedY, speedXInc;
   private PImage img;
@@ -106,7 +106,13 @@ class BasicProp{
       return this.h;
   }
   
+  public void setFallDistance(float dis){
+      this.fallDistance = dis;
+  }
   
+  public float getFallDistance(){
+      return this.fallDistance;
+  }  
   public void setImg(PImage img){
       this.img = img;
   }
@@ -168,24 +174,23 @@ class BasicProp{
   * In each frame, player's position depends on x + speedX and y + speedY
   */
   public void move(){
-     this.x += this.speedX + this.speedXInc;
-     
-     if(this.flyMode){
-         this.y += this.speedY;
-     }else{
-         if(this.jump){
-            this.y += this.speedY;
-            if(speedY < Type.PLAYER_SPEED_Y) this.speedY += Type.SPEED_INCREMENT;
-         }
-         if(this.speedY == 0){
-           this.fallDistance = 0;
-         }
-         this.fallDistance += speedY;
-         if(this.fallDistance > 250){
-           println("Too high, damage caused");
-           this.fallDistance = 0;
-         }
-     }
+     //this.x += this.speedX + this.speedXInc;
+     //if(this.flyMode){
+     //    this.y += this.speedY;
+     //}else{
+     //    if(this.jump){
+     //       this.y += this.speedY;
+     //       if(speedY < Type.PLAYER_SPEED_Y) this.speedY += Type.SPEED_INCREMENT;
+     //    }
+     //    if(this.speedY == 0){
+     //      this.fallDistance = 0;
+     //    }
+     //    this.fallDistance += speedY;
+     //    if(this.fallDistance > 250){
+     //      println("Too high, damage caused");
+     //      this.fallDistance = 0;
+     //    }
+     //}
   }
   
   public void move(float px, float py){

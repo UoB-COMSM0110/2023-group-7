@@ -21,5 +21,12 @@ public class Bullet extends BasicProp{
           this.setX(this.getX() + this.getSpeedX());
           this.setY(this.getY() + this.getSpeedY());     
       }
+      
+      public void paint(){
+         //default
+         fill(255);
+         ellipse(this.getX(), this.getY(), this.getWidth(), this.getHeight());
+         noFill();
+      }
 
 }

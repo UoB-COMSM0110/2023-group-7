@@ -19,7 +19,7 @@ public class View{
          drawGhost();
          drawPlayer();
          // show collision detection range, can be deleted
-         showAround(model.getPlayer());
+         //showAround(model.getPlayer());
      }
      
      else if(model.getStartMenu()){
@@ -42,7 +42,6 @@ public class View{
   */
   public void drawRoom(){
      Room r = model.getCurrentRoom(); 
-
      //draw room
      for(int i = 0; i < 20; i++){
         for(int j = 0; j < 29; j++){
@@ -52,7 +51,7 @@ public class View{
           image(b.getImg(), j * sx, i * sx);
         }
       }
-
+      
       //draw enemies
       ArrayList<Enemy> enemies = r.getEnemies();
       for(int i = 0; i < enemies.size(); i++){
@@ -65,27 +64,36 @@ public class View{
            }
       }
       
-      ArrayList<Bullet> bullets = r.getBullets();
       //draw bullets
+      ArrayList<Bullet> bullets = r.getBullets();
       for(int i = 0; i < bullets.size(); i++){
          Bullet b = bullets.get(i);
          b.move();
-         fill(255);
-         ellipse(b.getX(), b.getY(), b.getWidth(), b.getHeight());
-         noFill();
+         b.paint();
+
       }
+      
+      //draw items
+      ArrayList<Item> items = r.getItems();
+      for(int i = 0; i < items.size(); i++){
+         Item t = items.get(i);
+         image(t.getImgs()[0], t.getPos()[1] * Type.BOARD_GRIDSIZE, t.getPos()[0] * Type.BOARD_GRIDSIZE);
+      }
+      
       
   }
   
   public void drawPlayer(){
       Player p = model.getPlayer();
+      Item w = p.getWeapon();
       
       if(p.getLeft()){
-            image(model.getGifs().get(p.getType() * 2 - 1), p.getX(), p.getY());
+            image(p.getGifs()[0], p.getX(), p.getY());
+            image(w.getImgs()[0],  p.getX() - w.getWidth(), p.getY() + p.getHeight()/3);
        }else{
-            image(model.getGifs().get(p.getType() * 2), p.getX(), p.getY());
+            image(p.getGifs()[1], p.getX(), p.getY());
+            image(w.getImgs()[1],  p.getX() + p.getWidth(), p.getY() + p.getHeight()/3);
        }
-
   }
 
   /**

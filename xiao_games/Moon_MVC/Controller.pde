@@ -443,17 +443,47 @@ public class Controller{
    * If player use portal, player's position will be changed
    * according to int[] portal of that portal block
    */
-   public void useCrate(BasicProp o){
+   public void interact(BasicProp o){
       Room r = model.getCurrentRoom();
+      
+       //pick up items
+      ArrayList<Item> items = r.getItems();
+      for(int i = 0; i < items.size(); i++){
+        Item t = items.get(i);
+        if(collisionDetectionTwoObj(o, t)){
+            Player p = model.getPlayer();
+            println("pick up item");
+            items.remove(i);
+            //change weapon
+            if(t.getCategory() == Type.ITEM_WEAPON){
+               Item tmp = p.getWeapon();
+               tmp.setPos(t.getPos());
+               items.add(tmp);
+            }
+            p.addItem(t);
+            break;
+         }
+     }
+      
+      //open crate
       for(int i = 0; i < Type.BOARD_MAX_HEIGHT; i++){
           for(int j = 0; j < Type.BOARD_MAX_WIDTH; j++){
               if(r.getBlockType(i,j) == Type.BLOCK_CRATE && collisionDetectionWithBlock(o, i, j)){
-                  println("use crate");
+                  println("open crate");
+                  //should add something to player, like props or weapons, or golds(scores);
+                  r.addItem(model.newItem(new int[]{i, j}));
                   r.clearBlock(i,j);
               }
           }
        }
    }
+  
+   
+   //public b interactiveThings(BasicProp o){
+   //  //
+     
+   //}
+   
    
    /**
    * set properties of player according to different key passed in
@@ -562,10 +592,18 @@ public class Controller{
           p.setTransported(false);
        }
        // interact with items
-       println("E");
-       useCrate(p);
+       interact(p);
        
      }
+     
+     if(keyType == Type.KEY_Q){
+        p.changeItem();
+     }
+     
+     if(keyType == Type.MOUSE_RIGHT){
+        p.useItem();
+     }
+     
    }
    
    /**
@@ -578,22 +616,20 @@ public class Controller{
       }else{
         p.setLeft(false);
       }
+      
+      //bulletTimer - CD of shot
       if(bulletTimer < Type.BULLET_CD){
          bulletTimer++;
          return;
       }else{
          bulletTimer = 0;
       }
+      
       Room r = model.getCurrentRoom();
       float bx = p.getX() + p.getWidth()/2;
       float by = p.getY()+ p.getHeight()/2;
-      float bSpeedX = mouseX < bx ? -Type.SPEED_BULLET : Type.SPEED_BULLET;
-      float bSpeedY = abs(bSpeedX) * (abs(by - mouseY) / abs(bx - mouseX));
-      if(mouseY < by){
-        bSpeedY = - bSpeedY;
-      }
-      Bullet b = new Bullet(bx, by, bSpeedX, bSpeedY);
-      r.getBullets().add(b);
+      p.getWeapon().shot(r, bx, by);
+
    }
    
    public void resetBulletTimer(){
