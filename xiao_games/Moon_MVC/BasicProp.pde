@@ -6,6 +6,7 @@ class BasicProp{
   private int id, type, value;
   //weight, height
   private int  w, h;
+  private int fallDistance;
   private float x, y, speedX, speedY;
   private PImage img;
   // transported = have used portal, left = direction is left, onPortal = player is on Portal block
@@ -158,10 +159,13 @@ class BasicProp{
           this.y += this.speedY;
           if(speedY < Type.PLAYER_SPEED_Y) this.speedY += Type.SPEED_INCREMENT;
      }
-     if(this.fall && !this.jump){
-          if(speedY < 0) speedY = 0;
-          if(speedY < Type.PLAYER_SPEED_Y) this.speedY += Type.SPEED_INCREMENT;
-          this.y += this.speedY;
+     if(this.speedY == 0){
+       this.fallDistance = 0;
+     }
+     this.fallDistance += speedY;
+     if(this.fallDistance > 250){
+       println("Too high, damage caused");
+       this.fallDistance = 0;
      }
   }
   

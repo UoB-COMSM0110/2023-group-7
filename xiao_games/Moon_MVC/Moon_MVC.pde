@@ -161,8 +161,6 @@ public void keyPressed(){
     if(!pkeys.hasValue(int(key))) {
       pkeys.append(int(key));
     }
-    
-    println((int)key);
 }
 
 public void keyReleased(){
