@@ -6,6 +6,7 @@ class Block extends BasicProp{
     //where this block is, the position in itemType[][] in Room.class
     private int[] pos;
     //
+    //
     //where portal block can transfer palyer to
     private int[] portal;
 
