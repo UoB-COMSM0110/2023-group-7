@@ -174,7 +174,7 @@ public void keyPressed(){
     if(!pkeys.hasValue(int(key))) {
       pkeys.append(int(key));
     }
-    println(int(key));
+    //println(int(key));
     
 }
 

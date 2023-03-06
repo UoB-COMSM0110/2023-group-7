@@ -79,6 +79,10 @@ public class Room extends HandleEnemies{
        return blockType[i][j];
     }
     
+    public void clearBlock(int i, int j){
+       blockType[i][j] = Type.BLOCK_EMPTY;
+    }
+    
     public Block getBlockByPos(int i, int j){
        for(int k = 0; k < blocks.size(); k++){
          int[] pos = blocks.get(k).getPos();

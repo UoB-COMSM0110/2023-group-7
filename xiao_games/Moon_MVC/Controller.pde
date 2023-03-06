@@ -422,6 +422,10 @@ public class Controller{
             }
          }
    }
+
+   public Enemy getGhost(){
+       return model.getGhost();
+   }
    
    /**
    * If player use portal, player's position will be changed
@@ -435,8 +439,20 @@ public class Controller{
        o.setX(s * portal[1] + 1);
    }
    
-   public Enemy getGhost(){
-       return model.getGhost();
+   /**
+   * If player use portal, player's position will be changed
+   * according to int[] portal of that portal block
+   */
+   public void useCrate(BasicProp o){
+      Room r = model.getCurrentRoom();
+      for(int i = 0; i < Type.BOARD_MAX_HEIGHT; i++){
+          for(int j = 0; j < Type.BOARD_MAX_WIDTH; j++){
+              if(r.getBlockType(i,j) == Type.BLOCK_CRATE && collisionDetectionWithBlock(o, i, j)){
+                  println("use crate");
+                  r.clearBlock(i,j);
+              }
+          }
+       }
    }
    
    /**
@@ -545,8 +561,11 @@ public class Controller{
        if(p.getOnPortal()){
           p.setTransported(false);
        }
+       // interact with items
+       println("E");
+       useCrate(p);
+       
      }
-     
    }
    
    /**
