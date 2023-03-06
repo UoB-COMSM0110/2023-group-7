@@ -440,18 +440,54 @@ public class Controller{
    */
    public void controlPlayer(int keyType){
      Player p = model.getPlayer();
+     
+     //move left by set speedX
      if(keyType == Type.KEY_LEFT){
         if(mousePressed == false) p.setLeft(true);
         p.setSpeedX(-Type.PLAYER_SPEED_X);
      }
+    
+     //move right by set speedX
      if(keyType == Type.KEY_RIGHT){
         if(mousePressed == false) p.setLeft(false);
         p.setSpeedX(Type.PLAYER_SPEED_X);
      }
-     if(keyType == Type.KEY_RELEASED){
+     
+     //stop move left/right
+     if(keyType == Type.KEY_RELEASED_AD){
         p.setSpeedX(0);
      }
-     if(keyType == Type.KEY_SPACE){
+     
+     //activate or cancel fly mode
+     if(keyType == Type.KEY_F){
+       //cancel fly mode
+       if(p.getFlyMode()){
+          p.setFlyMode(false);
+          p.setJump(true);
+          p.setFall(true);
+          p.setSpeedY(-Type.PLAYER_SPEED_Y);
+       }else{
+          p.setFlyMode(true);
+          p.setJump(false);
+          p.setFall(false);
+          p.setSpeedY(0);
+       }
+       
+       if(p.getFlyMode()){
+          println("fly mode activated");
+       }else{
+          println("fly mode cancelled");
+       }
+       
+     }
+     
+     //stop move up/down
+     if(keyType == Type.KEY_RELEASED_WS && p.getFlyMode()){
+        p.setSpeedY(0);
+     }
+     
+     //not in fly mode
+     if(keyType == Type.KEY_SPACE && !p.getFlyMode()){
         if(p.getJump())return;
         if(p.getHighJump()){
           p.setSpeedY(-15);
@@ -462,6 +498,20 @@ public class Controller{
         p.setSpeedY(-Type.PLAYER_SPEED_Y);
         }
      }
+     
+     //in fly mode
+     if(p.getFlyMode()){
+        //move upward
+        if(keyType == Type.KEY_UP){
+            p.setSpeedY(-Type.PLAYER_SPEED_Y/2);
+        }
+        //move downward
+        if(keyType == Type.KEY_DOWN){
+            p.setSpeedY(Type.PLAYER_SPEED_Y/2);
+        }
+     }
+     
+     // E - use to interact with props
      if(keyType == Type.KEY_E){
        if(p.getOnPortal()){
           p.setTransported(false);

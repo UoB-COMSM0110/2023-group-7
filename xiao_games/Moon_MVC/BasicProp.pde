@@ -5,12 +5,13 @@ class BasicProp{
   //type = block type, value = score
   private int id, type, value;
   //weight, height
-  private int  w, h;
+  private int w, h;
   private int fallDistance;
   private float x, y, speedX, speedY;
   private PImage img;
   // transported = have used portal, left = direction is left, onPortal = player is on Portal block
   private boolean fall, jump, transported, highJump, left, onPortal;
+  private boolean flyMode;
   
   BasicProp(){
     this.fall = true;
@@ -155,17 +156,22 @@ class BasicProp{
   */
   public void move(){
      this.x += this.speedX;
-     if(this.jump){
-          this.y += this.speedY;
-          if(speedY < Type.PLAYER_SPEED_Y) this.speedY += Type.SPEED_INCREMENT;
-     }
-     if(this.speedY == 0){
-       this.fallDistance = 0;
-     }
-     this.fallDistance += speedY;
-     if(this.fallDistance > 250){
-       println("Too high, damage caused");
-       this.fallDistance = 0;
+     
+     if(this.flyMode){
+         this.y += this.speedY;
+     }else{
+         if(this.jump){
+            this.y += this.speedY;
+            if(speedY < Type.PLAYER_SPEED_Y) this.speedY += Type.SPEED_INCREMENT;
+         }
+         if(this.speedY == 0){
+           this.fallDistance = 0;
+         }
+         this.fallDistance += speedY;
+         if(this.fallDistance > 250){
+           println("Too high, damage caused");
+           this.fallDistance = 0;
+         }
      }
   }
   
@@ -175,5 +181,13 @@ class BasicProp{
   };
   
   public void jump(){};
+  
+  public boolean getFlyMode(){
+      return this.flyMode;
+  }
+  
+  public void setFlyMode(boolean flag){
+      this.flyMode = flag;
+  }
   
 }

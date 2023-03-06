@@ -17,19 +17,20 @@ static abstract class Type {
 
   //KEY_LEFT = A
   static final int KEY_LEFT = 97;
-  
-  static final int KEY_UP = 119;
-
-  //KEY_RIGHT =D
+  //KEY_RIGHT = D
   static final int KEY_RIGHT = 100;
+  //KEY_UP = W
+  static final int KEY_UP = 119;
+  //KEY_DOWN = S
   static final int KEY_DOWN = 115;
-  
   static final int KEY_E = 101;
-
   static final int KEY_SPACE = 32;
-  static final int KEY_RELEASED = 0;
+  
+  static final int KEY_RELEASED_AD = 1000;
+  static final int KEY_RELEASED_WS = 1001;
 
-  static final int KEY_F_SHOT = 102;
+  //temporarily for activate FlyMode
+  static final int KEY_F = 102;
 
   static final int TO_LEFT = 2;
   static final int TO_UP = 0;
@@ -148,12 +149,24 @@ public ArrayList<Gif> loadGifs(){
 public void keyListener(){
     if(pkeys.size()== 0) return;
     for(int i=pkeys.size()-1; i>=0; i--){
-      if(pkeys.get(i) == Type.KEY_RIGHT || pkeys.get(i) == Type.KEY_LEFT || pkeys.get(i) == Type.KEY_SPACE){
+      if(validKey(pkeys.get(i))){
         controller.controlPlayer(pkeys.get(i));
       }
     }
-
 }
+
+public boolean validKey(int value){
+  if(value == Type.KEY_RIGHT 
+  || value == Type.KEY_LEFT 
+  || value == Type.KEY_SPACE
+  || value == Type.KEY_UP
+  || value == Type.KEY_DOWN
+  ){
+  return true;
+  }
+  return false;
+}
+
 
 public void keyPressed(){
 
@@ -161,6 +174,8 @@ public void keyPressed(){
     if(!pkeys.hasValue(int(key))) {
       pkeys.append(int(key));
     }
+    //println(int(key));
+    
 }
 
 public void keyReleased(){
@@ -171,9 +186,17 @@ public void keyReleased(){
           pkeys.remove(i); 
       }
     }
-    
+        
     if(key == 'a' || key == 'd'){
-      controller.controlPlayer(Type.KEY_RELEASED);
+      controller.controlPlayer(Type.KEY_RELEASED_AD);
+    }
+    
+    if(key == 'w' || key == 's'){
+      controller.controlPlayer(Type.KEY_RELEASED_WS);
+    }
+    
+    if(key == 'f'){
+      controller.controlPlayer(Type.KEY_F);
     }
     
     if(key == 'e'){
@@ -188,7 +211,7 @@ public void mouseListener(){
 }
 
 public void mouseReleased(){
-
+  
 }
 
 public void mousePressed(){
