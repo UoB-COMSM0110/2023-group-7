@@ -7,7 +7,8 @@ class BasicProp{
   //weight, height
   private int w, h;
   private int fallDistance;
-  private float x, y, speedX, speedY;
+  //speedXIncrement - to speed up or slow down speed
+  private float x, y, speedX, speedY, speedXInc;
   private PImage img;
   // transported = have used portal, left = direction is left, onPortal = player is on Portal block
   private boolean fall, jump, transported, highJump, left, onPortal;
@@ -51,6 +52,18 @@ class BasicProp{
   
   public float getSpeedX(){
       return this.speedX;
+  }
+  
+  public void setSpeedXInc(float speed){
+      this.speedXInc = speed;
+  }
+  
+  public float getSpeedXInc(){
+      return this.speedXInc;
+  }
+  
+  public float getFullSpeedX(){
+      return this.speedX + this.speedXInc;
   }
   
   public void setSpeedY(float speed){
@@ -155,7 +168,7 @@ class BasicProp{
   * In each frame, player's position depends on x + speedX and y + speedY
   */
   public void move(){
-     this.x += this.speedX;
+     this.x += this.speedX + this.speedXInc;
      
      if(this.flyMode){
          this.y += this.speedY;

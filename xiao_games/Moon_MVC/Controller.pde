@@ -359,12 +359,14 @@ public class Controller{
          int flag3 = h3 < Type.BOARD_MAX_HEIGHT ? r.getBlockType(h3, left) : r.getBlockType(Type.BOARD_MAX_HEIGHT - 1, left);
          if(collisionDetect(flag1) || collisionDetect(flag2) || (collisionDetect(flag3) && y + h > h3 * s)){
               // reach the end, shoud stop
-              if(x + o.getSpeedX() <= left * s + s){
+              if(x + o.getFullSpeedX() <= left * s + s){
                   // if enemy, should change move direction
                   if(o.getType() != Type.PLAYER){
                      o.setSpeedX(-o.getSpeedX());
+                     o.setSpeedXInc(-o.getSpeedXInc());
                   }else{
                      o.setSpeedX(0);
+                     o.setSpeedXInc(0);
                   }
                   o.setX(left * s + s + 1);
                }
@@ -386,11 +388,13 @@ public class Controller{
          int flag2 = h2 < Type.BOARD_MAX_HEIGHT ? r.getBlockType(h2, right) : r.getBlockType(Type.BOARD_MAX_HEIGHT - 1, right);
          int flag3 = h3 < Type.BOARD_MAX_HEIGHT ? r.getBlockType(h3, right) : r.getBlockType(Type.BOARD_MAX_HEIGHT - 1, right);
          if(collisionDetect(flag1) || collisionDetect(flag2) || (collisionDetect(flag3) && y + h > h3 * s)){
-             if(x + w + o.getSpeedX() >= right * s){
+             if(x + w + o.getFullSpeedX() >= right * s){
                   if(o.getType() != Type.PLAYER){
                      o.setSpeedX(-o.getSpeedX());
+                     o.setSpeedXInc(-o.getSpeedXInc());
                   }else{
                      o.setSpeedX(0);
+                     o.setSpeedXInc(0);
                   }
                 o.setX(right * s - w - 1);
              }
@@ -456,6 +460,7 @@ public class Controller{
      //stop move left/right
      if(keyType == Type.KEY_RELEASED_AD){
         p.setSpeedX(0);
+        p.setSpeedXInc(0);
      }
      
      //activate or cancel fly mode
@@ -477,12 +482,15 @@ public class Controller{
        }else{
           println("fly mode cancelled");
        }
-       
      }
      
      //stop move up/down
-     if(keyType == Type.KEY_RELEASED_WS && p.getFlyMode()){
-        p.setSpeedY(0);
+     if(keyType == Type.KEY_RELEASED_WS){
+       if(p.getFlyMode()){
+          p.setSpeedY(0);
+       }else{
+          p.setSpeedXInc(0);
+       }
      }
      
      //not in fly mode
@@ -498,17 +506,39 @@ public class Controller{
         }
      }
      
-     //in fly mode
-     if(p.getFlyMode()){
-        //move upward
-        if(keyType == Type.KEY_UP){
-            p.setSpeedY(-Type.PLAYER_SPEED_Y/2);
-        }
-        //move downward
-        if(keyType == Type.KEY_DOWN){
-            p.setSpeedY(Type.PLAYER_SPEED_Y/2);
-        }
+     // W - speed up or move upward
+     if(keyType == Type.KEY_UP){
+       //in fly mode, move upward
+       if(p.getFlyMode()){
+          p.setSpeedY(-Type.PLAYER_SPEED_Y/2);
+       }
+       //not fly, speed up
+       else{
+         if(p.getLeft() && p.getSpeedX() != 0){
+             p.setSpeedXInc(-Type.PLAYER_SPEED_X * 1/3);
+         }else if(p.getSpeedX() != 0){
+             p.setSpeedXInc(Type.PLAYER_SPEED_X * 1/3);
+         }
+       }
      }
+     
+     
+      // S - slow down or move upward
+      if(keyType == Type.KEY_DOWN){
+        //in fly mode, move down
+        if(p.getFlyMode()){
+           p.setSpeedY(Type.PLAYER_SPEED_Y/2);
+        }
+        // not fly, slow down
+       else{
+         if(p.getLeft() && p.getSpeedX() != 0){
+             p.setSpeedXInc(Type.PLAYER_SPEED_X * 2/3);
+         }else if(p.getSpeedX() != 0){
+             p.setSpeedXInc(-Type.PLAYER_SPEED_X * 2/3);
+         }
+       }
+    }
+
      
      // E - use to interact with props
      if(keyType == Type.KEY_E){
@@ -516,7 +546,6 @@ public class Controller{
           p.setTransported(false);
        }
      }
-     
      
    }
    
