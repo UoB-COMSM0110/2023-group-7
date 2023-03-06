@@ -465,7 +465,6 @@ public class Controller{
           p.setFlyMode(false);
           p.setJump(true);
           p.setFall(true);
-          p.setSpeedY(-Type.PLAYER_SPEED_Y);
        }else{
           p.setFlyMode(true);
           p.setJump(false);
