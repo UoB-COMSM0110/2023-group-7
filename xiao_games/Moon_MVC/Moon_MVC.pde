@@ -15,12 +15,17 @@ static abstract class Type {
   static final int BOARD_MAX_WIDTH = 29;
   static final int BOARD_GRIDSIZE = 30;
 
-  //use WASD
+  //KEY_LEFT = A
   static final int KEY_LEFT = 97;
+  
   static final int KEY_UP = 119;
+
+  //KEY_RIGHT =D
   static final int KEY_RIGHT = 100;
   static final int KEY_DOWN = 115;
   
+  static final int KEY_E = 101;
+
   static final int KEY_SPACE = 32;
   static final int KEY_RELEASED = 0;
 
@@ -143,7 +148,7 @@ public ArrayList<Gif> loadGifs(){
 public void keyListener(){
     if(pkeys.size()== 0) return;
     for(int i=pkeys.size()-1; i>=0; i--){
-      if(pkeys.get(i) == Type.KEY_RIGHT || pkeys.get(i) == Type.KEY_LEFT || pkeys.get(i) == Type.KEY_UP){
+      if(pkeys.get(i) == Type.KEY_RIGHT || pkeys.get(i) == Type.KEY_LEFT || pkeys.get(i) == Type.KEY_SPACE){
         controller.controlPlayer(pkeys.get(i));
       }
     }
@@ -173,8 +178,8 @@ public void keyReleased(){
       controller.controlPlayer(Type.KEY_RELEASED);
     }
     
-    if(key == ' '){
-      controller.controlPlayer(Type.KEY_SPACE);
+    if(key == 'e'){
+      controller.controlPlayer(Type.KEY_E);
     }
 }
 
