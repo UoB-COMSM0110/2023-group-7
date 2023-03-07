@@ -95,7 +95,7 @@ public class View{
             image(p.getGifs().get(0), p.getX(), p.getY());
             image(w.getImgs()[0],  p.getX() - w.getWidth(), p.getY() + p.getHeight()/3);
        }else{
-            image(p.getGifs().get(0), p.getX(), p.getY());
+            image(p.getGifs().get(1), p.getX(), p.getY());
             image(w.getImgs()[1],  p.getX() + p.getWidth(), p.getY() + p.getHeight()/3);
        }
   }

@@ -63,8 +63,9 @@ public class Player extends BasicProp{
         println("no items");
         return;
      }
-     this.currentItemIndex = (this.currentItemIndex++) % items.size();
+     this.currentItemIndex = (this.currentItemIndex + 1) % items.size();
      println("change items: " + currentItemIndex);
+     println(items.size());
   }
   
   public void useItem(){

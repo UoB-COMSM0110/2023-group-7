@@ -170,13 +170,6 @@ public ArrayList<Gif> loadGifs(){
      jumperRight.loop();
      gifs.add(jumperRight);
      
-     //Gif playerLeft = new Gif(this, "imgs/player/player_left.gif");
-     //playerLeft.loop();
-     //gifs.add(playerLeft);
-     //Gif playerRight = new Gif(this, "imgs/player/player_right.gif");
-     //playerRight.loop();
-     //gifs.add(playerRight);
-     
      return gifs;
 }
 

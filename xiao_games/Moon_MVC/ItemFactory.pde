@@ -1,7 +1,9 @@
 /**
 * @author participants, imyuanxiao
 * Factory for item generation (randomly)
-* For weapons, method 'shot()' (and other functions if needed) in this class should be overloaded in construcotr
+* For weapons, method 'shot()' (and other functions if needed) in this class should be overloaded in construcotr. 
+* How bullet moves should be reconsidered. Currently, bullets will move faster if shot upward.
+* 
 * For consumables such as potions, method 'useItem()' in Player.class should be refactored to change status of player temporarily
 * For outfit, whick can permanently change status of player, method 'useItem()' or new method in Player.class should be set
 * For coins, which should directly add score instead of being added to any class
@@ -42,6 +44,7 @@ public class ItemFactory extends Factory{
     public Item newItem(int[] pos){
        int r = (int)random(10);
        Item t = null; 
+       r = 5;
        if(r >= 0 && r <= 4){
            t = newWeapon();
        }else{
