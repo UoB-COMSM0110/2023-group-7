@@ -44,7 +44,7 @@ public class ItemFactory extends Factory{
     public Item newItem(int[] pos){
        int r = (int)random(10);
        Item t = null; 
-       r = 5;
+       //r = 5;
        if(r >= 0 && r <= 4){
            t = newWeapon();
        }else{
