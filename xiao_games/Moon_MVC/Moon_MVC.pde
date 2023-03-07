@@ -105,7 +105,7 @@ void setup(){
     ItemFactory t = new ItemFactory();
     Player p = new Player(width/3, height/2, Type.BOARD_GRIDSIZE - 5, Type.BOARD_GRIDSIZE * 2 - 10);
     p.addItem(t.weaponPistol());
-    p.setGifs(playerGifs());
+    addplayerGifs(p);
     model.addPlayer(p);
     model.setItemFactory(t);
     
@@ -129,12 +129,14 @@ void draw(){
   
 }
 
-public Gif[] playerGifs(){
+public void addplayerGifs(Player p){
      Gif playerLeft = new Gif(this, "imgs/player/player_left.gif");
      playerLeft.loop();
      Gif playerRight = new Gif(this, "imgs/player/player_right.gif");
      playerRight.loop();
-     return new Gif[]{playerLeft, playerRight};
+     
+     p.addGif(playerLeft);
+     p.addGif(playerRight);
 }
 
 /**

@@ -1,6 +1,9 @@
 /**
-* all items that can be generated in game
-* e.g. weapon 
+* @author imyuanxiao
+* All items that can be generated in game, e.g. weapon
+* 'category' - means primary category, e.g. weapon, potion, coin, outfit...
+* 'type' - secondary category, e.g. weapon_gun, weapon_laser 
+* 'imgs[]' - for weapons, at least two PImage needed (left/right), for others, one PIame may be enough.
 */
 public class Item extends BasicProp{
    

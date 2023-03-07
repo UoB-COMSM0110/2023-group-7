@@ -1,5 +1,7 @@
 /**
-* Get and change data from model
+* @author imyuanxiao
+* Get and change data from model. Most of functions related to real-time processing are here.
+* Collision detections and player controls are here.
 */
 public class Controller{
    Model model;

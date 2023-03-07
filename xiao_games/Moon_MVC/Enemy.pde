@@ -1,3 +1,7 @@
+/**
+* @author participants, imyuanxiao
+* Class for enemies. This class includes some basic properties that all enemies have.
+*/
 class Enemy extends BasicProp{
   private int[] spawn;
 

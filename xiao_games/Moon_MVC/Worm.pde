@@ -1,3 +1,7 @@
+/**
+* @author imyuanxiao
+* Class for worm. Worm moves slowly, when it touches player, low damage caused.
+*/
 public class Worm extends Enemy{
    
   public Worm(int w, int h){

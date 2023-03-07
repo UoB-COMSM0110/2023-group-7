@@ -1,5 +1,9 @@
 import java.util.*;
 
+/**
+* @author Edsat, imyuanxiao
+* Factry for room generation. When player enter a new room, this class will generate a new room with different structure.
+*/
 public class RoomFactory extends Factory{    
     
     private EnemyFactory enemyFactory;

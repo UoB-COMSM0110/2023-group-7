@@ -1,5 +1,6 @@
 /**
-* All blocks, such as wall, gold, portal...
+* @author imyuanxiao
+* All blocks, such as wall, portal...
 */
 class Block extends BasicProp{
   

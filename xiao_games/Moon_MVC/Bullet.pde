@@ -1,5 +1,7 @@
 /**
-* Bullet
+* @author imyuanxiao
+* Class for bullets. Each weapon should overload shot() method when generationg new bullet object
+* Next stage: add damage here. Damage should be set when weapon is generated. Damage to enemies should be added with potion effects probably?
 */
 public class Bullet extends BasicProp{
    

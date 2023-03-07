@@ -1,5 +1,6 @@
 /**
-* BlockFactory is reponsible for generating new Block object.
+* @author imyuanxiao
+* Factory for block generation. This factory is reponsible for generating new Block object.
 */
 public class BlockFactory extends Factory{
     

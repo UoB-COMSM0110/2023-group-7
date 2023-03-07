@@ -1,5 +1,7 @@
 /**
+* @author imyuanxiao
 * Basic properties and methods for subclasses
+* Next stage: add HP, DP here.
 */
 class BasicProp{
   //type = block type, value = score

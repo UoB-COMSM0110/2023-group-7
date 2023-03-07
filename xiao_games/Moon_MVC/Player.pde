@@ -1,3 +1,8 @@
+/**
+* @author imyuanxiao, participants
+* Class for player
+* 'useItem()' - change status of player, should be updated
+*/
 public class Player extends BasicProp{
   
   //player can only have one weapon at a time
@@ -6,9 +11,10 @@ public class Player extends BasicProp{
   private ArrayList<Item> items;
   private int currentItemIndex;
   //if needed, we can add some permanent items that can change status forever
-  //private ArrayList<Item> permanent;
+  //private ArrayList<Item> outfit;
   
-  private Gif[] gifs;
+  //since there may be more then two gifs
+  private ArrayList<Gif> gifs;
 
   
   public Player(int x, int y, int w, int h){
@@ -19,7 +25,7 @@ public class Player extends BasicProp{
     this.setWidth(w);
     this.setHeight(h);
     this.items = new ArrayList();
-    this.gifs = new Gif[2];
+    this.gifs = new ArrayList();
   };
   
   /**
@@ -36,12 +42,11 @@ public class Player extends BasicProp{
     this.getImg().resize(w, h); 
   };
   
-  public void setGifs(Gif[] gifs){
-    this.gifs[0] = gifs[0];
-    this.gifs[1] = gifs[1];
+  public void addGif(Gif gif){
+    this.gifs.add(gif);
   }
     
-  public Gif[] getGifs(){
+  public ArrayList<Gif> getGifs(){
     return this.gifs;
   } 
   
@@ -74,10 +79,6 @@ public class Player extends BasicProp{
      this.items.remove(currentItemIndex--);
      if(currentItemIndex<0) currentItemIndex = 0;
   }
-  
-  //public void setWeapon(Item w){
-  //   this.weapon = w;
-  //}
   
   public Item getWeapon(){
      return this.weapon;

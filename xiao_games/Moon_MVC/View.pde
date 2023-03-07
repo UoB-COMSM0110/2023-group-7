@@ -1,3 +1,7 @@
+/**
+* @author imyuanxiao
+* Class for painting. This class will draw everything for each frame by getting data from Model.class.
+*/
 public class View{
   private Model model;
   
@@ -88,10 +92,10 @@ public class View{
       Item w = p.getWeapon();
       
       if(p.getLeft()){
-            image(p.getGifs()[0], p.getX(), p.getY());
+            image(p.getGifs().get(0), p.getX(), p.getY());
             image(w.getImgs()[0],  p.getX() - w.getWidth(), p.getY() + p.getHeight()/3);
        }else{
-            image(p.getGifs()[1], p.getX(), p.getY());
+            image(p.getGifs().get(0), p.getX(), p.getY());
             image(w.getImgs()[1],  p.getX() + p.getWidth(), p.getY() + p.getHeight()/3);
        }
   }

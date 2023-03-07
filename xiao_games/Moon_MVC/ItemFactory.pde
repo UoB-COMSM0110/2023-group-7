@@ -1,8 +1,17 @@
+/**
+* @author participants, imyuanxiao
+* Factory for item generation (randomly)
+* For weapons, method 'shot()' (and other functions if needed) in this class should be overloaded in construcotr
+* For consumables such as potions, method 'useItem()' in Player.class should be refactored to change status of player temporarily
+* For outfit, whick can permanently change status of player, method 'useItem()' or new method in Player.class should be set
+* For coins, which should directly add score instead of being added to any class
+*/
 public class ItemFactory extends Factory{
     
     private ArrayList<PImage> weaponImgs;
     private ArrayList<PImage> potionImgs;
     //private ArrayList<PImage> coinImgs;
+    //private ArrayList<PImage> outfitImgs;
 
     public ItemFactory(){
        this.setId(0);

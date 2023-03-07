@@ -1,16 +1,18 @@
+/**
+* @author imyuanxiao, Edsat
+* Class for rooms, each room consists of 9 sections which are generated randomly.
+*/
 public class Room extends HandleEnemies{
     private int type;
     private int index;
     // 0-up, 1-down, 2-left, 3-right
     private int[] adjacent;
     private int[][] blockType;
-    private ArrayList<Block> blocks;
     private String[] sections;
+    private ArrayList<Block> blocks;
     private ArrayList<Bullet> bullets;
-    
     private ArrayList<Item> items;
 
-    
     public Room(){
         this.blockType = new int[20][29];
         this.adjacent = new int[4];
