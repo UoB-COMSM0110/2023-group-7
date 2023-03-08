@@ -143,7 +143,7 @@ public void addplayerGifs(Player p){
 * Load all gifs
 */
 public ArrayList<Gif> loadGifs(){
-
+  
      ArrayList<Gif> gifs = new ArrayList();
      Gif ghost = new Gif(this, "imgs/enemy/ghost.gif");
      ghost.loop();
@@ -178,6 +178,10 @@ public ArrayList<Gif> loadGifs(){
 * so we have to use a list to record keys
 */
 public void keyListener(){
+    //only work when game starts
+    if(!controller.getGameStart()){
+        return;
+    }
     if(pkeys.size()== 0) return;
     for(int i=pkeys.size()-1; i>=0; i--){
       if(validKey(pkeys.get(i))){
@@ -200,7 +204,12 @@ public boolean validKey(int value){
 
 
 public void keyPressed(){
-
+  
+    //only work when game starts
+    if(!controller.getGameStart()){
+        return;
+    }
+    
     //use WASD to move
     if(!pkeys.hasValue(int(key))) {
       pkeys.append(int(key));
@@ -210,7 +219,10 @@ public void keyPressed(){
 }
 
 public void keyReleased(){
-
+    //only work when game starts
+    if(!controller.getGameStart()){
+        return;
+    }
     //use WASD to move
     for(int i=pkeys.size()-1; i>=0; i--){
       if(pkeys.get(i) == int(key)){
@@ -241,17 +253,43 @@ public void keyReleased(){
 }
 
 public void mouseListener(){
-    if(mousePressed == true && mouseButton == LEFT){
-       controller.shotBullet();
+  
+   //only work when game starts
+   if(controller.getGameStart()){
+        if(mousePressed == true && mouseButton == LEFT){
+           controller.shotBullet();
+        }
     }
-    
-    
+
 }
 
 public void mouseReleased(){
-  if(mouseButton == RIGHT){
-      controller.controlPlayer(Type.MOUSE_RIGHT);
+  
+  if(controller.getMenuHomePage()){
+      //check mouse position, if in position and released, change booleans in model
+
   }
+  else if(controller.getMenuControl()){
+     //there should be a return button in this menu
+  }
+  else if(controller.getGlobalList()){
+     //there should be a return button in this menu
+  }
+  else if(controller.getGamePause()){
+      //there should be a restart button in this menu
+
+  }
+  else if(controller.getGameOver()){
+      //there should be a restart button in this menu
+
+  }
+  //only work when game starts
+  else{
+    if(mouseButton == RIGHT){
+        controller.controlPlayer(Type.MOUSE_RIGHT);
+    }
+  }
+
 }
 
 public void mousePressed(){

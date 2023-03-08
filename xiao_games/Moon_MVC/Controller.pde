@@ -16,17 +16,13 @@ public class Controller{
    * Includes all methods to run in each frame
    */
    public void display(){
-     
-      if(model.getStartMenu()){
-         
-      }
-      else if(model.getStartGame()){
+      
+      //only work when game starts
+      if(model.getGameStart()){
           changeRoomAndPlayerPos();
           checkAllAround();
           model.getPlayer().move();
-      }
-      else if(model.getStartMenu()){
-          
+          //enemies move here
       }
 
    }
@@ -637,5 +633,57 @@ public class Controller{
    public void resetBulletTimer(){
       this.bulletTimer = Type.BULLET_CD;
    }
+   
+   /**
+   *
+   */
+   public void setMenuHomePage(boolean flag){
+       model.setMenuHomePage(flag);
+   }
+   
+   public boolean getMenuHomePage(){
+       return model.getMenuHomePage();
+   }
+   
+   public void setMenuControl(boolean flag){
+       model.setMenuControl(flag);
+   }
+   
+   public boolean getMenuControl(){
+       return model.getMenuControl();
+   }
+   
+   public void setGameStart(boolean flag){
+       model.setGameStart(flag);
+   }
+   
+   public boolean getGameStart(){
+       return model.getGameStart();
+   }
+   
+   public void setGamePause(boolean flag){
+       model.setGamePause(flag);
+   }
+   
+   public boolean getGamePause(){
+       return model.getGamePause();
+   }
+   
+   public void setGameOver(boolean flag){
+       model.setGameOver(flag);
+   }
+   
+   public boolean getGameOver(){
+       return model.getGameOver();
+   }
+   
+   public void setGlobalList(boolean flag){
+       model.setGlobalList(flag);
+   }
+   
+   public boolean getGlobalList(){
+       return model.getGlobalList();
+   }
+   
 
 }

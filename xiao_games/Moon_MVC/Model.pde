@@ -11,7 +11,7 @@ public class Model{
    private BlockFactory blockFactory;
    private ArrayList<Block> basicBlock;
    private ArrayList<Gif> gifs;
-   private boolean startMenu, startGame, gameOver, globalList, instructions;
+   private boolean menuHomePage, menuControl, gameStart, gamePause, gameOver, globalList;
    
    public Model(){
        this.enemyFactory = new EnemyFactory();
@@ -23,7 +23,7 @@ public class Model{
        this.basicBlock = new ArrayList();
        this.init();
        
-       this.startGame = true;
+       this.gameStart = true;
    }
    
    /**
@@ -96,20 +96,38 @@ public class Model{
       return map.getEnemeyById(0);
    }
 
-   public void setStartMenu(boolean flag){
-       this.startMenu = flag;
+
+   //menuHomePage, menuControl, gameStart, gamePause, gameOver, globalList;
+   public void setMenuHomePage(boolean flag){
+       this.menuHomePage = flag;
    }
    
-   public boolean getStartMenu(){
-       return this.startMenu;
+   public boolean getMenuHomePage(){
+       return this.menuHomePage;
    }
    
-   public void setStartGame(boolean flag){
-       this.startGame = flag;
+   public void setMenuControl(boolean flag){
+       this.menuControl = flag;
    }
    
-   public boolean getStartGame(){
-       return this.startGame;
+   public boolean getMenuControl(){
+       return this.menuControl;
+   }
+   
+   public void setGameStart(boolean flag){
+       this.gameStart = flag;
+   }
+   
+   public boolean getGameStart(){
+       return this.gameStart;
+   }
+   
+   public void setGamePause(boolean flag){
+       this.gamePause = flag;
+   }
+   
+   public boolean getGamePause(){
+       return this.gamePause;
    }
    
    public void setGameOver(boolean flag){
@@ -127,13 +145,6 @@ public class Model{
    public boolean getGlobalList(){
        return this.globalList;
    }
-   
-   public void setInstructions(boolean flag){
-       this.instructions = flag;
-   }
-   
-   public boolean getInstructions(){
-       return this.instructions;
-   }
+
    
 }

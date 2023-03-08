@@ -1,6 +1,7 @@
 /**
 * @author imyuanxiao
 * Class for painting. This class will draw everything for each frame by getting data from Model.class.
+* Next stage: finish draw*() methods behind
 */
 public class View{
   private Model model;
@@ -13,23 +14,24 @@ public class View{
   * Includes all methods to run in each frame
   */
   public void paint(){
-    
-      if(model.getStartMenu()){
-         drawMenu();
-     }
-    
-     else if(model.getStartGame()){
+      
+    if(model.getMenuHomePage()){
+       drawMenuHomePage();
+    }else if(model.getMenuControl()){
+       drawMenuControl();
+    }else if(model.getGlobalList()){
+       drawGlobalList();
+    }else if(model.getGamePause()){
+       drawGamePause();
+    }else if(model.getGameOver()){
+      drawGameOver();
+    }else{
          drawRoom();
          drawGhost();
          drawPlayer();
          // show collision detection range, can be deleted
          //showAround(model.getPlayer());
      }
-     
-     else if(model.getStartMenu()){
-         drawMenu();
-     }
-     
   }
   
   public void drawGhost(){
@@ -180,8 +182,23 @@ public class View{
    /**
    * Game start menu should be written here
    */
-   public void drawMenu(){
+   public void drawMenuHomePage(){
    
+   }
+   
+   public void drawMenuControl(){
+   
+   }
+   
+   public void drawGamePause(){
+   
+   }
+   
+   public void drawGameOver(){
+   
+   }
+   
+   public void drawGlobalList(){
    
    }
    
