@@ -1,3 +1,8 @@
+/**
+* @author imyuanxiao
+* Class for painting. This class will draw everything for each frame by getting data from Model.class.
+* Next stage: finish draw*() methods behind
+*/
 public class View{
   private Model model;
   
@@ -9,23 +14,24 @@ public class View{
   * Includes all methods to run in each frame
   */
   public void paint(){
-    
-      if(model.getStartMenu()){
-         drawMenu();
-     }
-    
-     else if(model.getStartGame()){
+      
+    if(model.getMenuHomePage()){
+       drawMenuHomePage();
+    }else if(model.getMenuControl()){
+       drawMenuControl();
+    }else if(model.getGlobalList()){
+       drawGlobalList();
+    }else if(model.getGamePause()){
+       drawGamePause();
+    }else if(model.getGameOver()){
+      drawGameOver();
+    }else{
          drawRoom();
          drawGhost();
          drawPlayer();
          // show collision detection range, can be deleted
-         showAround(model.getPlayer());
+         //showAround(model.getPlayer());
      }
-     
-     else if(model.getStartMenu()){
-         drawMenu();
-     }
-     
   }
   
   public void drawGhost(){
@@ -42,7 +48,6 @@ public class View{
   */
   public void drawRoom(){
      Room r = model.getCurrentRoom(); 
-
      //draw room
      for(int i = 0; i < 20; i++){
         for(int j = 0; j < 29; j++){
@@ -52,7 +57,7 @@ public class View{
           image(b.getImg(), j * sx, i * sx);
         }
       }
-
+      
       //draw enemies
       ArrayList<Enemy> enemies = r.getEnemies();
       for(int i = 0; i < enemies.size(); i++){
@@ -65,27 +70,36 @@ public class View{
            }
       }
       
-      ArrayList<Bullet> bullets = r.getBullets();
       //draw bullets
+      ArrayList<Bullet> bullets = r.getBullets();
       for(int i = 0; i < bullets.size(); i++){
          Bullet b = bullets.get(i);
          b.move();
-         fill(255);
-         ellipse(b.getX(), b.getY(), b.getWidth(), b.getHeight());
-         noFill();
+         b.paint();
+
       }
+      
+      //draw items
+      ArrayList<Item> items = r.getItems();
+      for(int i = 0; i < items.size(); i++){
+         Item t = items.get(i);
+         image(t.getImgs()[0], t.getPos()[1] * Type.BOARD_GRIDSIZE, t.getPos()[0] * Type.BOARD_GRIDSIZE);
+      }
+      
       
   }
   
   public void drawPlayer(){
       Player p = model.getPlayer();
+      Item w = p.getWeapon();
       
       if(p.getLeft()){
-            image(model.getGifs().get(p.getType() * 2 - 1), p.getX(), p.getY());
+            image(p.getGifs().get(0), p.getX(), p.getY());
+            image(w.getImgs()[0],  p.getX() - w.getWidth(), p.getY() + p.getHeight()/3);
        }else{
-            image(model.getGifs().get(p.getType() * 2), p.getX(), p.getY());
+            image(p.getGifs().get(1), p.getX(), p.getY());
+            image(w.getImgs()[1],  p.getX() + p.getWidth(), p.getY() + p.getHeight()/3);
        }
-
   }
 
   /**
@@ -168,8 +182,23 @@ public class View{
    /**
    * Game start menu should be written here
    */
-   public void drawMenu(){
+   public void drawMenuHomePage(){
    
+   }
+   
+   public void drawMenuControl(){
+   
+   }
+   
+   public void drawGamePause(){
+   
+   }
+   
+   public void drawGameOver(){
+   
+   }
+   
+   public void drawGlobalList(){
    
    }
    

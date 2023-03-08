@@ -1,15 +1,20 @@
 /**
+* @author imyuanxiao
 * Basic properties and methods for subclasses
+* Next stage: add HP, DP here.
 */
 class BasicProp{
   //type = block type, value = score
   private int id, type, value;
   //weight, height
-  private int  w, h;
-  private float x, y, speedX, speedY;
+  private int w, h;
+  private float fallDistance;
+  //speedXIncrement - to speed up or slow down speed
+  private float x, y, speedX, speedY, speedXInc;
   private PImage img;
   // transported = have used portal, left = direction is left, onPortal = player is on Portal block
   private boolean fall, jump, transported, highJump, left, onPortal;
+  private boolean flyMode;
   
   BasicProp(){
     this.fall = true;
@@ -49,6 +54,18 @@ class BasicProp{
   
   public float getSpeedX(){
       return this.speedX;
+  }
+  
+  public void setSpeedXInc(float speed){
+      this.speedXInc = speed;
+  }
+  
+  public float getSpeedXInc(){
+      return this.speedXInc;
+  }
+  
+  public float getFullSpeedX(){
+      return this.speedX + this.speedXInc;
   }
   
   public void setSpeedY(float speed){
@@ -91,7 +108,13 @@ class BasicProp{
       return this.h;
   }
   
+  public void setFallDistance(float dis){
+      this.fallDistance = dis;
+  }
   
+  public float getFallDistance(){
+      return this.fallDistance;
+  }  
   public void setImg(PImage img){
       this.img = img;
   }
@@ -153,16 +176,23 @@ class BasicProp{
   * In each frame, player's position depends on x + speedX and y + speedY
   */
   public void move(){
-     this.x += this.speedX;
-     if(this.jump){
-          this.y += this.speedY;
-          if(speedY < Type.PLAYER_SPEED_Y) this.speedY += Type.SPEED_INCREMENT;
-     }
-     if(this.fall && !this.jump){
-          if(speedY < 0) speedY = 0;
-          if(speedY < Type.PLAYER_SPEED_Y) this.speedY += Type.SPEED_INCREMENT;
-          this.y += this.speedY;
-     }
+     //this.x += this.speedX + this.speedXInc;
+     //if(this.flyMode){
+     //    this.y += this.speedY;
+     //}else{
+     //    if(this.jump){
+     //       this.y += this.speedY;
+     //       if(speedY < Type.PLAYER_SPEED_Y) this.speedY += Type.SPEED_INCREMENT;
+     //    }
+     //    if(this.speedY == 0){
+     //      this.fallDistance = 0;
+     //    }
+     //    this.fallDistance += speedY;
+     //    if(this.fallDistance > 250){
+     //      println("Too high, damage caused");
+     //      this.fallDistance = 0;
+     //    }
+     //}
   }
   
   public void move(float px, float py){
@@ -171,5 +201,13 @@ class BasicProp{
   };
   
   public void jump(){};
+  
+  public boolean getFlyMode(){
+      return this.flyMode;
+  }
+  
+  public void setFlyMode(boolean flag){
+      this.flyMode = flag;
+  }
   
 }

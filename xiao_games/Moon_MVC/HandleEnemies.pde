@@ -1,3 +1,7 @@
+/**
+* @author imyuanxiao
+* Class for handling enemies
+*/
 public class HandleEnemies{
    private ArrayList<Enemy> enemies;
    

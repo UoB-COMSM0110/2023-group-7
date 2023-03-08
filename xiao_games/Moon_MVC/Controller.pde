@@ -1,5 +1,7 @@
 /**
-* Get and change data from model
+* @author imyuanxiao
+* Get and change data from model. Most of functions related to real-time processing are here.
+* Collision detections and player controls are here.
 */
 public class Controller{
    Model model;
@@ -14,17 +16,13 @@ public class Controller{
    * Includes all methods to run in each frame
    */
    public void display(){
-     
-      if(model.getStartMenu()){
-         
-      }
-      else if(model.getStartGame()){
+      
+      //only work when game starts
+      if(model.getGameStart()){
           changeRoomAndPlayerPos();
           checkAllAround();
           model.getPlayer().move();
-      }
-      else if(model.getStartMenu()){
-          
+          //enemies move here
       }
 
    }
@@ -359,12 +357,14 @@ public class Controller{
          int flag3 = h3 < Type.BOARD_MAX_HEIGHT ? r.getBlockType(h3, left) : r.getBlockType(Type.BOARD_MAX_HEIGHT - 1, left);
          if(collisionDetect(flag1) || collisionDetect(flag2) || (collisionDetect(flag3) && y + h > h3 * s)){
               // reach the end, shoud stop
-              if(x + o.getSpeedX() <= left * s + s){
+              if(x + o.getFullSpeedX() <= left * s + s){
                   // if enemy, should change move direction
                   if(o.getType() != Type.PLAYER){
                      o.setSpeedX(-o.getSpeedX());
+                     o.setSpeedXInc(-o.getSpeedXInc());
                   }else{
                      o.setSpeedX(0);
+                     o.setSpeedXInc(0);
                   }
                   o.setX(left * s + s + 1);
                }
@@ -386,11 +386,13 @@ public class Controller{
          int flag2 = h2 < Type.BOARD_MAX_HEIGHT ? r.getBlockType(h2, right) : r.getBlockType(Type.BOARD_MAX_HEIGHT - 1, right);
          int flag3 = h3 < Type.BOARD_MAX_HEIGHT ? r.getBlockType(h3, right) : r.getBlockType(Type.BOARD_MAX_HEIGHT - 1, right);
          if(collisionDetect(flag1) || collisionDetect(flag2) || (collisionDetect(flag3) && y + h > h3 * s)){
-             if(x + w + o.getSpeedX() >= right * s){
+             if(x + w + o.getFullSpeedX() >= right * s){
                   if(o.getType() != Type.PLAYER){
                      o.setSpeedX(-o.getSpeedX());
+                     o.setSpeedXInc(-o.getSpeedXInc());
                   }else{
                      o.setSpeedX(0);
+                     o.setSpeedXInc(0);
                   }
                 o.setX(right * s - w - 1);
              }
@@ -418,6 +420,10 @@ public class Controller{
             }
          }
    }
+
+   public Enemy getGhost(){
+       return model.getGhost();
+   }
    
    /**
    * If player use portal, player's position will be changed
@@ -431,27 +437,112 @@ public class Controller{
        o.setX(s * portal[1] + 1);
    }
    
-   public Enemy getGhost(){
-       return model.getGhost();
+   /**
+   * If player use portal, player's position will be changed
+   * according to int[] portal of that portal block
+   */
+   public void interact(BasicProp o){
+      Room r = model.getCurrentRoom();
+      
+       //pick up items
+      ArrayList<Item> items = r.getItems();
+      for(int i = 0; i < items.size(); i++){
+        Item t = items.get(i);
+        if(collisionDetectionTwoObj(o, t)){
+            Player p = model.getPlayer();
+            println("pick up item");
+            items.remove(i);
+            //change weapon
+            if(t.getCategory() == Type.ITEM_WEAPON){
+               Item tmp = p.getWeapon();
+               tmp.setPos(t.getPos());
+               items.add(tmp);
+            }
+            p.addItem(t);
+            break;
+         }
+     }
+      
+      //open crate
+      for(int i = 0; i < Type.BOARD_MAX_HEIGHT; i++){
+          for(int j = 0; j < Type.BOARD_MAX_WIDTH; j++){
+              if(r.getBlockType(i,j) == Type.BLOCK_CRATE && collisionDetectionWithBlock(o, i, j)){
+                  println("open crate");
+                  //should add something to player, like props or weapons, or golds(scores);
+                  r.addItem(model.newItem(new int[]{i, j}));
+                  r.clearBlock(i,j);
+              }
+          }
+       }
    }
+  
+   
+   public void useItemByPlayer(){
+     model.useItemByPlayer();
+   }
+   
+   //public b interactiveThings(BasicProp o){
+   //  //
+     
+   //}
+   
    
    /**
    * set properties of player according to different key passed in
    */
    public void controlPlayer(int keyType){
      Player p = model.getPlayer();
+     
+     //move left by set speedX
      if(keyType == Type.KEY_LEFT){
         if(mousePressed == false) p.setLeft(true);
         p.setSpeedX(-Type.PLAYER_SPEED_X);
      }
+    
+     //move right by set speedX
      if(keyType == Type.KEY_RIGHT){
         if(mousePressed == false) p.setLeft(false);
         p.setSpeedX(Type.PLAYER_SPEED_X);
      }
-     if(keyType == Type.KEY_RELEASED){
+     
+     //stop move left/right
+     if(keyType == Type.KEY_RELEASED_AD){
         p.setSpeedX(0);
+        p.setSpeedXInc(0);
      }
-     if(keyType == Type.KEY_UP){
+     
+     //activate or cancel fly mode
+     if(keyType == Type.KEY_F){
+       //cancel fly mode
+       if(p.getFlyMode()){
+          p.setFlyMode(false);
+          p.setJump(true);
+          p.setFall(true);
+       }else{
+          p.setFlyMode(true);
+          p.setJump(false);
+          p.setFall(false);
+          p.setSpeedY(0);
+       }
+       
+       if(p.getFlyMode()){
+          println("fly mode activated");
+       }else{
+          println("fly mode cancelled");
+       }
+     }
+     
+     //stop move up/down
+     if(keyType == Type.KEY_RELEASED_WS){
+       if(p.getFlyMode()){
+          p.setSpeedY(0);
+       }else{
+          p.setSpeedXInc(0);
+       }
+     }
+     
+     //not in fly mode
+     if(keyType == Type.KEY_SPACE && !p.getFlyMode()){
         if(p.getJump())return;
         if(p.getHighJump()){
           p.setSpeedY(-15);
@@ -462,12 +553,58 @@ public class Controller{
         p.setSpeedY(-Type.PLAYER_SPEED_Y);
         }
      }
-     if(keyType == Type.KEY_SPACE){
-       if(p.getOnPortal()){
-          p.setTransported(false);
+     
+     // W - speed up or move upward
+     if(keyType == Type.KEY_UP){
+       //in fly mode, move upward
+       if(p.getFlyMode()){
+          p.setSpeedY(-Type.PLAYER_SPEED_Y/2);
+       }
+       //not fly, speed up
+       else{
+         if(p.getLeft() && p.getSpeedX() != 0){
+             p.setSpeedXInc(-Type.PLAYER_SPEED_X * 1/3);
+         }else if(p.getSpeedX() != 0){
+             p.setSpeedXInc(Type.PLAYER_SPEED_X * 1/3);
+         }
        }
      }
      
+     
+      // S - slow down or move upward
+      if(keyType == Type.KEY_DOWN){
+        //in fly mode, move down
+        if(p.getFlyMode()){
+           p.setSpeedY(Type.PLAYER_SPEED_Y/2);
+        }
+        // not fly, slow down
+       else{
+         if(p.getLeft() && p.getSpeedX() != 0){
+             p.setSpeedXInc(Type.PLAYER_SPEED_X * 2/3);
+         }else if(p.getSpeedX() != 0){
+             p.setSpeedXInc(-Type.PLAYER_SPEED_X * 2/3);
+         }
+       }
+    }
+
+     
+     // E - use to interact with props
+     if(keyType == Type.KEY_E){
+       if(p.getOnPortal()){
+          p.setTransported(false);
+       }
+       // interact with items
+       interact(p);
+       
+     }
+     
+     if(keyType == Type.KEY_Q){
+        p.changeItem();
+     }
+     
+     if(keyType == Type.MOUSE_RIGHT){
+        useItemByPlayer();
+     }
      
    }
    
@@ -481,26 +618,76 @@ public class Controller{
       }else{
         p.setLeft(false);
       }
+      
+      //bulletTimer - CD of shot
       if(bulletTimer < Type.BULLET_CD){
          bulletTimer++;
          return;
       }else{
          bulletTimer = 0;
       }
+      
       Room r = model.getCurrentRoom();
       float bx = p.getX() + p.getWidth()/2;
       float by = p.getY()+ p.getHeight()/2;
-      float bSpeedX = mouseX < bx ? -Type.SPEED_BULLET : Type.SPEED_BULLET;
-      float bSpeedY = abs(bSpeedX) * (abs(by - mouseY) / abs(bx - mouseX));
-      if(mouseY < by){
-        bSpeedY = - bSpeedY;
-      }
-      Bullet b = new Bullet(bx, by, bSpeedX, bSpeedY);
-      r.getBullets().add(b);
+      p.getWeapon().shot(r, bx, by);
+
    }
    
    public void resetBulletTimer(){
       this.bulletTimer = Type.BULLET_CD;
    }
+   
+   /**
+   *
+   */
+   public void setMenuHomePage(boolean flag){
+       model.setMenuHomePage(flag);
+   }
+   
+   public boolean getMenuHomePage(){
+       return model.getMenuHomePage();
+   }
+   
+   public void setMenuControl(boolean flag){
+       model.setMenuControl(flag);
+   }
+   
+   public boolean getMenuControl(){
+       return model.getMenuControl();
+   }
+   
+   public void setGameStart(boolean flag){
+       model.setGameStart(flag);
+   }
+   
+   public boolean getGameStart(){
+       return model.getGameStart();
+   }
+   
+   public void setGamePause(boolean flag){
+       model.setGamePause(flag);
+   }
+   
+   public boolean getGamePause(){
+       return model.getGamePause();
+   }
+   
+   public void setGameOver(boolean flag){
+       model.setGameOver(flag);
+   }
+   
+   public boolean getGameOver(){
+       return model.getGameOver();
+   }
+   
+   public void setGlobalList(boolean flag){
+       model.setGlobalList(flag);
+   }
+   
+   public boolean getGlobalList(){
+       return model.getGlobalList();
+   }
+   
 
 }

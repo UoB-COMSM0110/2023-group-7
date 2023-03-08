@@ -1,5 +1,6 @@
 /**
-* Contains all rooms
+* @author imyuanxiao
+* Class used to contain all rooms
 */
 class Map extends HandleEnemies{
     private ArrayList<Room> rooms;

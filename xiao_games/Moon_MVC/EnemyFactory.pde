@@ -1,3 +1,9 @@
+/**
+* @author participants, imyuanxiao
+* Factory for enemy generation.
+* If gifs are needed, you need to build another function similar to addplayerGifs() in Moon_MVC.pde
+* If no gifs, only PImage, you can add imgs in this class, just like ItemFactory.class
+*/
 public class EnemyFactory extends Factory{    
     
     public EnemyFactory(){

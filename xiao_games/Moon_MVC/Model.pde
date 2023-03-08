@@ -1,27 +1,29 @@
 /**
+* @author imyuanxiao, participants
 * Contains all data
 */
 public class Model{
    private Map map;
    private Player player;
+   private ItemFactory itemFactory;
    private EnemyFactory enemyFactory;
    private RoomFactory roomFactory;
    private BlockFactory blockFactory;
    private ArrayList<Block> basicBlock;
    private ArrayList<Gif> gifs;
-   private boolean startMenu, startGame, gameOver, globalList, instructions;
+   private boolean menuHomePage, menuControl, gameStart, gamePause, gameOver, globalList;
    
    public Model(){
        this.enemyFactory = new EnemyFactory();
        this.blockFactory = new BlockFactory();
        this.roomFactory = new RoomFactory(enemyFactory, blockFactory);
        map = new Map();
-       map.addEnemy(enemyFactory.newEnemy(Type.ENEMY_GHOST));  //<>// //<>//
+       map.addEnemy(enemyFactory.newEnemy(Type.ENEMY_GHOST));  //<>// //<>// //<>//
        map.addRoom(roomFactory.newRoom(Type.ROOM_START));
        this.basicBlock = new ArrayList();
        this.init();
        
-       this.startGame = true;
+       this.gameStart = true;
    }
    
    /**
@@ -37,7 +39,7 @@ public class Model{
       basicBlock.add(blockFactory.newBlock(Type.BLOCK_CRATE));
       basicBlock.add(blockFactory.newBlock(Type.BLOCK_SPIKE));
    }
-   
+      
     public void setGifs(ArrayList<Gif> gifs){
        this.gifs = gifs;
     }
@@ -46,6 +48,14 @@ public class Model{
       return this.gifs;
     }
    
+   public void setItemFactory(ItemFactory t){
+      this.itemFactory = t;
+   }
+   
+   public Item newItem(int[] pos){
+      return itemFactory.newItem(pos);
+   }
+
    public Block getBlockByType(int type){
      return basicBlock.get(type);
    }
@@ -86,20 +96,38 @@ public class Model{
       return map.getEnemeyById(0);
    }
 
-   public void setStartMenu(boolean flag){
-       this.startMenu = flag;
+
+   //menuHomePage, menuControl, gameStart, gamePause, gameOver, globalList;
+   public void setMenuHomePage(boolean flag){
+       this.menuHomePage = flag;
    }
    
-   public boolean getStartMenu(){
-       return this.startMenu;
+   public boolean getMenuHomePage(){
+       return this.menuHomePage;
    }
    
-   public void setStartGame(boolean flag){
-       this.startGame = flag;
+   public void setMenuControl(boolean flag){
+       this.menuControl = flag;
    }
    
-   public boolean getStartGame(){
-       return this.startGame;
+   public boolean getMenuControl(){
+       return this.menuControl;
+   }
+   
+   public void setGameStart(boolean flag){
+       this.gameStart = flag;
+   }
+   
+   public boolean getGameStart(){
+       return this.gameStart;
+   }
+   
+   public void setGamePause(boolean flag){
+       this.gamePause = flag;
+   }
+   
+   public boolean getGamePause(){
+       return this.gamePause;
    }
    
    public void setGameOver(boolean flag){
@@ -118,12 +146,9 @@ public class Model{
        return this.globalList;
    }
    
-   public void setInstructions(boolean flag){
-       this.instructions = flag;
+   public void useItemByPlayer(){
+      itemFactory.useItemByPlayer(player);
    }
-   
-   public boolean getInstructions(){
-       return this.instructions;
-   }
+
    
 }

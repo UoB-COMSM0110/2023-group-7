@@ -1,5 +1,9 @@
 import java.util.*;
 
+/**
+* @author Edsat, imyuanxiao
+* Factry for room generation. When player enter a new room, this class will generate a new room with different structure.
+*/
 public class RoomFactory extends Factory{    
     
     private EnemyFactory enemyFactory;
@@ -172,7 +176,6 @@ public class RoomFactory extends Factory{
       b1.setPos(portalCoordinates[0], portalCoordinates[1]);
       b1.setPortal(portalCoordinates[2], portalCoordinates[3]);
       r.addBlock(b1);
-        
       Block b2 = blockFactory.newBlock(Type.BLOCK_PORTAL);
       b2.setPos(portalCoordinates[2], portalCoordinates[3]);
       b2.setPortal(portalCoordinates[0], portalCoordinates[1]);

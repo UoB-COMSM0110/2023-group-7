@@ -1,3 +1,8 @@
+/**
+* @author imyuanxiao
+* Class for Ghost, who is always chasing player, 
+* When ghost touches player, player hp decrease, this can be realized in Controller.class
+*/
 public class Ghost extends Enemy{
    
   public Ghost(int w, int h){

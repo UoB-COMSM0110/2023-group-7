@@ -1,5 +1,6 @@
 /**
-* BlockFactory is reponsible for generating new Block object.
+* @author imyuanxiao
+* Factory for block generation. This factory is reponsible for generating new Block object.
 */
 public class BlockFactory extends Factory{
     
@@ -11,6 +12,7 @@ public class BlockFactory extends Factory{
     
     /**
     * Return a new Block object according to type passed in
+    * test
     */
     public Block newBlock(int type){
        Block b = new Block(Type.BOARD_GRIDSIZE);
