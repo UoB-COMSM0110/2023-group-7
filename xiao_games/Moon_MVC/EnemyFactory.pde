@@ -18,6 +18,13 @@ public class EnemyFactory extends Factory{
     //   this.addImg(loadImage("imgs/enemy/gunner.png"));
     //}
     
+    //scan a room, add enemy spawn or enemies to this room
+    public void addEnemiesToRoom(Room r){
+    
+    
+    }
+    
+    
     public Enemy newEnemy(int type){
        Enemy e; 
        if(type == Type.ENEMY_GHOST){
@@ -40,5 +47,8 @@ public class EnemyFactory extends Factory{
        this.increaseId();
        return e;
     }
+    
+    
+    
     
 }

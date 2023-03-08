@@ -151,6 +151,7 @@ public class Controller{
      
    /**
    * Collision detection between two BasicProp obj
+   * Only useful when two objects are rect
    */
    public boolean collisionDetectionTwoObj(BasicProp a, BasicProp b){
        if(a.getX() + a.getWidth() > b.getX() &&
@@ -161,6 +162,53 @@ public class Controller{
        }
        return false;
    }
+   
+   /**
+   * Collision detection between BasicProp obj and line
+   * Mainly used for objects and special bullet such as laser
+   * a = enemy, b = bullet
+   */
+   public boolean collisionDetectionLine(BasicProp a, BasicProp b){
+       //1. get intersection of rectangle diagonal and line
+       float ax1 = a.getX(), ax2 = a.getX() + a.getWidth();
+       float ay1 = a.getY(), ay2 = a.getY() + a.getHeight();
+       //y = k(x-x0) + y0 
+       //1.1 line1:/ 
+       float ak1 = (ay1 - ay2) / (ax2 - ax1);
+       float ab1 = ay2 - ax1 * ak1;
+       
+       //1.2 line2: \
+       float ak2 = (ay2 - ay1) / (ax2 - ax1);
+       float ab2 = ay1 - ax1 * ak2;
+       
+       //1.2 bullet line:
+       float bx1 = b.getX(), bx2 = b.getX() + b.getSpeedX();
+       float by1 = b.getY(), by2 = b.getY() + b.getSpeedY();
+       float bk = (by1 - by2) / (bx2 - bx1);
+       float bb = by2 - bx1 * bk;
+       
+        //2. Determine whether these points is inside rectangle
+        
+        //2.1 intersection between line1 and bullet line
+       if(ak1 != bk1){
+          
+          //2.1.1 Whether this points is inside rectangle
+          if( ){
+             return true;   
+          }
+       }
+       
+        //2.2 intersection between line1 and bullet line
+       if(ak2 != bk1){
+          
+          //2.2.1 Whether this points is inside rectangle
+          if( ){
+             return true;   
+          }
+       }
+       return false;
+   }
+   
    
    /**
    * Collision detection between one BasicProp obj and one block
@@ -195,6 +243,7 @@ public class Controller{
    * player and blocks
    */
    public void checkAllAround(){
+     
       //collision detection between enemies and blocks, enemies and player,enemies and bullets
       Room r = model.getCurrentRoom();
       Player p = model.getPlayer();
@@ -213,6 +262,7 @@ public class Controller{
              if(b.getY() > height || b.getY() < 0 || b.getX() > width || b.getX() < 0){
                 bullets.remove(j--);
              }
+             
              //check bullets and enemies
              else if(collisionDetectionTwoObj(b,e)){
                 enemies.remove(i--);
