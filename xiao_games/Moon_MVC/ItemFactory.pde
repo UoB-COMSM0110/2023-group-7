@@ -39,8 +39,28 @@ public class ItemFactory extends Factory{
        potionImgs.add(loadImage("imgs/items/potion/0.png"));
 
     }
-      
-   
+    
+    //all effects of items can be written here
+    public void useItemByPlayer(Player p){
+        Item t = p.getCurrentItem();
+         if(t == null){
+            println("no items");
+            return;
+         }
+         
+         if(t.getCategory() == Type.ITEM_POTION){
+            println("use potion, id: " + t.getId());
+         }
+         
+         p.removeCurrentItem();
+    }
+    
+    //scan a room, add chest to this room
+    public void addItemsToRoom(Room r){
+    
+    
+    }
+    
     public Item newItem(int[] pos){
        int r = (int)random(10);
        Item t = null; 

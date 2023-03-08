@@ -58,6 +58,13 @@ public class Player extends BasicProp{
      }  
   }
   
+  public Item getCurrentItem(){
+       if(items.size() == 0){
+        return null;
+       }
+       return items.get(currentItemIndex);
+  }
+  
   public void changeItem(){
      if(items.size() == 0){
         println("no items");
@@ -68,18 +75,23 @@ public class Player extends BasicProp{
      println(items.size());
   }
   
-  public void useItem(){
-     if(items.size() == 0){
-        println("no items");
-        return;
-     }
-     Item t = items.get(currentItemIndex);
-     if(t.getCategory() == Type.ITEM_POTION){
-        println("use potion, id: " + t.getId());
-     }
+  public void removeCurrentItem(){
      this.items.remove(currentItemIndex--);
      if(currentItemIndex<0) currentItemIndex = 0;
   }
+  
+  //public void useItem(){
+  //   if(items.size() == 0){
+  //      println("no items");
+  //      return;
+  //   }
+  //   Item t = items.get(currentItemIndex);
+  //   if(t.getCategory() == Type.ITEM_POTION){
+  //      println("use potion, id: " + t.getId());
+  //   }
+  //   this.items.remove(currentItemIndex--);
+  //   if(currentItemIndex<0) currentItemIndex = 0;
+  //}
   
   public Item getWeapon(){
      return this.weapon;

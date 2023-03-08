@@ -477,6 +477,10 @@ public class Controller{
    }
   
    
+   public void useItemByPlayer(){
+     model.useItemByPlayer();
+   }
+   
    //public b interactiveThings(BasicProp o){
    //  //
      
@@ -599,7 +603,7 @@ public class Controller{
      }
      
      if(keyType == Type.MOUSE_RIGHT){
-        p.useItem();
+        useItemByPlayer();
      }
      
    }

@@ -145,6 +145,10 @@ public class Model{
    public boolean getGlobalList(){
        return this.globalList;
    }
+   
+   public void useItemByPlayer(){
+      itemFactory.useItemByPlayer(player);
+   }
 
    
 }
