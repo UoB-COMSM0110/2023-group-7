@@ -186,6 +186,7 @@ public class ItemFactory extends Factory{
                    noStroke();
                 }
             };
+            //b.setType(Type.BULLET_TYPE_LINE);
             r.getBullets().add(b);
 
           }

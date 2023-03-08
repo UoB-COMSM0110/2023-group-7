@@ -12,6 +12,7 @@ public class Bullet extends BasicProp{
        this.setSpeedY(speedY);
        this.setWidth(5);
        this.setHeight(5);
+       this.setType(Type.BULLET_TYPE_CIRCLE);
     }
     
       /**

@@ -20,7 +20,9 @@ static abstract class Type {
   static final float SPEED_INCREMENT = 0.5;
   static final float SPEED_BULLET = 7;
   static final int BULLET_CD = 10;
-  
+  static final int BULLET_TYPE_CIRCLE = 0;
+  static final int BULLET_TYPE_LINE = 1;
+
   //player - baisc attributes
   static final float PLAYER_SPEED_X = 5;
   static final float PLAYER_SPEED_Y = 10;
