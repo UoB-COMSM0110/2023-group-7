@@ -11,6 +11,9 @@ IntList pkeys = new IntList();
 */
 static abstract class Type {
   
+  //player -
+  static final int PLAYER_DPCD = 50;
+  
   //board - baisc attributes
   static final int BOARD_MAX_HEIGHT = 20;
   static final int BOARD_MAX_WIDTH = 29;

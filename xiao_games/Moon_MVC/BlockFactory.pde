@@ -37,6 +37,11 @@ public class BlockFactory extends Factory{
        this.addImg(loadImage("imgs/crate.png"));
        this.addImg(loadImage("imgs/spike.png"));
        this.addImg(loadImage("imgs/platform.png"));
+       
+       for(int i = 0; i < this.getImgs().size(); i++){
+          this.getImgs().get(i).resize(Type.BOARD_GRIDSIZE, Type.BOARD_GRIDSIZE);
+       }
+       
     }
     
 

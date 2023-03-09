@@ -6,7 +6,7 @@ import java.util.*;
 */
 public class RoomFactory extends Factory{    
     
-    private EnemyFactory enemyFactory;
+    //private EnemyFactory enemyFactory;
     private BlockFactory blockFactory;
     private final int sectionSize=9;
     private String[] level;
@@ -14,8 +14,8 @@ public class RoomFactory extends Factory{
     private boolean portal;
     private int[] portalCoordinates = new int[4];
    
-    public RoomFactory(EnemyFactory e, BlockFactory b){
-      this.enemyFactory = e;
+    public RoomFactory(BlockFactory b){
+      //this.enemyFactory = e;
       this.blockFactory = b;
       for(int i=0; i<14; i++){
         sectionIndex.add(i);
@@ -39,6 +39,7 @@ public class RoomFactory extends Factory{
         }
         this.increaseId();
         return r;
+        
     }
     
     private Room generateStart(int id){

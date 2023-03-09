@@ -17,6 +17,12 @@ class BasicProp{
   private boolean fall, jump, transported, highJump, left, onPortal, throughDown;
   private boolean flyMode;
   
+  //hp, damage
+  private float hp, dp;
+  
+  //during dpCd, player won't get damage again.
+  private int dpCd, dpTimer;
+  
   BasicProp(){
     this.fall = true;
     this.jump = false;
@@ -40,6 +46,23 @@ class BasicProp{
    public int getValue(){
       return this.value;
    }
+  
+  public void setHp(float num){
+      this.hp = num;
+  }
+  
+  public float getHp(){
+      return this.hp;
+  }
+  
+
+   public void setDp(float num){
+      this.dp = num;
+  }
+  
+  public float getDp(){
+      return this.dp;
+  }
   
   public void setType(int type){
       this.type = type;
@@ -194,27 +217,60 @@ class BasicProp{
      return left;
   }
   
+     
+   public void setDpCd(int cd){
+     this.dpCd = cd;
+   }
+   
+   //private int getDpCd(){
+   //  return this.dpCd;
+   //}
+  
+   //private void setDpTimer(int cd){
+   //  this.dpTimer = cd;
+   //}
+   
+   //private int getDpTimer(){
+   //  return this.dpTimer;
+   //}
+  
+  public void attacked(float dp){
+    if(this.type == Type.PLAYER){
+      if(this.dpTimer == 0){
+        this.hp -= dp;
+        println("player got damage:" + dp);
+        dpTimer++;
+      } else{
+        this.dpTimer ++;
+        dpTimer %= this.dpCd;
+      }
+    }else{
+        this.hp -= dp;
+        println("enemy got damage:" + dp);
+    }
+  }
+  
   /**
   * In each frame, player's position depends on x + speedX and y + speedY
   */
   public void move(){
-     //this.x += this.speedX + this.speedXInc;
-     //if(this.flyMode){
-     //    this.y += this.speedY;
-     //}else{
-     //    if(this.jump){
-     //       this.y += this.speedY;
-     //       if(speedY < Type.PLAYER_SPEED_Y) this.speedY += Type.SPEED_INCREMENT;
-     //    }
-     //    if(this.speedY == 0){
-     //      this.fallDistance = 0;
-     //    }
-     //    this.fallDistance += speedY;
-     //    if(this.fallDistance > 250){
-     //      println("Too high, damage caused");
-     //      this.fallDistance = 0;
-     //    }
-     //}
+     this.x += this.speedX + this.speedXInc;
+     if(this.flyMode){
+         this.y += this.speedY;
+     }else{
+         if(this.jump){
+            this.y += this.speedY;
+            if(speedY < Type.PLAYER_SPEED_Y) this.speedY += Type.SPEED_INCREMENT;
+         }
+         if(this.speedY == 0){
+           this.fallDistance = 0;
+         }
+         this.fallDistance += speedY;
+         if(this.fallDistance > 250){
+           println("Too high, damage caused");
+           this.fallDistance = 0;
+         }
+     }
   }
   
   public void move(float px, float py){

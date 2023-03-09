@@ -66,9 +66,7 @@ public class Item extends BasicProp{
    private void setBulletCd(int cd){
      this.bulletCd = cd;
    }
-   
-
-    
+       
     //if item is weapon
     public void shot(Room r, float x, float y){
        

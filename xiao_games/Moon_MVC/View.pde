@@ -48,13 +48,15 @@ public class View{
   */
   public void drawRoom(){
      Room r = model.getCurrentRoom(); 
+     ArrayList<PImage> imgs = model.getBlockFactory().getImgs();
      //draw room
      for(int i = 0; i < 20; i++){
         for(int j = 0; j < 29; j++){
           int type = r.blockType[i][j];
-          Block b = model.getBlockByType(type);
-          float sx = b.getWidth();
-          image(b.getImg(), j * sx, i * sx);
+          //Need to simplify this function
+          //Block b = model.getBlockByType(type);
+          //float sx = b.getWidth();
+          image(imgs.get(type), j * Type.BOARD_GRIDSIZE, i * Type.BOARD_GRIDSIZE);
         }
       }
       
@@ -100,7 +102,18 @@ public class View{
             image(p.getGifs().get(1), p.getX(), p.getY());
             image(w.getImgs()[1],  p.getX() + p.getWidth(), p.getY() + p.getHeight()/3);
        }
+       
+       drawHp(p);
+       
   }
+  
+  public void drawHp(BasicProp p){
+      for(int i = 0; i <= p.getHp(); i += 10){
+         image(p.getImg(), Type.BOARD_GRIDSIZE/2 + (i/10) * Type.BOARD_GRIDSIZE * 4/5, Type.BOARD_GRIDSIZE/2);
+      }
+  }
+  
+  
 
   /**
   * Show collision detection range, can be deleted

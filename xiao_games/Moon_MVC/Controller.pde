@@ -23,6 +23,7 @@ public class Controller{
           checkAllAround();
           model.getPlayer().move();
           //enemies move here
+          model.enemiesMove();
       }
 
    }
@@ -38,13 +39,18 @@ public class Controller{
       float sy = p.getHeight();
       if(x <= 0){
          goLeft(p, sx);
+         model.addEnemiesToRoom();
       }else if(x + sx > width){
          goRight(p); 
+         model.addEnemiesToRoom();
       }else if(y < 0){
          goUp(p, sy);
+         model.addEnemiesToRoom();
       }else if(y + sy > height){
          goDown(p);
+         model.addEnemiesToRoom();
       }
+
    }
 
    /**
@@ -269,6 +275,7 @@ public class Controller{
          if(collisionDetectionTwoObj(p,e)){
             //TO DO
             //delete 1HP of player
+            p.attacked(e.getDp());
          }
          for(int j = 0; j < bullets.size(); j++){
              Bullet b = bullets.get(j);
@@ -279,7 +286,10 @@ public class Controller{
              
              //check bullets and enemies
              else if(collisionDetectionTwoObj(b,e)){
-                enemies.remove(i--);
+                e.attacked(b.getDp());
+                if(e.getHp() <= 0){
+                   enemies.remove(i--);
+                }
                 bullets.remove(j--);
                 break;
              }

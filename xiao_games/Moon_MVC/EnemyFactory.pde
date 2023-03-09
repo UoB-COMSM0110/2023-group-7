@@ -20,7 +20,18 @@ public class EnemyFactory extends Factory{
     
     //scan a room, add enemy spawn or enemies to this room
     public void addEnemiesToRoom(Room r){
-    
+       for(int i = 0; i < 19; i++){
+         for(int j = 0; j < 29; j++){
+            if(r.getBlockType(i , j) == Type.BLOCK_EMPTY){
+              if((int)random(70) == 1){
+                Enemy e = newEnemy(Type.ENEMY_WORM);
+                e.setX(Type.BOARD_GRIDSIZE * j);
+                e.setY(Type.BOARD_GRIDSIZE * i);
+                r.addEnemy(e);
+              }
+            }
+         }
+       }
     
     }
     
@@ -31,6 +42,8 @@ public class EnemyFactory extends Factory{
            e = new Ghost((int)(Type.BOARD_GRIDSIZE * 1.5), (int)(Type.BOARD_GRIDSIZE * 1.5)); //<>// //<>// //<>//
        }else if(type == Type.ENEMY_WORM){
            e = new Worm((int)(Type.BOARD_GRIDSIZE), (int)(Type.BOARD_GRIDSIZE));
+           e.setHp(20);
+           e.setDp(10);
            e.setX(width * 3/4);
            e.setY(height/2);
        }else if(type == Type.ENEMY_GUNNER){

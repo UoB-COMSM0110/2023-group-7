@@ -15,10 +15,10 @@ public class Player extends BasicProp{
   
   //since there may be more then two gifs
   private ArrayList<Gif> gifs;
-  
-  private int bulletCd;
 
   
+  private int bulletCd;
+    
   public Player(int x, int y, int w, int h){
     this.setType(Type.PLAYER);
     this.setTransported(true);
@@ -28,6 +28,10 @@ public class Player extends BasicProp{
     this.setHeight(h);
     this.items = new ArrayList();
     this.gifs = new ArrayList();
+    this.setHp(100);
+    this.setImg(loadImage("imgs/player/hp.png"));
+    this.getImg().resize(Type.BOARD_GRIDSIZE *2/3, Type.BOARD_GRIDSIZE *2/3);
+    this.setDpCd(Type.PLAYER_DPCD);
   };
   
   /**
@@ -47,6 +51,10 @@ public class Player extends BasicProp{
   public void addGif(Gif gif){
     this.gifs.add(gif);
   }
+    
+  //public float getDp(){
+  //    return this.weapon.getDp();
+  //}
     
   public ArrayList<Gif> getGifs(){
     return this.gifs;
@@ -106,7 +114,7 @@ public class Player extends BasicProp{
    private void setBulletCd(int cd){
      this.bulletCd = cd;
    }
-  
+
   public void move(){
      this.setX(this.getX() + this.getSpeedX() + this.getSpeedXInc());
      if(this.getFlyMode()){

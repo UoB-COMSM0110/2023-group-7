@@ -9,37 +9,38 @@ public class Model{
    private EnemyFactory enemyFactory;
    private RoomFactory roomFactory;
    private BlockFactory blockFactory;
-   private ArrayList<Block> basicBlock;
+   //private ArrayList<Block> basicBlock;
    private ArrayList<Gif> gifs;
    private boolean menuHomePage, menuControl, gameStart, gamePause, gameOver, globalList;
    
    public Model(){
        this.enemyFactory = new EnemyFactory();
        this.blockFactory = new BlockFactory();
-       this.roomFactory = new RoomFactory(enemyFactory, blockFactory);
+       this.roomFactory = new RoomFactory(blockFactory);
        map = new Map();
        map.addEnemy(enemyFactory.newEnemy(Type.ENEMY_GHOST));  //<>// //<>// //<>//
        map.addRoom(roomFactory.newRoom(Type.ROOM_START));
-       this.basicBlock = new ArrayList();
-       this.init();
+       //this.basicBlock = new ArrayList();
+       //this.init();
        
        this.gameStart = true;
    }
    
    /**
    * Add all types of blocks to model, so View.class can get PImage of them more conveniently
+   * Need to simplify this by only add PImage instead of ArrayList<Block>
    */
-   public void init(){
-      basicBlock.add(blockFactory.newBlock(Type.BLOCK_EMPTY));
-      basicBlock.add(blockFactory.newBlock(Type.BLOCK_WALL));
-      basicBlock.add(blockFactory.newBlock(Type.BLOCK_GOLD));
-      basicBlock.add(blockFactory.newBlock(Type.BLOCK_BOUNCE));
-      basicBlock.add(blockFactory.newBlock(Type.BLOCK_PORTAL));
-      basicBlock.add(blockFactory.newBlock(Type.BLOCK_BORDER));
-      basicBlock.add(blockFactory.newBlock(Type.BLOCK_CRATE));
-      basicBlock.add(blockFactory.newBlock(Type.BLOCK_SPIKE));
-      basicBlock.add(blockFactory.newBlock(Type.BLOCK_PLATFORM));
-   }
+   //public void init(){
+   //   basicBlock.add(blockFactory.newBlock(Type.BLOCK_EMPTY));
+   //   basicBlock.add(blockFactory.newBlock(Type.BLOCK_WALL));
+   //   basicBlock.add(blockFactory.newBlock(Type.BLOCK_GOLD));
+   //   basicBlock.add(blockFactory.newBlock(Type.BLOCK_BOUNCE));
+   //   basicBlock.add(blockFactory.newBlock(Type.BLOCK_PORTAL));
+   //   basicBlock.add(blockFactory.newBlock(Type.BLOCK_BORDER));
+   //   basicBlock.add(blockFactory.newBlock(Type.BLOCK_CRATE));
+   //   basicBlock.add(blockFactory.newBlock(Type.BLOCK_SPIKE));
+   //   basicBlock.add(blockFactory.newBlock(Type.BLOCK_PLATFORM));
+   //}
       
     public void setGifs(ArrayList<Gif> gifs){
        this.gifs = gifs;
@@ -49,17 +50,26 @@ public class Model{
       return this.gifs;
     }
    
+   
+   public void addEnemiesToRoom(){
+       this.enemyFactory.addEnemiesToRoom(getCurrentRoom());
+   }
+   
    public void setItemFactory(ItemFactory t){
       this.itemFactory = t;
+   }
+   
+   public BlockFactory getBlockFactory(){
+      return this.blockFactory;
    }
    
    public Item newItem(int[] pos){
       return itemFactory.newItem(pos);
    }
 
-   public Block getBlockByType(int type){
-     return basicBlock.get(type);
-   }
+   //public Block getBlockByType(int type){
+   //  return basicBlock.get(type);
+   //}
    
    public Player getPlayer(){
        return this.player;
@@ -149,6 +159,14 @@ public class Model{
    
    public void useItemByPlayer(){
       itemFactory.useItemByPlayer(player);
+   }
+   
+   public void enemiesMove(){
+       ArrayList<Enemy> enemies = map.getCurrentRoom().getEnemies();
+       
+       for(int i = 0; i < enemies.size(); i++){
+          enemies.get(i).move();
+       }
    }
 
    
