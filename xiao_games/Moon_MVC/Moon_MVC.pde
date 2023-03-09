@@ -31,20 +31,17 @@ static abstract class Type {
   static final int MOUSE_RIGHT = 10;
   
   //keys - integer of keys
-  //KEY_LEFT = A
-  static final int KEY_LEFT = 97;
-  //KEY_RIGHT = D
-  static final int KEY_RIGHT = 100;
-  //KEY_UP = W
-  static final int KEY_UP = 119;
-  //KEY_DOWN = S
-  static final int KEY_DOWN = 115;
+  static final int KEY_A = 97;
+  static final int KEY_D = 100;
+  static final int KEY_W = 119;
+  static final int KEY_S = 115;
   static final int KEY_E = 101;
   static final int KEY_SPACE = 32;
   static final int KEY_RELEASED_AD = 1000;
   static final int KEY_RELEASED_WS = 1001;
-  
   static final int KEY_Q = 113;
+  //press S and SPACE together, can throught blocks
+  static final int KEY_S_SPACE = 200;
 
   //temporarily for activate FlyMode
   static final int KEY_F = 102;
@@ -185,19 +182,26 @@ public void keyListener(){
         return;
     }
     if(pkeys.size()== 0) return;
+       
     for(int i=pkeys.size()-1; i>=0; i--){
       if(validKey(pkeys.get(i))){
-        controller.controlPlayer(pkeys.get(i));
-      }
+        if(pkeys.hasValue(Type.KEY_S) && pkeys.hasValue(Type.KEY_SPACE)){
+          controller.controlPlayer(Type.KEY_S_SPACE);
+        }else{
+          controller.controlPlayer(pkeys.get(i));
+        }
+        
+      }      
     }
+    
 }
 
 public boolean validKey(int value){
-  if(value == Type.KEY_RIGHT 
-  || value == Type.KEY_LEFT 
+  if(value == Type.KEY_D 
+  || value == Type.KEY_A 
   || value == Type.KEY_SPACE
-  || value == Type.KEY_UP
-  || value == Type.KEY_DOWN
+  || value == Type.KEY_W
+  || value == Type.KEY_S
   ){
   return true;
   }

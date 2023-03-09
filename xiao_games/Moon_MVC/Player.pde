@@ -15,7 +15,7 @@ public class Player extends BasicProp{
   
   //since there may be more then two gifs
   private ArrayList<Gif> gifs;
-
+  
   
   public Player(int x, int y, int w, int h){
     this.setType(Type.PLAYER);

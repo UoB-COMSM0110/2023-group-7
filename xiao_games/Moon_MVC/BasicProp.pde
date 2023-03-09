@@ -10,10 +10,11 @@ class BasicProp{
   private int w, h;
   private float fallDistance;
   //speedXIncrement - to speed up or slow down speed
-  private float x, y, speedX, speedY, speedXInc;
+  private float x, y, speedX, speedY, speedXInc,speedYInc;
   private PImage img;
-  // transported = have used portal, left = direction is left, onPortal = player is on Portal block
-  private boolean fall, jump, transported, highJump, left, onPortal;
+  // transported - have used portal, left = direction is left, onPortal = player is on Portal block
+  // throughDown - When S and Space are pressed together, player can through some blocks such as bounce
+  private boolean fall, jump, transported, highJump, left, onPortal, throughDown;
   private boolean flyMode;
   
   BasicProp(){
@@ -64,8 +65,21 @@ class BasicProp{
       return this.speedXInc;
   }
   
+    
+  public void setSpeedYInc(float speed){
+      this.speedYInc = speed;
+  }
+  
+  public float getSpeedYInc(){
+      return this.speedYInc;
+  }
+  
   public float getFullSpeedX(){
       return this.speedX + this.speedXInc;
+  }
+  
+  public float getFullSpeedY(){
+      return this.speedY + this.speedYInc;
   }
   
   public void setSpeedY(float speed){
@@ -154,6 +168,14 @@ class BasicProp{
   
   public boolean getJump(){
       return this.jump;
+  }
+ 
+  public void setThroughDown(boolean flag){
+      this.throughDown = flag;
+  }
+  
+  public boolean getThroughDown(){
+      return this.throughDown;
   }
   
   public boolean getHighJump(){

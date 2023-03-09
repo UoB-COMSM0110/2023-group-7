@@ -190,21 +190,21 @@ public class Controller{
         //2. Determine whether these points is inside rectangle
         
         //2.1 intersection between line1 and bullet line
-       if(ak1 != bk1){
+       if(ak1 != bk){
           
           //2.1.1 Whether this points is inside rectangle
-          if( ){
-             return true;   
-          }
+          //if( ){
+          //   return true;   
+          //}
        }
        
         //2.2 intersection between line1 and bullet line
-       if(ak2 != bk1){
+       if(ak2 != bk){
           
           //2.2.1 Whether this points is inside rectangle
-          if( ){
-             return true;   
-          }
+          //if( ){
+          //   return true;   
+          //}
        }
        return false;
    }
@@ -226,14 +226,28 @@ public class Controller{
    }
    
    //added this boolean so that we can turn off collision detection for blocks other than the background
-   //if return false, player can go through these type of blocks
-   public boolean collisionDetect(int flag){
-     if(flag == Type.BLOCK_EMPTY || flag == Type.BLOCK_CRATE || flag == Type.BLOCK_SPIKE){
+   //if return false, player can through these type of blocks
+   //when player, throughDown = p.getThroughDown(), others, checkDown = false && throughDown = true
+   public boolean blockCannotThrough(int type, boolean checkDown, BasicProp o){
+     if(type == Type.BLOCK_EMPTY || type == Type.BLOCK_CRATE || type == Type.BLOCK_SPIKE){
        return false;
+     }
+     
+     
+     if(type == Type.BLOCK_BOUNCE){
+        // o == null - o is bullet or o is fly, can through
+        if(o == null || o.getFlyMode()){
+           return false;
+        }
+        if(checkDown && !o.getThroughDown()){
+           return true;
+        }else{
+           return false;
+        }
      }
      return true;
    }
-   
+  
    /**
    * Collision detection between:
    * enemies and blocks,
@@ -276,7 +290,7 @@ public class Controller{
        //if b crash blocks, remove
          for(int i = 0; i < Type.BOARD_MAX_HEIGHT; i++){
             for(int j = 0; j < Type.BOARD_MAX_WIDTH; j++){
-                if(collisionDetect(r.getBlockType(i,j))){
+                if(blockCannotThrough(r.getBlockType(i,j), false, null)){
                         for(int k = 0; k < bullets.size(); k++){
                              Bullet b = bullets.get(k);
                             if(collisionDetectionWithBlock(b, i, j)){
@@ -316,9 +330,10 @@ public class Controller{
          int flag1 = L >= 0 ? r.getBlockType(upper,L) : r.getBlockType(0, 0);
          int flag2 = R < Type.BOARD_MAX_WIDTH ? r.getBlockType(upper, R) : r.getBlockType(upper, Type.BOARD_MAX_WIDTH - 1);
          //println(flag1 + "," + flag2);
-         if((collisionDetect(flag1) && x < L * s + s + 1) || collisionDetect(flag2)){
-            if(y + o.getSpeedY() <= upper * s + s){
+         if((blockCannotThrough(flag1, false, o) && x < L * s + s + 1) || blockCannotThrough(flag2,false, o)){
+            if(y + o.getFullSpeedY() <= upper * s + s){
                 o.setSpeedY(0);
+                o.setSpeedYInc(0);
                 o.setFall(false);
                 o.setY(upper * s + s + 1);
              }
@@ -368,22 +383,24 @@ public class Controller{
          
          //if enemies, change direction
          if(o.getType() != Type.PLAYER){
-             if((!collisionDetect(flag1) && collisionDetect(flag2))
-              || (!collisionDetect(flag2) && collisionDetect(flag1))
+             if((!blockCannotThrough(flag1,true,o) && blockCannotThrough(flag2,true,o))
+              || (!blockCannotThrough(flag2,true,o) && blockCannotThrough(flag1,true,o))
              ){
                 o.setSpeedX(-o.getSpeedX());
                 o.setX(o.getX() + o.getSpeedX());
              }
          }
          
-         if(!collisionDetect(flag1) && !collisionDetect(flag2)){
+         if(!blockCannotThrough(flag1,true,o) && !blockCannotThrough(flag2,true,o)){
                o.setFall(true);
                o.setJump(true);
          }
-         if(((collisionDetect(flag1) && x < L * s + s + 1) || collisionDetect(flag2)) && (y + h + o.getSpeedY()>= below * s)){
+         
+         if(((blockCannotThrough(flag1,true,o) && x < L * s + s + 1) || blockCannotThrough(flag2,true,o)) && (y + h + o.getFullSpeedY()>= below * s)){
               o.setFall(false);
               o.setJump(false);
               o.setSpeedY(0);
+              o.setSpeedYInc(0);
               o.setY(below * s - h - 1);
          }else{
             o.setFall(true);
@@ -405,7 +422,7 @@ public class Controller{
          int flag1 = h1 >= 0 ? r.getBlockType(h1,left) : r.getBlockType(0, left);
          int flag2 = h2 < Type.BOARD_MAX_HEIGHT ? r.getBlockType(h2, left) : r.getBlockType(Type.BOARD_MAX_HEIGHT - 1, left);
          int flag3 = h3 < Type.BOARD_MAX_HEIGHT ? r.getBlockType(h3, left) : r.getBlockType(Type.BOARD_MAX_HEIGHT - 1, left);
-         if(collisionDetect(flag1) || collisionDetect(flag2) || (collisionDetect(flag3) && y + h > h3 * s)){
+         if(blockCannotThrough(flag1,false,null) || blockCannotThrough(flag2,false,null) || (blockCannotThrough(flag3,false,null) && y + h > h3 * s)){
               // reach the end, shoud stop
               if(x + o.getFullSpeedX() <= left * s + s){
                   // if enemy, should change move direction
@@ -435,7 +452,7 @@ public class Controller{
          int flag1 = h1 >= 0 ? r.getBlockType(h1, right) : r.getBlockType(0, right);
          int flag2 = h2 < Type.BOARD_MAX_HEIGHT ? r.getBlockType(h2, right) : r.getBlockType(Type.BOARD_MAX_HEIGHT - 1, right);
          int flag3 = h3 < Type.BOARD_MAX_HEIGHT ? r.getBlockType(h3, right) : r.getBlockType(Type.BOARD_MAX_HEIGHT - 1, right);
-         if(collisionDetect(flag1) || collisionDetect(flag2) || (collisionDetect(flag3) && y + h > h3 * s)){
+         if(blockCannotThrough(flag1,false,null) || blockCannotThrough(flag2,false,null) || (blockCannotThrough(flag3,false,null) && y + h > h3 * s)){
              if(x + w + o.getFullSpeedX() >= right * s){
                   if(o.getType() != Type.PLAYER){
                      o.setSpeedX(-o.getSpeedX());
@@ -455,7 +472,7 @@ public class Controller{
         Room r = model.getCurrentRoom();
         for(int i = 0; i < Type.BOARD_MAX_HEIGHT; i++){
             for(int j = 0; j < Type.BOARD_MAX_WIDTH; j++){
-                if(collisionDetect(r.getBlockType(i,j)) && collisionDetectionWithBlock(o, i, j)){
+                if(blockCannotThrough(r.getBlockType(i,j) , false, model.getPlayer()) && collisionDetectionWithBlock(o, i, j)){
                     float s = Type.BOARD_GRIDSIZE;
                     float y = o.getY(), by = i * s;
                     float  h = o.getHeight();
@@ -544,13 +561,13 @@ public class Controller{
      Player p = model.getPlayer();
      
      //move left by set speedX
-     if(keyType == Type.KEY_LEFT){
+     if(keyType == Type.KEY_A){
         if(mousePressed == false) p.setLeft(true);
         p.setSpeedX(-Type.PLAYER_SPEED_X);
      }
     
      //move right by set speedX
-     if(keyType == Type.KEY_RIGHT){
+     if(keyType == Type.KEY_D){
         if(mousePressed == false) p.setLeft(false);
         p.setSpeedX(Type.PLAYER_SPEED_X);
      }
@@ -591,6 +608,12 @@ public class Controller{
        }
      }
      
+     if(keyType == Type.KEY_S_SPACE){
+        p.setThroughDown(true);
+        return;
+     }else{
+        p.setThroughDown(false);
+     }
      //not in fly mode
      if(keyType == Type.KEY_SPACE && !p.getFlyMode()){
         if(p.getJump())return;
@@ -605,7 +628,7 @@ public class Controller{
      }
      
      // W - speed up or move upward
-     if(keyType == Type.KEY_UP){
+     if(keyType == Type.KEY_W){
        //in fly mode, move upward
        if(p.getFlyMode()){
           p.setSpeedY(-Type.PLAYER_SPEED_Y/2);
@@ -622,7 +645,7 @@ public class Controller{
      
      
       // S - slow down or move upward
-      if(keyType == Type.KEY_DOWN){
+      if(keyType == Type.KEY_S){
         //in fly mode, move down
         if(p.getFlyMode()){
            p.setSpeedY(Type.PLAYER_SPEED_Y/2);
@@ -637,7 +660,6 @@ public class Controller{
        }
     }
 
-     
      // E - use to interact with props
      if(keyType == Type.KEY_E){
        if(p.getOnPortal()){
