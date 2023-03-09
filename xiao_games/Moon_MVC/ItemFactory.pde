@@ -110,15 +110,16 @@ public class ItemFactory extends Factory{
        Item t = new Item(){
             public void shot(Room r, float x, float y){
             Bullet b = new Bullet(x, y, Type.BULLET_SPEED_SLOW);
-            //set dp of bullet
+            //dp of bullet must be set
             b.setDp(5);
-            
+
             r.getBullets().add(b);
           }
        };
-       ////dp of weapon
-       //t.setDp(5);
+       
+       //Cd must be set
        t.setBulletCd(Type.BULLET_CD_NORMAL);
+       //Type must be set
        t.setType(Type.WEAPON_PISTOL);
        //get PImage and resize them
        t.setImgs(new PImage[]{
@@ -127,11 +128,13 @@ public class ItemFactory extends Factory{
        });
        t.getImgs()[0].resize(Type.BOARD_GRIDSIZE/2, Type.BOARD_GRIDSIZE/2);
        t.getImgs()[1].resize(Type.BOARD_GRIDSIZE/2, Type.BOARD_GRIDSIZE/2);
+       
        //remember to set width and height
        t.setWidth(Type.BOARD_GRIDSIZE/2);
        t.setHeight(Type.BOARD_GRIDSIZE/2);
        
-       //these two lines are here because this methoed is called when game started.
+       //these two lines are here because this methoed is called when game started,
+       //and they are not needed in other weapon*() methods;
        t.setId(this.getId());
        this.increaseId();
        

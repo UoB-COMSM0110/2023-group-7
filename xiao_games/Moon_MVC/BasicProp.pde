@@ -238,7 +238,7 @@ class BasicProp{
     if(this.type == Type.PLAYER){
       if(this.dpTimer == 0){
         this.hp -= dp;
-        println("player got damage:" + dp);
+        println("Damage caused by enemy:" + dp);
         dpTimer++;
       } else{
         this.dpTimer ++;
@@ -246,7 +246,7 @@ class BasicProp{
       }
     }else{
         this.hp -= dp;
-        println("enemy got damage:" + dp);
+        println("Damage caused by player:" + dp);
     }
   }
   

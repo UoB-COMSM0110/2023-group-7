@@ -19,6 +19,7 @@ public class EnemyFactory extends Factory{
     //}
     
     //scan a room, add enemy spawn or enemies to this room
+    //enemy can'be generated on blocks without two blocks next to it
     public void addEnemiesToRoom(Room r){
        for(int i = 0; i < 19; i++){
          for(int j = 0; j < 29; j++){

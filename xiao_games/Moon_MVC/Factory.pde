@@ -28,7 +28,7 @@ public class Factory{
     
     public void addImg(PImage img){
        this.imgs.add(img);
-    } //<>// //<>//
+    } //<>// //<>// //<>//
     
     public PImage getImg(int i){
        return this.imgs.get(i);

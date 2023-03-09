@@ -129,7 +129,8 @@ public class Player extends BasicProp{
          }
          this.setFallDistance(this.getFallDistance() + this.getSpeedY());
          if(this.getFallDistance() > 250){
-         println("Too high, damage caused");
+         this.setHp(this.getHp() - 20);
+         println("Damage caused by falling: " + 20);
          this.setFallDistance(0);
          }
      }

@@ -276,6 +276,7 @@ public class Controller{
             //TO DO
             //delete 1HP of player
             p.attacked(e.getDp());
+            //println("Damage caused by enemy: " + e.getDp());
          }
          for(int j = 0; j < bullets.size(); j++){
              Bullet b = bullets.get(j);
@@ -387,7 +388,10 @@ public class Controller{
              }
              //spike - basic implemenation for now as we don't yet have a death mechanic
              if(o.getFall() && (flag2 == Type.BLOCK_SPIKE)){
-               System.out.println("Death by spikes");
+               
+               o.attacked(5);
+               
+               System.out.println("Damage caused by spikes: " + 5);
              }
          }
          
