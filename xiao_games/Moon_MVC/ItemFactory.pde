@@ -1,7 +1,7 @@
 /**
 * @author participants, imyuanxiao
 * Factory for item generation (randomly)
-* For weapons, method 'shot()' (and other functions if needed) in this class should be overloaded in construcotr. 
+* For weapons, method 'shot()' (and other functions if needed) in this class should be overrided by creating an anonymous inner class in construcotr.
 * How bullet moves should be reconsidered. Currently, bullets will move faster if shot upward.
 * 
 * For consumables such as potions, method 'useItem()' in Player.class should be refactored to change status of player temporarily
