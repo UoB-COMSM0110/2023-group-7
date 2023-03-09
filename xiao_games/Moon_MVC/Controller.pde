@@ -39,16 +39,12 @@ public class Controller{
       float sy = p.getHeight();
       if(x <= 0){
          goLeft(p, sx);
-         model.addEnemiesToRoom();
       }else if(x + sx > width){
          goRight(p); 
-         model.addEnemiesToRoom();
       }else if(y < 0){
          goUp(p, sy);
-         model.addEnemiesToRoom();
       }else if(y + sy > height){
          goDown(p);
-         model.addEnemiesToRoom();
       }
 
    }
@@ -110,6 +106,8 @@ public class Controller{
          Room newRoom = model.getNewRoom();
          newRoom.setAdjacent(new int[]{Type.NO_ROOM,Type.NO_ROOM,Type.NO_ROOM, curRoom.getIndex()});
          curRoom.setAdjacent(new int[]{Type.NO_ROOM,Type.NO_ROOM,newRoom.getIndex(),Type.NO_ROOM});
+         
+         model.addEnemiesToRoom(newRoom);
       }
    }
    
@@ -124,6 +122,8 @@ public class Controller{
          Room newRoom = model.getNewRoom();
          newRoom.setAdjacent(new int[]{Type.NO_ROOM,Type.NO_ROOM,curRoom.getIndex(),Type.NO_ROOM});
          curRoom.setAdjacent(new int[]{Type.NO_ROOM,Type.NO_ROOM,Type.NO_ROOM, newRoom.getIndex()});
+         
+         model.addEnemiesToRoom(newRoom);
       }
    }
    
@@ -138,6 +138,8 @@ public class Controller{
          Room newRoom = model.getNewRoom();
          newRoom.setAdjacent(new int[]{Type.NO_ROOM,curRoom.getIndex(),Type.NO_ROOM,Type.NO_ROOM});
          curRoom.setAdjacent(new int[]{newRoom.getIndex(),Type.NO_ROOM,Type.NO_ROOM,Type.NO_ROOM});
+         
+         model.addEnemiesToRoom(newRoom);
       }
    }
    
@@ -152,6 +154,8 @@ public class Controller{
          Room newRoom = model.getNewRoom();
          newRoom.setAdjacent(new int[]{curRoom.getIndex(),Type.NO_ROOM,Type.NO_ROOM,Type.NO_ROOM});
          curRoom.setAdjacent(new int[]{Type.NO_ROOM,newRoom.getIndex(),Type.NO_ROOM,Type.NO_ROOM});
+         
+         model.addEnemiesToRoom(newRoom);
       }
    }
      
@@ -400,6 +404,9 @@ public class Controller{
              if((!blockCannotThrough(flag1,true,o) && blockCannotThrough(flag2,true,o))
               || (!blockCannotThrough(flag2,true,o) && blockCannotThrough(flag1,true,o))
              ){
+                //if((o.getLeft() && o.getSpeedX() <= 0) || (!o.getLeft() && o.getSpeedX() > 0)){
+                //     o.setSpeedX(-o.getSpeedX());
+                //}
                 o.setSpeedX(-o.getSpeedX());
                 o.setX(o.getX() + o.getSpeedX());
              }

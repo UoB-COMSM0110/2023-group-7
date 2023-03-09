@@ -265,11 +265,11 @@ class BasicProp{
          if(this.speedY == 0){
            this.fallDistance = 0;
          }
-         this.fallDistance += speedY;
-         if(this.fallDistance > 250){
-           println("Too high, damage caused");
-           this.fallDistance = 0;
-         }
+         //this.fallDistance += speedY;
+         //if(this.fallDistance > 250){
+         //  println("Enemy falling, no damage");
+         //  this.fallDistance = 0;
+         //}
      }
   }
   

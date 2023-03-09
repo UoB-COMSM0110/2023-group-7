@@ -31,8 +31,18 @@ public class View{
          drawPlayer();
          // show collision detection range, can be deleted
          showAround(model.getPlayer());
+         showAroundEnemy();
      }
   }
+  
+  public void showAroundEnemy(){
+       ArrayList<Enemy> enemies = model.getCurrentRoom().getEnemies();
+       for(int i = 0; i < enemies.size(); i++){
+          showAround(enemies.get(i));
+       }
+  
+  }
+  
   
   public void drawGhost(){
        ArrayList<Enemy> enemies = model.getEnemies();

@@ -18,7 +18,7 @@ public class Model{
        this.blockFactory = new BlockFactory();
        this.roomFactory = new RoomFactory(blockFactory);
        map = new Map();
-       map.addEnemy(enemyFactory.newEnemy(Type.ENEMY_GHOST));  //<>// //<>// //<>// //<>//
+       map.addEnemy(enemyFactory.newEnemy(Type.ENEMY_GHOST));  //<>// //<>// //<>// //<>// //<>//
        map.addRoom(roomFactory.newRoom(Type.ROOM_START));
        //this.basicBlock = new ArrayList();
        //this.init();
@@ -51,8 +51,8 @@ public class Model{
     }
    
    
-   public void addEnemiesToRoom(){
-       this.enemyFactory.addEnemiesToRoom(getCurrentRoom());
+   public void addEnemiesToRoom(Room r){
+       this.enemyFactory.addEnemiesToRoom(r);
    }
    
    public void setItemFactory(ItemFactory t){

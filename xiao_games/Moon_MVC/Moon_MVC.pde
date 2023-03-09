@@ -18,6 +18,9 @@ static abstract class Type {
   static final int BOARD_MAX_HEIGHT = 20;
   static final int BOARD_MAX_WIDTH = 29;
   static final int BOARD_GRIDSIZE = 30;
+  static final int BOARD_GRIDSIZE_ADD5 = 35;
+  static final int BOARD_GRIDSIZE_SUB5 = 25;
+
   
   static final float SPEED_INCREMENT = 0.5;
 
