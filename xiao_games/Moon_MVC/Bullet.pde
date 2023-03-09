@@ -5,15 +5,17 @@
 */
 public class Bullet extends BasicProp{
    
-    Bullet(float x, float y, float speedX, float speedY){
+    Bullet(float x, float y, float speed){
        this.setX(x);
        this.setY(y);
-       this.setSpeedX(speedX);
-       this.setSpeedY(speedY);
+       //this.setSpeedX(speedX);
+       //this.setSpeedY(speedY);
        this.setWidth(5);
        this.setHeight(5);
        this.setType(Type.BULLET_TYPE_CIRCLE);
+       this.countSpeed(speed);
     }
+    
     
       /**
       * Currently, bullet can only move left and right
@@ -30,6 +32,24 @@ public class Bullet extends BasicProp{
          fill(255);
          ellipse(this.getX(), this.getY(), this.getWidth(), this.getHeight());
          noFill();
+      }
+      
+      public void countSpeed(float speed){
+            float bSpeedX, bSpeedY;
+            if(mouseX == this.getX()){
+                 bSpeedX = 0;
+                 bSpeedY = speed;
+            }else{
+                 float k = (mouseY - this.getY()) / (mouseX - this.getX());
+                 bSpeedX = sqrt(speed * speed/(1+k*k));
+                 bSpeedY = k*sqrt(speed * speed/(1+k*k));
+            }
+            if(mouseX < this.getX()){
+              bSpeedX = - bSpeedX;
+              bSpeedY = - bSpeedY;
+            }
+            this.setSpeedX(bSpeedX);
+            this.setSpeedY(bSpeedY);
       }
 
 }

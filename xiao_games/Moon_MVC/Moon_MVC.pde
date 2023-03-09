@@ -15,11 +15,18 @@ static abstract class Type {
   static final int BOARD_MAX_HEIGHT = 20;
   static final int BOARD_MAX_WIDTH = 29;
   static final int BOARD_GRIDSIZE = 30;
+  
+  static final float SPEED_INCREMENT = 0.5;
 
   //bullet - baisc attributes
-  static final float SPEED_INCREMENT = 0.5;
-  static final float SPEED_BULLET = 7;
-  static final int BULLET_CD = 10;
+  static final int BULLET_SPEED_SLOW = 3;
+  static final int BULLET_SPEED_NORMAL = 5;
+  static final int BULLET_SPEED_FAST = 10;
+  
+  static final int BULLET_CD_LONG = 30;
+  static final int BULLET_CD_NORMAL = 20;
+  static final int BULLET_CD_SHORT = 10;
+  
   static final int BULLET_TYPE_CIRCLE = 0;
   static final int BULLET_TYPE_LINE = 1;
 
@@ -262,6 +269,7 @@ public void mouseListener(){
   
    //only work when game starts
    if(controller.getGameStart()){
+        
         if(mousePressed == true && mouseButton == LEFT){
            controller.shotBullet();
         }
@@ -291,6 +299,9 @@ public void mouseReleased(){
   }
   //only work when game starts
   else{
+    if(mouseButton == RIGHT){
+        controller.resetBulletCd();
+    }
     if(mouseButton == RIGHT){
         controller.controlPlayer(Type.MOUSE_RIGHT);
     }

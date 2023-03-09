@@ -9,7 +9,7 @@ public class Controller{
    
    public Controller(Model mod){
       this.model = mod;
-      this.bulletTimer = Type.BULLET_CD;
+      this.bulletTimer = Type.BULLET_CD_SHORT;
    };
    
    /**
@@ -526,6 +526,7 @@ public class Controller{
                items.add(tmp);
             }
             p.addItem(t);
+            this.bulletTimer = p.getWeapon().getBulletCd();
             break;
          }
      }
@@ -692,7 +693,7 @@ public class Controller{
       }
       
       //bulletTimer - CD of shot
-      if(bulletTimer < Type.BULLET_CD){
+      if(bulletTimer < p.getWeapon().getBulletCd() - p.getBulletCd()){
          bulletTimer++;
          return;
       }else{
@@ -706,8 +707,10 @@ public class Controller{
 
    }
    
-   public void resetBulletTimer(){
-      this.bulletTimer = Type.BULLET_CD;
+   
+   public void resetBulletCd(){
+      Player p = model.getPlayer();
+      this.bulletTimer = p.getWeapon().getBulletCd() - p.getBulletCd();
    }
    
    /**

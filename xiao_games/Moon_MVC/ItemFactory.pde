@@ -103,20 +103,16 @@ public class ItemFactory extends Factory{
        return t;
     }
     
+    //new-hand weapon
     public Item weaponPistol(){
        //overload shot method
        Item t = new Item(){
             public void shot(Room r, float x, float y){
-            float bSpeedX = mouseX < x ? -Type.SPEED_BULLET : Type.SPEED_BULLET;
-            float bSpeedY = abs(bSpeedX) * (abs(y - mouseY) / abs(x - mouseX));
-            if(mouseY < y){
-              bSpeedY = - bSpeedY;
-            }
-            
-            Bullet b = new Bullet(x, y, bSpeedX, bSpeedY);
+            Bullet b = new Bullet(x, y, Type.BULLET_SPEED_SLOW);
             r.getBullets().add(b);
           }
        };
+       t.setBulletCd(Type.BULLET_CD_NORMAL);
        t.setType(Type.WEAPON_PISTOL);
        //get PImage and resize them
        t.setImgs(new PImage[]{
@@ -138,14 +134,11 @@ public class ItemFactory extends Factory{
        //overload shot method
        Item t = new Item(){
             public void shot(Room r, float x, float y){
-            float bSpeedX = mouseX < x ? -Type.SPEED_BULLET : Type.SPEED_BULLET;
-            float bSpeedY = abs(bSpeedX) * (abs(y - mouseY) / abs(x - mouseX));
-            if(mouseY < y){
-              bSpeedY = - bSpeedY;
-            }
-            Bullet b1 = new Bullet(x, y, bSpeedX, bSpeedY);
-            Bullet b2 = new Bullet(x, y, bSpeedX, bSpeedY + 1);
-            Bullet b3 = new Bullet(x, y, bSpeedX, bSpeedY - 1);
+            
+            //b1, b3 need PVector
+            Bullet b1 = new Bullet(x, y + 20, Type.BULLET_SPEED_NORMAL);
+            Bullet b2 = new Bullet(x, y, Type.BULLET_SPEED_NORMAL);
+            Bullet b3 = new Bullet(x, y + 20, Type.BULLET_SPEED_NORMAL);
             
             r.getBullets().add(b1);
             r.getBullets().add(b2);
@@ -153,6 +146,8 @@ public class ItemFactory extends Factory{
 
           }
        };
+       
+       t.setBulletCd(Type.BULLET_CD_LONG);
        t.setType(Type.WEAPON_SHOTGUN);
        
        //get PImage and resize them
@@ -171,12 +166,7 @@ public class ItemFactory extends Factory{
        //overload shot method
        Item t = new Item(){
             public void shot(Room r, float x, float y){
-            float bSpeedX = mouseX < x ? -Type.SPEED_BULLET : Type.SPEED_BULLET;
-            float bSpeedY = abs(bSpeedX) * (abs(y - mouseY) / abs(x - mouseX));
-            if(mouseY < y){
-              bSpeedY = - bSpeedY;
-            }
-            Bullet b = new Bullet(x, y, bSpeedX, bSpeedY){
+            Bullet b = new Bullet(x, y, Type.BULLET_SPEED_FAST){
                 //overload paint();
                 public void paint(){
                    //default
@@ -186,13 +176,15 @@ public class ItemFactory extends Factory{
                    noStroke();
                 }
             };
-            //b.setType(Type.BULLET_TYPE_LINE);
+            b.setType(Type.BULLET_TYPE_LINE);
             r.getBullets().add(b);
 
           }
        };
-       t.setType(Type.WEAPON_LASER);
        
+       t.setBulletCd(Type.BULLET_CD_SHORT);
+       t.setType(Type.WEAPON_LASER);
+
        //get PImage and resize them
        t.setImgs(new PImage[]{
           weaponImgs.get(t.getType() * 2),

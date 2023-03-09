@@ -30,7 +30,7 @@ public class View{
          drawGhost();
          drawPlayer();
          // show collision detection range, can be deleted
-         //showAround(model.getPlayer());
+         showAround(model.getPlayer());
      }
   }
   

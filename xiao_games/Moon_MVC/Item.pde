@@ -15,7 +15,9 @@ public class Item extends BasicProp{
     
     //left and right
     private PImage[] imgs;
-   
+    
+    private int bulletCd;
+    
     
     public Item(){
        this.pos = new int[2];
@@ -56,6 +58,16 @@ public class Item extends BasicProp{
       return this.pos[1] * Type.BOARD_GRIDSIZE;
 
   }
+  
+   private int getBulletCd(){
+     return this.bulletCd;
+   }
+   
+   private void setBulletCd(int cd){
+     this.bulletCd = cd;
+   }
+   
+
     
     //if item is weapon
     public void shot(Room r, float x, float y){

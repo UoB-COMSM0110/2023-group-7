@@ -16,6 +16,8 @@ public class Player extends BasicProp{
   //since there may be more then two gifs
   private ArrayList<Gif> gifs;
   
+  private int bulletCd;
+
   
   public Player(int x, int y, int w, int h){
     this.setType(Type.PLAYER);
@@ -96,6 +98,14 @@ public class Player extends BasicProp{
   public Item getWeapon(){
      return this.weapon;
   }
+  
+   private int getBulletCd(){
+     return this.bulletCd;
+   }
+   
+   private void setBulletCd(int cd){
+     this.bulletCd = cd;
+   }
   
   public void move(){
      this.setX(this.getX() + this.getSpeedX() + this.getSpeedXInc());
