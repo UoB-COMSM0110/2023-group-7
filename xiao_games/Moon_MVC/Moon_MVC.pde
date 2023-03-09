@@ -80,6 +80,7 @@ static abstract class Type {
   static final int BLOCK_BORDER = 5;
   static final int BLOCK_CRATE = 6;
   static final int BLOCK_SPIKE = 7;
+  static final int BLOCK_PLATFORM = 8;
   
   // item type
   // Primary category

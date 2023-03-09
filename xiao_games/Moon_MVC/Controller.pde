@@ -234,7 +234,7 @@ public class Controller{
      }
      
      
-     if(type == Type.BLOCK_BOUNCE){
+     if(type == Type.BLOCK_PLATFORM){
         // o == null - o is bullet or o is fly, can through
         if(o == null || o.getFlyMode()){
            return false;

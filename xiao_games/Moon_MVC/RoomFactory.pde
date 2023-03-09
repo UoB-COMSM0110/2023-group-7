@@ -132,7 +132,9 @@ public class RoomFactory extends Factory{
             case '5':
               r.blockType[rowNum+row][colNum+col] = Type.BLOCK_SPIKE;
               break;
-            
+            case '6':
+              r.blockType[rowNum+row][colNum+col] = Type.BLOCK_PLATFORM;
+              break;
             case 'p':
               setPortal(true);
               setPortalCoordinates(rowNum+row,colNum+col,'p');

@@ -38,6 +38,7 @@ public class Model{
       basicBlock.add(blockFactory.newBlock(Type.BLOCK_BORDER));
       basicBlock.add(blockFactory.newBlock(Type.BLOCK_CRATE));
       basicBlock.add(blockFactory.newBlock(Type.BLOCK_SPIKE));
+      basicBlock.add(blockFactory.newBlock(Type.BLOCK_PLATFORM));
    }
       
     public void setGifs(ArrayList<Gif> gifs){
