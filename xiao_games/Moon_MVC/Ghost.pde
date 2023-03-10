@@ -5,13 +5,14 @@
 */
 public class Ghost extends Enemy{
    
-  public Ghost(int w, int h){
+  public Ghost(){
      this.setSpeedX(1);
      this.setSpeedY(1);
      this.setX(random(width));
      this.setY(random(height));
-     this.setWidth(w);
-     this.setHeight(h);
+     this.setWidth((int)(Type.BOARD_GRIDSIZE * 1.5));
+     this.setHeight((int)(Type.BOARD_GRIDSIZE * 1.5));
+     this.setHp(Integer.MAX_VALUE);
   }
   
    /**

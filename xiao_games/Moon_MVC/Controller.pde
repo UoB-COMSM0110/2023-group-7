@@ -343,17 +343,18 @@ public class Controller{
       int L = (int)(x/s) ;
       int R = (int)((x+w)/s);
       //all blocks above are !blockCannotThrough(), o can through
+      boolean canThrough = true;
       for(int i = L; i <= R && upper >= 0; i++){
-         if(blockCannotThrough(r.getBlockType(upper,i),false,o)){
-             if(y + o.getFullSpeedY() <= upper * s + s){
-                o.setSpeedY(0);
-                o.setSpeedYInc(0);
-                o.setFall(false);
-                o.setY(upper * s + s + 1);
-             }
+         if(blockCannotThrough(r.getBlockType(upper,i),false,o) && (y + o.getFullSpeedY() <= upper * s + s)){
+            canThrough = false;
          }
       }
-      
+      if(!canThrough){
+          o.setSpeedY(0);
+          o.setSpeedYInc(0);
+          o.setFall(false);
+          o.setY(upper * s + s + 1);
+      }
    }
  
    /**
@@ -401,24 +402,6 @@ public class Controller{
              }
          }
          
-         ////if enemies, change direction
-         //if(o.getType() != Type.PLAYER){
-             
-         //    //make enemy move to right
-         //    if(i <= 0 || (o.getLeft() && !blockCannotThrough(r.getBlockType(below,i), false, null))){
-         //       o.setLeft(false);
-         //       o.setSpeedX(abs(o.getSpeedX()));
-         //       o.setX(i * s + s + 1);
-         //    }
-             
-         //    //make enemy move to left
-         //    if(i >= 28 || (!o.getLeft() && !blockCannotThrough(r.getBlockType(below,i), false, null))){
-         //        o.setLeft(true);
-         //        o.setSpeedX(-abs(o.getSpeedX()));
-         //        //o.setX(i * s - w - 1);
-         //    }
-             
-         //}
       }
       
        //if enemies, change direction
@@ -474,35 +457,28 @@ public class Controller{
       float h = o.getHeight();
       float s = Type.BOARD_GRIDSIZE;
       int left = (int)(x/s) - 1;
-      
       int U = (int)(y/s) ;
       int D = (int)((y+h)/s);
       
       boolean canMoveForward = true;
       for(int i = U; i <= D && left >= 0; i++){
-            int bType = r.getBlockType(i,left);
-            if(blockCannotThrough(bType,false,null) && (x + o.getFullSpeedX() <= left * s + s)){
+            if(i < 0 || i >= Type.BOARD_MAX_HEIGHT){
                canMoveForward = false;
+               break;
             }
-            
-            //if(blockCannotThrough(bType,false,null)){
-            //  // reach the end, shoud stop
-            //  if(x + o.getFullSpeedX() <= left * s + s){
-            //      // if enemy, should change move direction
-            //      if(o.getType() != Type.PLAYER){
-            //         o.setLeft(false);
-            //         o.setSpeedX(-o.getSpeedX());
-            //         o.setSpeedXInc(-o.getSpeedXInc());
-            //      }else{
-            //         o.setSpeedX(0);
-            //         o.setSpeedXInc(0);
-            //      }
-            //      o.setX(left * s + s + 1);
-            //   }
-            //}
+            int bType = r.getBlockType(i,left);
+            if(o.getType() != Type.PLAYER){
+              if(blockCannotThrough(bType,false,null) && (x + o.getFullSpeedX() * 10 <= left * s + s)){
+                 canMoveForward = false;
+              }
+            }else{
+                if(blockCannotThrough(bType,false,null) && (x + o.getFullSpeedX() <= left * s + s)){
+                   canMoveForward = false;
+                }
+            }
       }
       
-      if(!canMoveForward){
+     if(!canMoveForward){
         if(o.getType() != Type.PLAYER){
            o.setLeft(false);
            o.setSpeedX(-o.getSpeedX());
@@ -513,13 +489,6 @@ public class Controller{
         }
         o.setX(left * s + s + 1);
       }
-      
-      //if(o.getType() != Type.PLAYER && left <= 1){
-      //   o.setLeft(true);
-      //   o.setSpeedX(-o.getSpeedX());
-      //   o.setSpeedXInc(-o.getSpeedXInc());
-      //   o.setX(left * s + s + 1);
-      //}
    }
    
    public void checkRight(BasicProp o){
@@ -532,9 +501,19 @@ public class Controller{
       int D = (int)((y+h)/s);
       boolean canMoveForward = true;
       for(int i = U; i <= D && right < Type.BOARD_MAX_WIDTH; i++){
+            if(i < 0 || i >= Type.BOARD_MAX_HEIGHT){
+               canMoveForward = false;
+               break;
+            }
             int bType = r.getBlockType(i,right);
-            if(blockCannotThrough(bType,false,null) && (x + w + o.getFullSpeedX() >= right * s)){
-                canMoveForward = false;
+            if(o.getType() != Type.PLAYER){
+              if(blockCannotThrough(bType,false,null) && (x + w + o.getFullSpeedX()*10 >= right * s)){
+                  canMoveForward = false;
+              }
+            }else{
+              if(blockCannotThrough(bType,false,null) && (x + w + o.getFullSpeedX() >= right * s)){
+                  canMoveForward = false;
+              }
             }
       }
       
@@ -549,13 +528,6 @@ public class Controller{
           }
           o.setX(right * s - w - 1);
       }
-      
-      //if(o.getType() != Type.PLAYER && right >= Type.BOARD_MAX_WIDTH - 2){
-      //     o.setLeft(true);
-      //     o.setSpeedX(-o.getSpeedX());
-      //     o.setSpeedXInc(-o.getSpeedXInc());
-      //     o.setX(right * s - w - 1);
-      //}
       
    }
 
@@ -719,7 +691,6 @@ public class Controller{
           p.setJump(true);
           p.setFall(true);
           p.setSpeedY(-Type.PLAYER_SPEED_Y);
-          println(p.getJump() +", " + p.getSpeedY());
         }
         
      }

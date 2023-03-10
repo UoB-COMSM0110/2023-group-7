@@ -23,12 +23,22 @@ class Enemy extends BasicProp{
         this.setLeft(true);
       }
      
-     if(this.getY() + this.getHeight() > height || this.getY() < 0){
-         this.setY(height/2);
-     }
+     //if(this.getY() + this.getHeight() > height}{
+         
+     //}
+     
+     //if(this.getY() < 0){
+         
+     //}
     
-     if(this.getX() + this.getWidth() > width || this.getX() < 0){
-         this.setSpeedX(-this.getSpeedX());
+     if(this.getX() + this.getWidth() > width){
+         this.setLeft(true);
+         this.setSpeedX(-abs(this.getSpeedX()));
+     }
+     
+     if(this.getX() < 0){
+         this.setLeft(false);
+         this.setSpeedX(abs(this.getSpeedX()));
      }
   }
   

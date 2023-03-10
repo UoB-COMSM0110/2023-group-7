@@ -5,12 +5,14 @@
 */
 public class Gunner extends Enemy{
 
-    public Gunner(int w, int h){
+    public Gunner(){
       this.setType(Type.ENEMY_GUNNER);
       this.setSpeedX(0.7);
       this.setFall(true);
-      this.setWidth(w);
-      this.setHeight(h);
+      this.setWidth((int)(Type.BOARD_GRIDSIZE_SUB5));
+      this.setHeight((int)(Type.BOARD_GRIDSIZE_SUB5 * 2));
+      this.setHp(20);
+      this.setDp(10);
     }
     
 }
