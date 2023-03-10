@@ -51,9 +51,9 @@ public class ItemFactory extends Factory{
          }
          
          if(t.getCategory() == Type.ITEM_POTION){
-            if(t.getCategory() == Type.POTION_HP){
+            if(t.getType() == Type.POTION_HP){
                 p.setHp(p.getHp() + 10);
-                println("use potion, id: " + t.getId());
+                println("use potion, id: " + t.getId() + ", playerHp: " + p.getHp());
             }else{
                 //speed increment to be added...
                 println("use potion, id: " + t.getId());

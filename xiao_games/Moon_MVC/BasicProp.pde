@@ -237,7 +237,9 @@ class BasicProp{
   public void attacked(float dp){
     if(this.type == Type.PLAYER){
       if(this.dpTimer == 0){
-        this.hp -= dp;
+        if(this.hp > 0){
+            this.hp -= dp;
+        }
         println("Damage caused by enemy:" + dp);
         dpTimer++;
       } else{
@@ -245,7 +247,9 @@ class BasicProp{
         dpTimer %= this.dpCd;
       }
     }else{
-        this.hp -= dp;
+        if(this.hp > 0){
+            this.hp -= dp;
+        }
         println("Damage caused by player:" + dp);
     }
   }
