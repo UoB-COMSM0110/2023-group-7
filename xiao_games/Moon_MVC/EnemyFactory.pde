@@ -33,8 +33,6 @@ public class EnemyFactory extends Factory{
               int rd = (int)random(20);
               rd = 1;
               if(rd == 1){
-                println(i + ", "+ j);
-                println(r.getBlockType(i , j) + ", "+ r.getBlockType(i+1,j-1) + ", "+  r.getBlockType(i+1,j) + ", "+  r.getBlockType(i+1,j+1));
                 Enemy e = newEnemy(Type.ENEMY_WORM);
                 e.setX(Type.BOARD_GRIDSIZE * j);
                 e.setY(Type.BOARD_GRIDSIZE * i);
@@ -55,14 +53,10 @@ public class EnemyFactory extends Factory{
            e = new Worm((int)(Type.BOARD_GRIDSIZE_SUB5), (int)(Type.BOARD_GRIDSIZE_SUB5));
            e.setHp(20);
            e.setDp(10);
-           e.setX(width * 3/4);
-           e.setY(height/2);
        }else if(type == Type.ENEMY_GUNNER){
            e = new Gunner((int)(Type.BOARD_GRIDSIZE_SUB5), (int)(Type.BOARD_GRIDSIZE_SUB5 * 2));
            e.setHp(20);
            e.setDp(10);
-           e.setX(width * 2/3);
-           e.setY(height/2);
        }else{
            e = new Enemy();
        }  //<>// //<>// //<>//

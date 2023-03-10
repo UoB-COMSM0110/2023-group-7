@@ -146,12 +146,19 @@ public class View{
       float w = o.getWidth();
       float s = Type.BOARD_GRIDSIZE;
       int upper = (int)(y/s) - 1;
-      int R = (int)((x + w)/s);
-      int L = R - 1;
-           stroke(255);
-
-      drawRect(upper, R, s);
-      drawRect(upper, L, s);
+      
+      int L = (int)(x/s) ;
+      int R = (int)((x+w)/s);
+      stroke(255);
+      for(int i = L; i <= R; i++){
+            drawRect(upper, i, s);
+      }
+      
+      //int R = (int)((x + w)/s);
+      //int L = R - 1;
+      //stroke(255);
+      //drawRect(upper, R, s);
+      //drawRect(upper, L, s);
 
    }
  
@@ -160,28 +167,36 @@ public class View{
       float w = o.getWidth(), h = o.getHeight();
       float s = Type.BOARD_GRIDSIZE;
       int below = (int)((y + h)/s) + 1;
-      int R = (int)((x + w)/s);
-      int L = R - 1;
-           stroke(255);
-
-      drawRect(below, R, s);
-      drawRect(below, L, s);
-      
+      int L = (int)(x/s) ;
+      int R = (int)((x+w)/s);
+      stroke(255);
+      for(int i = L; i <= R; i++){
+            drawRect(below, i, s);
+      }
       
    }
  
     public void showLeft(BasicProp o){
       float x = o.getX(), y = o.getY();
+      float h = o.getHeight();
       float s = Type.BOARD_GRIDSIZE;
       int left = (int)(x/s) - 1;
-      int h1 = (int)(y/s);
-      int h2 = h1 + 1;
-      int h3 = h2 + 1;
-           stroke(155);
+      
+      int U = (int)(y/s) ;
+      int D = (int)((y+h)/s);
+      stroke(155);
+      for(int i = U; i <= D; i++){
+            drawRect(i, left, s);
+      }
+      
+      //int h1 = (int)(y/s);
+      //int h2 = h1 + 1;
+      //int h3 = h2 + 1;
+      //     stroke(155);
 
-      drawRect(h1, left, s);
-      drawRect(h2, left, s);
-      drawRect(h3, left, s);
+      //drawRect(h1, left, s);
+      //drawRect(h2, left, s);
+      //drawRect(h3, left, s);
 
       
    }
@@ -190,14 +205,24 @@ public class View{
       float x = o.getX(), y = o.getY();
       float w = o.getWidth();
       float s = Type.BOARD_GRIDSIZE;
+            float h = o.getHeight();
+
       int right = (int)((x + w)/s) + 1;
-      int h1 = (int)(y/s);
-      int h2 = h1 + 1;
-      int h3 = h2 + 1;
+      
+      int U = (int)(y/s) ;
+      int D = (int)((y+h)/s);
       stroke(155);
-      drawRect(h1, right, s);
-      drawRect(h2, right, s);
-      drawRect(h3, right, s);
+      for(int i = U; i <= D; i++){
+            drawRect(i, right, s);
+      }
+      
+      //int h1 = (int)(y/s);
+      //int h2 = h1 + 1;
+      //int h3 = h2 + 1;
+      //stroke(155);
+      //drawRect(h1, right, s);
+      //drawRect(h2, right, s);
+      //drawRect(h3, right, s);
 
    }
    

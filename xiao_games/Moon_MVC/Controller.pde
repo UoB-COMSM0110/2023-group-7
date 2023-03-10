@@ -339,14 +339,13 @@ public class Controller{
       float w = o.getWidth();
       float s = Type.BOARD_GRIDSIZE;
       int upper = (int)(y/s) - 1;
-      int R = (int)((x + w)/s);
-      int L = R - 1;
-      if(upper >= 0){
-         int flag1 = L >= 0 ? r.getBlockType(upper,L) : r.getBlockType(0, 0);
-         int flag2 = R < Type.BOARD_MAX_WIDTH ? r.getBlockType(upper, R) : r.getBlockType(upper, Type.BOARD_MAX_WIDTH - 1);
-         //println(flag1 + "," + flag2);
-         if((blockCannotThrough(flag1, false, o) && x < L * s + s + 1) || blockCannotThrough(flag2,false, o)){
-            if(y + o.getFullSpeedY() <= upper * s + s){
+      
+      int L = (int)(x/s) ;
+      int R = (int)((x+w)/s);
+      //all blocks above are !blockCannotThrough(), o can through
+      for(int i = L; i <= R && upper >= 0; i++){
+         if(blockCannotThrough(r.getBlockType(upper,i),false,o)){
+             if(y + o.getFullSpeedY() <= upper * s + s){
                 o.setSpeedY(0);
                 o.setSpeedYInc(0);
                 o.setFall(false);
@@ -354,6 +353,7 @@ public class Controller{
              }
          }
       }
+      
    }
  
    /**
@@ -366,68 +366,106 @@ public class Controller{
       float w = o.getWidth(), h = o.getHeight();
       float s = Type.BOARD_GRIDSIZE;
       int below = (int)((y + h)/s) + 1;
-      int R = (int)((x + w)/s);
-      int L = R - 1;
-      if(below < 20){
-         int flag1 = L >= 0 ? r.getBlockType(below,L) : r.getBlockType(below, 0);
-         int flag2 = R < Type.BOARD_MAX_WIDTH ? r.getBlockType(below, R) : r.getBlockType(below, Type.BOARD_MAX_WIDTH - 1);
+      
+      int L = (int)(x/s) ;
+      int R = (int)((x+w)/s);
+      boolean canFall = true, canHighJump = false, canUsePortal = false;
+      int portalPos = 0;
+      //all blocks below are !blockCannotThrough(), o can through
+      for(int i = L; i <= R && below < Type.BOARD_MAX_HEIGHT; i++){
+         int bType = r.getBlockType(below,i);
          
+         //for all obj
+         if(blockCannotThrough(bType,true,o)){
+             canFall = false;
+         }
+         
+         //for player
          if(o.getType() == Type.PLAYER){
-              //portal
-             if(((flag1 == Type.BLOCK_PORTAL && x < L * s + s + 1) || flag2 == Type.BLOCK_PORTAL)){
-                 o.setOnPortal(true);
-                 if(!o.getTransported()){
-                     Block b = flag2 == Type.BLOCK_PORTAL ? r.getBlockByPos(below , R) : r.getBlockByPos(below , L);
-                     usePortal(b);
-                     o.setTransported(true);
-                     return;
-                 }
-             }else{
-               o.setOnPortal(false);
+             //portal
+             if(bType == Type.BLOCK_PORTAL){
+                 canUsePortal = true;
+                 portalPos = i;
              }
+             
              //bounce
              o.setHighJump(false);
-             if((flag1 == Type.BLOCK_BOUNCE && x < L * s + s + 1) || flag2 == Type.BLOCK_BOUNCE){
-                 o.setHighJump(true);
+             if(bType == Type.BLOCK_BOUNCE){
+                 canHighJump = true;
              }
+             
              //spike - basic implemenation for now as we don't yet have a death mechanic
-             if(o.getFall() && (flag2 == Type.BLOCK_SPIKE)){
-               
-               o.attacked(5);
-               
-               System.out.println("Damage caused by spikes: " + 5);
+             if(o.getFall() && (bType == Type.BLOCK_SPIKE)){
+               //o.attacked(5);
+               System.out.println("Damage caused by spikes");
              }
          }
          
-         //if enemies, change direction
-         if(o.getType() != Type.PLAYER){
-             if((!blockCannotThrough(flag1,true,o) && blockCannotThrough(flag2,true,o))
-              || (!blockCannotThrough(flag2,true,o) && blockCannotThrough(flag1,true,o))
-             ){
-                //if((o.getLeft() && o.getSpeedX() <= 0) || (!o.getLeft() && o.getSpeedX() > 0)){
-                //     o.setSpeedX(-o.getSpeedX());
-                //}
-                o.setSpeedX(-o.getSpeedX());
-                o.setX(o.getX() + o.getSpeedX());
-             }
-         }
-         
-         if(!blockCannotThrough(flag1,true,o) && !blockCannotThrough(flag2,true,o)){
-               o.setFall(true);
-               o.setJump(true);
-         }
-         
-         if(((blockCannotThrough(flag1,true,o) && x < L * s + s + 1) || blockCannotThrough(flag2,true,o)) && (y + h + o.getFullSpeedY()>= below * s)){
-              o.setFall(false);
-              o.setJump(false);
-              o.setSpeedY(0);
-              o.setSpeedYInc(0);
-              o.setY(below * s - h - 1);
-         }else{
-            o.setFall(true);
-            o.setJump(true);
-         }
+         ////if enemies, change direction
+         //if(o.getType() != Type.PLAYER){
+             
+         //    //make enemy move to right
+         //    if(i <= 0 || (o.getLeft() && !blockCannotThrough(r.getBlockType(below,i), false, null))){
+         //       o.setLeft(false);
+         //       o.setSpeedX(abs(o.getSpeedX()));
+         //       o.setX(i * s + s + 1);
+         //    }
+             
+         //    //make enemy move to left
+         //    if(i >= 28 || (!o.getLeft() && !blockCannotThrough(r.getBlockType(below,i), false, null))){
+         //        o.setLeft(true);
+         //        o.setSpeedX(-abs(o.getSpeedX()));
+         //        //o.setX(i * s - w - 1);
+         //    }
+             
+         //}
       }
+      
+       //if enemies, change direction
+       if(o.getType() != Type.PLAYER){
+           //make enemy move to right
+           if(L >= 0 && o.getLeft() && !blockCannotThrough(r.getBlockType(below,L), false, null)){
+              o.setLeft(false);
+              o.setSpeedX(abs(o.getSpeedX()));
+              o.setX(L * s + s + 1);
+           }
+           //make enemy move to left
+           if(R < 29 && !o.getLeft() && !blockCannotThrough(r.getBlockType(below,R), false, null)){
+               o.setLeft(true);
+               o.setSpeedX(-abs(o.getSpeedX()));
+               o.setX(R * s - w - 1);
+           }
+       }
+      
+      
+      if(!canFall && (y + h + o.getFullSpeedY()>= below * s)){
+            o.setFall(false);
+            o.setJump(false);
+            o.setSpeedY(0);
+            o.setSpeedYInc(0);
+            o.setY(below * s - h - 1);
+       }else{
+             o.setFall(true);
+             o.setJump(true);
+       }
+       
+       if(canHighJump){
+           o.setHighJump(true);
+           //System.out.println("High jump");
+       }
+       
+       if(canUsePortal){
+           o.setOnPortal(true);
+           if(!o.getTransported()){
+               Block b = r.getBlockByPos(below , portalPos);
+               usePortal(b);
+               o.setTransported(true);
+               return;
+           }
+       }else{
+             o.setOnPortal(false);
+       }
+         
    }
      
     public void checkLeft(BasicProp o){
@@ -436,28 +474,52 @@ public class Controller{
       float h = o.getHeight();
       float s = Type.BOARD_GRIDSIZE;
       int left = (int)(x/s) - 1;
-      int h1 = (int)(y/s);
-      int h2 = h1 + 1;
-      int h3 = h2 + 1;
-      if(left >= 0){
-         int flag1 = h1 >= 0 ? r.getBlockType(h1,left) : r.getBlockType(0, left);
-         int flag2 = h2 < Type.BOARD_MAX_HEIGHT ? r.getBlockType(h2, left) : r.getBlockType(Type.BOARD_MAX_HEIGHT - 1, left);
-         int flag3 = h3 < Type.BOARD_MAX_HEIGHT ? r.getBlockType(h3, left) : r.getBlockType(Type.BOARD_MAX_HEIGHT - 1, left);
-         if(blockCannotThrough(flag1,false,null) || blockCannotThrough(flag2,false,null) || (blockCannotThrough(flag3,false,null) && y + h > h3 * s)){
-              // reach the end, shoud stop
-              if(x + o.getFullSpeedX() <= left * s + s){
-                  // if enemy, should change move direction
-                  if(o.getType() != Type.PLAYER){
-                     o.setSpeedX(-o.getSpeedX());
-                     o.setSpeedXInc(-o.getSpeedXInc());
-                  }else{
-                     o.setSpeedX(0);
-                     o.setSpeedXInc(0);
-                  }
-                  o.setX(left * s + s + 1);
-               }
-         }
+      
+      int U = (int)(y/s) ;
+      int D = (int)((y+h)/s);
+      
+      boolean canMoveForward = true;
+      for(int i = U; i <= D && left >= 0; i++){
+            int bType = r.getBlockType(i,left);
+            if(blockCannotThrough(bType,false,null) && (x + o.getFullSpeedX() <= left * s + s)){
+               canMoveForward = false;
+            }
+            
+            //if(blockCannotThrough(bType,false,null)){
+            //  // reach the end, shoud stop
+            //  if(x + o.getFullSpeedX() <= left * s + s){
+            //      // if enemy, should change move direction
+            //      if(o.getType() != Type.PLAYER){
+            //         o.setLeft(false);
+            //         o.setSpeedX(-o.getSpeedX());
+            //         o.setSpeedXInc(-o.getSpeedXInc());
+            //      }else{
+            //         o.setSpeedX(0);
+            //         o.setSpeedXInc(0);
+            //      }
+            //      o.setX(left * s + s + 1);
+            //   }
+            //}
       }
+      
+      if(!canMoveForward){
+        if(o.getType() != Type.PLAYER){
+           o.setLeft(false);
+           o.setSpeedX(-o.getSpeedX());
+           o.setSpeedXInc(-o.getSpeedXInc());
+        }else{
+           o.setSpeedX(0);
+           o.setSpeedXInc(0);
+        }
+        o.setX(left * s + s + 1);
+      }
+      
+      //if(o.getType() != Type.PLAYER && left <= 1){
+      //   o.setLeft(true);
+      //   o.setSpeedX(-o.getSpeedX());
+      //   o.setSpeedXInc(-o.getSpeedXInc());
+      //   o.setX(left * s + s + 1);
+      //}
    }
    
    public void checkRight(BasicProp o){
@@ -466,26 +528,35 @@ public class Controller{
       float w = o.getWidth(), h = o.getHeight();
       float s = Type.BOARD_GRIDSIZE;
       int right = (int)((x + w)/s) + 1;
-      int h1 = (int)(y/s);
-      int h2 = h1 + 1;
-      int h3 = h2 + 1;
-      if(right < 29){
-         int flag1 = h1 >= 0 ? r.getBlockType(h1, right) : r.getBlockType(0, right);
-         int flag2 = h2 < Type.BOARD_MAX_HEIGHT ? r.getBlockType(h2, right) : r.getBlockType(Type.BOARD_MAX_HEIGHT - 1, right);
-         int flag3 = h3 < Type.BOARD_MAX_HEIGHT ? r.getBlockType(h3, right) : r.getBlockType(Type.BOARD_MAX_HEIGHT - 1, right);
-         if(blockCannotThrough(flag1,false,null) || blockCannotThrough(flag2,false,null) || (blockCannotThrough(flag3,false,null) && y + h > h3 * s)){
-             if(x + w + o.getFullSpeedX() >= right * s){
-                  if(o.getType() != Type.PLAYER){
-                     o.setSpeedX(-o.getSpeedX());
-                     o.setSpeedXInc(-o.getSpeedXInc());
-                  }else{
-                     o.setSpeedX(0);
-                     o.setSpeedXInc(0);
-                  }
-                o.setX(right * s - w - 1);
-             }
-         }
+      int U = (int)(y/s) ;
+      int D = (int)((y+h)/s);
+      boolean canMoveForward = true;
+      for(int i = U; i <= D && right < Type.BOARD_MAX_WIDTH; i++){
+            int bType = r.getBlockType(i,right);
+            if(blockCannotThrough(bType,false,null) && (x + w + o.getFullSpeedX() >= right * s)){
+                canMoveForward = false;
+            }
       }
+      
+      if(!canMoveForward){
+          if(o.getType() != Type.PLAYER){
+             o.setLeft(true);
+             o.setSpeedX(-o.getSpeedX());
+             o.setSpeedXInc(-o.getSpeedXInc());
+          }else{
+             o.setSpeedX(0);
+             o.setSpeedXInc(0);
+          }
+          o.setX(right * s - w - 1);
+      }
+      
+      //if(o.getType() != Type.PLAYER && right >= Type.BOARD_MAX_WIDTH - 2){
+      //     o.setLeft(true);
+      //     o.setSpeedX(-o.getSpeedX());
+      //     o.setSpeedXInc(-o.getSpeedXInc());
+      //     o.setX(right * s - w - 1);
+      //}
+      
    }
 
    //if still collision, player collides with corner of block, need to reset position
@@ -638,15 +709,19 @@ public class Controller{
      }
      //not in fly mode
      if(keyType == Type.KEY_SPACE && !p.getFlyMode()){
-        if(p.getJump())return;
+        if(p.getJump()){
+          return;
+        };
         if(p.getHighJump()){
           p.setSpeedY(-15);
         }
         else{
-        p.setJump(true);
-        p.setFall(true);
-        p.setSpeedY(-Type.PLAYER_SPEED_Y);
+          p.setJump(true);
+          p.setFall(true);
+          p.setSpeedY(-Type.PLAYER_SPEED_Y);
+          println(p.getJump() +", " + p.getSpeedY());
         }
+        
      }
      
      // W - speed up or move upward
