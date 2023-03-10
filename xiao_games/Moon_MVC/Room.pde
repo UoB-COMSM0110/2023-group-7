@@ -14,7 +14,7 @@ public class Room extends HandleEnemies{
     private ArrayList<Item> items;
 
     public Room(){
-        this.blockType = new int[20][29];
+        this.blockType = new int[Type.BOARD_MAX_HEIGHT][Type.BOARD_MAX_WIDTH];
         this.adjacent = new int[4];
         this.setEnemies();
         this.bullets = new ArrayList();
@@ -85,9 +85,13 @@ public class Room extends HandleEnemies{
        return blockType[i][j];
     }
     
-    public void clearBlock(int i, int j){
-       blockType[i][j] = Type.BLOCK_EMPTY;
+    public void setBlockType(int i, int j, int type){
+       this.blockType[i][j] = type;
     }
+    
+    //public void clearBlock(int i, int j){
+    //   blockType[i][j] = Type.BLOCK_EMPTY;
+    //}
     
     public Block getBlockByPos(int i, int j){
        for(int k = 0; k < blocks.size(); k++){

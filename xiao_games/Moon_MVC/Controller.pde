@@ -602,7 +602,7 @@ public class Controller{
                   println("open crate");
                   //should add something to player, like props or weapons, or golds(scores);
                   r.addItem(model.newItem(new int[]{i, j}));
-                  r.clearBlock(i,j);
+                  r.setBlockType(i,j, Type.BLOCK_EMPTY);
               }
           }
        }
