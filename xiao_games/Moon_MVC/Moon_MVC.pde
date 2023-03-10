@@ -17,9 +17,9 @@ static abstract class Type {
   //board - baisc attributes
   static final int BOARD_MAX_HEIGHT = 20;
   static final int BOARD_MAX_WIDTH = 29;
-  static final int BOARD_GRIDSIZE = 30;
-  static final int BOARD_GRIDSIZE_ADD5 = 35;
-  static final int BOARD_GRIDSIZE_SUB5 = 25;
+  static final int BOARD_GRIDSIZE = 40;
+  static final int BOARD_GRIDSIZE_ADD5 = 45;
+  static final int BOARD_GRIDSIZE_SUB5 = 35;
 
   
   static final float SPEED_INCREMENT = 0.5;
@@ -112,7 +112,7 @@ static abstract class Type {
 * Initialize all project, run once
 */
 void setup(){
-    size(870,600);
+    size(1160, 800);
     Model model = new Model();
     model.setGifs(loadGifs());
     ItemFactory t = new ItemFactory();
