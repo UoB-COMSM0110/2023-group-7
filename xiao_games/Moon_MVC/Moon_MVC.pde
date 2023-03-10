@@ -116,7 +116,7 @@ void setup(){
     Model model = new Model();
     model.setGifs(loadGifs());
     ItemFactory t = new ItemFactory();
-    Player p = new Player(width/3, height/2, Type.BOARD_GRIDSIZE_SUB5, Type.BOARD_GRIDSIZE_SUB5 * 2);
+    Player p = new Player(width/3, height/2, Type.BOARD_GRIDSIZE_SUB5, Type.BOARD_GRIDSIZE_SUB5);
     p.addItem(t.weaponPistol());
     addplayerGifs(p);
     model.addPlayer(p);
