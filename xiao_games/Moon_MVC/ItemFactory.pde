@@ -37,6 +37,7 @@ public class ItemFactory extends Factory{
        
        // imgs of consumables
        potionImgs.add(loadImage("imgs/items/potion/0.png"));
+       potionImgs.add(loadImage("imgs/items/potion/1.png"));
 
     }
     
@@ -50,10 +51,14 @@ public class ItemFactory extends Factory{
          }
          
          if(t.getCategory() == Type.ITEM_POTION){
-            p.setHp(p.getHp() + 10);
-            println("use potion, id: " + t.getId());
+            if(t.getCategory() == Type.POTION_HP){
+                p.setHp(p.getHp() + 10);
+                println("use potion, id: " + t.getId());
+            }else{
+                //speed increment to be added...
+                println("use potion, id: " + t.getId());
+            }
          }
-         
          p.removeCurrentItem();
     }
     
@@ -221,23 +226,44 @@ public class ItemFactory extends Factory{
        return t;
     }
     
-    public Item newPotion(){  //If there are other types of potions, then need to be written separately
-        //randomly generate a potion
-        Item t = potionHp();
-        
-        //process size and PImage
-        t.setCategory(Type.ITEM_POTION);
-        PImage img = potionImgs.get(t.getType());
-        img.resize(Type.BOARD_GRIDSIZE * 2/3, Type.BOARD_GRIDSIZE);
-        t.setWidth(Type.BOARD_GRIDSIZE * 2/3);
-        t.setHeight(Type.BOARD_GRIDSIZE);
-        t.setImgs(new PImage[]{img, null});
-        return t;
+    public Item newPotion(){
+       //randomly generate a potion
+       int r = (int)random(10);
+       Item t = null;
+       if(r >=0 && r <= 5){
+          t =  potionHp();
+       }else{
+          t =  potionSp();
+       } 
+       
+       //set category
+       t.setCategory(Type.ITEM_POTION);
+       return t; 
     }
     
     public Item potionHp(){
         Item t = new Item();
         t.setType(Type.POTION_HP);
+        //process size and PImage
+        t.setCategory(Type.ITEM_POTION);
+        PImage img = potionImgs.get(t.getType());
+        t.setImgs(new PImage[]{img, null});
+        t.getImgs()[0].resize(Type.BOARD_GRIDSIZE * 2/3, Type.BOARD_GRIDSIZE);
+        t.setWidth(Type.BOARD_GRIDSIZE * 2/3);
+        t.setHeight(Type.BOARD_GRIDSIZE);
+        return t;
+    }
+    
+    public Item potionSp(){
+        Item t = new Item();
+        t.setType(Type.POTION_SP);
+        //process size and PImage
+        t.setCategory(Type.ITEM_POTION);
+        PImage img = potionImgs.get(t.getType());
+        t.setImgs(new PImage[]{img, null});
+        t.getImgs()[0].resize(Type.BOARD_GRIDSIZE * 2/3, Type.BOARD_GRIDSIZE);
+        t.setWidth(Type.BOARD_GRIDSIZE * 2/3);
+        t.setHeight(Type.BOARD_GRIDSIZE);
         return t;
     }
     
