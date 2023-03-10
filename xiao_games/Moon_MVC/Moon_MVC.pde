@@ -104,6 +104,7 @@ static abstract class Type {
   static final int WEAPON_LASER = 2;
   // potions
   static final int POTION_HP = 0;
+  static final int POTION_SP = 1;
   
   
 }
