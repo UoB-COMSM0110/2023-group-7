@@ -1,5 +1,5 @@
 /**
-* @author participants, imyuanxiao
+* @author YWang0727, imyuanxiao
 * Factory for item generation (randomly)
 * For weapons, method 'shot()' (and other functions if needed) in this class should be overrided by creating an anonymous inner class in construcotr.
 * How bullet moves should be reconsidered. Currently, bullets will move faster if shot upward.
@@ -57,17 +57,25 @@ public class ItemFactory extends Factory{
          p.removeCurrentItem();
     }
     
-    //scan a room, add chest to this room
+    //scan a room, add chest to this room: The probability can be adjusted at any time
     public void addItemsToRoom(Room r){
-    
-    
+       for(int i = 3; i < Type.BOARD_MAX_HEIGHT - 3; i++){
+          for(int j = 3; j < Type.BOARD_MAX_WIDTH - 3; j++){
+              if(r.blockType[i + 1][j] == 1 && r.blockType[i - 1][j] == 0){
+                  int n = (int)random(0, 60);
+                  if(n < 5){
+                    r.blockType[i][j] = 6;
+                  }
+              }
+          }
+       }
     }
     
     public Item newItem(int[] pos){
        int r = (int)random(10);
        Item t = null; 
        //r = 5;
-       if(r >= 0 && r <= 4){
+       if(r >= 0 && r <= 4){ 
            t = newWeapon();
        }else{
             //randomly generate a new potion
@@ -152,6 +160,9 @@ public class ItemFactory extends Factory{
             Bullet b2 = new Bullet(x, y, Type.BULLET_SPEED_NORMAL);
             Bullet b3 = new Bullet(x, y + 20, Type.BULLET_SPEED_NORMAL);
             
+            b1.setDp(5);
+            b2.setDp(5);
+            b3.setDp(5);
             r.getBullets().add(b1);
             r.getBullets().add(b2);
             r.getBullets().add(b3);
@@ -189,6 +200,7 @@ public class ItemFactory extends Factory{
                 }
             };
             b.setType(Type.BULLET_TYPE_LINE);
+            b.setDp(10);
             r.getBullets().add(b);
 
           }
@@ -209,7 +221,7 @@ public class ItemFactory extends Factory{
        return t;
     }
     
-    public Item newPotion(){
+    public Item newPotion(){  //If there are other types of potions, then need to be written separately
         //randomly generate a potion
         Item t = potionHp();
         
