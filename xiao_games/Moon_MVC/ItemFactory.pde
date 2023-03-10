@@ -40,6 +40,7 @@ public class ItemFactory extends Factory{
 
     }
     
+    
     //all effects of items can be written here
     public void useItemByPlayer(Player p){
         Item t = p.getCurrentItem();

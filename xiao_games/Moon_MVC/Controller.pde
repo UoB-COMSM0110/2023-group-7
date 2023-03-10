@@ -108,6 +108,8 @@ public class Controller{
          curRoom.setAdjacent(new int[]{Type.NO_ROOM,Type.NO_ROOM,newRoom.getIndex(),Type.NO_ROOM});
          
          model.addEnemiesToRoom(newRoom);
+          model.addItemsToRoom(newRoom);
+
       }
    }
    
@@ -124,6 +126,8 @@ public class Controller{
          curRoom.setAdjacent(new int[]{Type.NO_ROOM,Type.NO_ROOM,Type.NO_ROOM, newRoom.getIndex()});
          
          model.addEnemiesToRoom(newRoom);
+                  model.addItemsToRoom(newRoom);
+
       }
    }
    
@@ -140,6 +144,7 @@ public class Controller{
          curRoom.setAdjacent(new int[]{newRoom.getIndex(),Type.NO_ROOM,Type.NO_ROOM,Type.NO_ROOM});
          
          model.addEnemiesToRoom(newRoom);
+         model.addItemsToRoom(newRoom);
       }
    }
    
@@ -156,6 +161,8 @@ public class Controller{
          curRoom.setAdjacent(new int[]{Type.NO_ROOM,newRoom.getIndex(),Type.NO_ROOM,Type.NO_ROOM});
          
          model.addEnemiesToRoom(newRoom);
+         model.addItemsToRoom(newRoom);
+
       }
    }
      

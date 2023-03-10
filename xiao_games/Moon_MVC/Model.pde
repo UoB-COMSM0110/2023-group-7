@@ -55,6 +55,10 @@ public class Model{
        this.enemyFactory.addEnemiesToRoom(r);
    }
    
+   public void addItemsToRoom(Room r){
+        this.itemFactory.addItemsToRoom(r);
+   }
+   
    public void setItemFactory(ItemFactory t){
       this.itemFactory = t;
    }
