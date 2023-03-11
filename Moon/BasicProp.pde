@@ -305,7 +305,7 @@ class BasicProp{
        }
        this.gifsImgs.add(gif);
     }
-    this.gifsImgsCount = new float[i];
+    this.gifsImgsCount = new float[cnt];
   }
   
   public ArrayList<PImage[]> getGifsImgs(){
