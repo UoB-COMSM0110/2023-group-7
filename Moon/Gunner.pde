@@ -7,7 +7,7 @@ public class Gunner extends Enemy{
 
     public Gunner(){
       this.setType(Type.ENEMY_GUNNER);
-      this.setSpeedX(0.7);
+      this.setSpeedX(Type.ENEMY_SPEED_X_NORMAL);
       this.setFall(true);
       this.setWidth((int)(Type.BOARD_GRIDSIZE_SUB5));
       this.setHeight((int)(Type.BOARD_GRIDSIZE_SUB5 * 2));

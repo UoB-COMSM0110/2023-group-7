@@ -267,7 +267,7 @@ class BasicProp{
      }else{
          if(this.jump){
             this.y += this.speedY;
-            if(speedY < Type.PLAYER_SPEED_Y) this.speedY += Type.SPEED_INCREMENT;
+            if(speedY < Type.PLAYER_SPEED_Y) this.speedY += Type.PLAYER_SPEED_INCREMENT;
          }
          if(this.speedY == 0){
            this.fallDistance = 0;
@@ -305,7 +305,7 @@ class BasicProp{
        }
        this.gifsImgs.add(gif);
     }
-    this.gifsImgsCount = new float[i];
+    this.gifsImgsCount = new float[cnt];
   }
   
   public ArrayList<PImage[]> getGifsImgs(){
@@ -316,14 +316,14 @@ class BasicProp{
   //  this.gifsImgsCount = new float[i];
   //}
   
-  public float[] getGifsImgsCount(){
-    return this.gifsImgsCount;
-  }
+  //public float[] getGifsImgsCount(){
+  //  return this.gifsImgsCount;
+  //}
   
   public void playGifsImgs(int i){
      PImage[] imgs = gifsImgs.get(i);
      image(imgs[(int)gifsImgsCount[i]], this.x, this.y);
-     this.gifsImgsCount[i] = (this.gifsImgsCount[i]+0.1) % (float)imgs.length;
+     this.gifsImgsCount[i] = (this.gifsImgsCount[i]+Type.GIF_PLAY_SPEED) % (float)imgs.length;
   }
   
 }
