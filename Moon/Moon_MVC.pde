@@ -11,9 +11,6 @@ IntList pkeys = new IntList();
 */
 static abstract class Type {
   
-  //player -
-  static final int PLAYER_DPCD = 50;
-  
   //board - baisc attributes
   static final int BOARD_MAX_HEIGHT = 20;
   static final int BOARD_MAX_WIDTH = 29;
@@ -21,8 +18,13 @@ static abstract class Type {
   static final int BOARD_GRIDSIZE_ADD5 = 45;
   static final int BOARD_GRIDSIZE_SUB5 = 35;
 
-  
   static final float SPEED_INCREMENT = 0.5;
+  static final float GIF_PLAY_SPEED = 0.1;
+
+  //player -
+  static final int PLAYER_DPCD = 50;
+  static final int PLAYER_JUMP_SPEEDY = BOARD_GRIDSIZE * 2/7;
+  static final int PLAYER_HIGH_JUMP_SPEEDY = BOARD_GRIDSIZE * 3/7;
 
   //bullet - baisc attributes
   static final int BULLET_SPEED_SLOW = 3;

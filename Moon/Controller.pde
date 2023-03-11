@@ -692,12 +692,12 @@ public class Controller{
           return;
         };
         if(p.getHighJump()){
-          p.setSpeedY(-15);
+          p.setSpeedY(-Type.PLAYER_HIGH_JUMP_SPEEDY);
         }
         else{
           p.setJump(true);
           p.setFall(true);
-          p.setSpeedY(-Type.PLAYER_SPEED_Y);
+          p.setSpeedY(-Type.PLAYER_JUMP_SPEEDY);
         }
         
      }
