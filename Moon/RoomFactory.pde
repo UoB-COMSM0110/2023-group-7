@@ -125,16 +125,13 @@ public class RoomFactory extends Factory{
               r.blockType[rowNum+row][colNum+col] = Type.BLOCK_WALL;
               break;
             case '2':
-              r.blockType[rowNum+row][colNum+col] = Type.BLOCK_CRATE;
-              break;
-            case '3':
               r.blockType[rowNum+row][colNum+col] = Type.BLOCK_BOUNCE;
               break;
-            case '5':
-              r.blockType[rowNum+row][colNum+col] = Type.BLOCK_SPIKE;
-              break;
-            case '6':
+            case '3':
               r.blockType[rowNum+row][colNum+col] = Type.BLOCK_PLATFORM;
+              break;
+            case '4':
+              r.blockType[rowNum+row][colNum+col] = Type.BLOCK_SPIKE;
               break;
             case 'p':
               setPortal(true);

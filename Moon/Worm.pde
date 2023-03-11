@@ -6,7 +6,7 @@ public class Worm extends Enemy{
    
   public Worm(){
      this.setType(Type.ENEMY_WORM);
-     this.setSpeedX(Type.SPEED_INCREMENT);
+     this.setSpeedX(Type.ENEMY_SPEED_X_SLOW);
      this.setFall(true);
      this.setWidth((int)(Type.BOARD_GRIDSIZE_SUB5));
      this.setHeight((int)(Type.BOARD_GRIDSIZE_SUB5));

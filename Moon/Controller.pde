@@ -571,8 +571,8 @@ public class Controller{
        Player o = model.getPlayer(); 
        float  s = Type.BOARD_GRIDSIZE;
        int[] portal = b.getPortal(); 
-       o.setY(s * portal[0] - 2 * s - 1);
-       o.setX(s * portal[1] + 1);
+       o.setY(s * portal[0]);
+       o.setX(s * portal[1]);
    }
    
    /**

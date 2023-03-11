@@ -119,7 +119,7 @@ public class Player extends BasicProp{
      }else{
          if(this.getJump()){
             this.setY(this.getY() + this.getSpeedY());
-            if(this.getSpeedY() < Type.PLAYER_SPEED_Y) this.setSpeedY(this.getSpeedY() + Type.SPEED_INCREMENT);
+            if(this.getSpeedY() < Type.PLAYER_SPEED_Y) this.setSpeedY(this.getSpeedY() + Type.PLAYER_SPEED_INCREMENT);
          }
          if(this.getSpeedY() == 0){
            this.setFallDistance(0);

@@ -15,17 +15,26 @@ static abstract class Type {
   static final int BOARD_MAX_HEIGHT = 20;
   static final int BOARD_MAX_WIDTH = 29;
   static final int BOARD_GRIDSIZE = 40;
-  static final int BOARD_GRIDSIZE_ADD5 = 45;
-  static final int BOARD_GRIDSIZE_SUB5 = 35;
+  static final int BOARD_GRIDSIZE_ADD5 = BOARD_GRIDSIZE + 5;
+  static final int BOARD_GRIDSIZE_SUB5 = BOARD_GRIDSIZE - 5;
 
-  static final float SPEED_INCREMENT = 0.5;
   static final float GIF_PLAY_SPEED = 0.1;
 
-  //player -
+  //player - baisc attributes
   static final int PLAYER_DPCD = 50;
+  
   static final int PLAYER_JUMP_SPEEDY = BOARD_GRIDSIZE * 2/7;
   static final int PLAYER_HIGH_JUMP_SPEEDY = BOARD_GRIDSIZE * 3/7;
+  
+  static final float PLAYER_SPEED_INCREMENT = (float)BOARD_GRIDSIZE / 100;
+  static final float PLAYER_SPEED_X = BOARD_GRIDSIZE / 8;
+  static final float PLAYER_SPEED_Y = BOARD_GRIDSIZE / 4;
+  
+  //enemy - baisc attributes
+  static final float ENEMY_SPEED_X_SLOW = (float)BOARD_GRIDSIZE / 100;
+  static final float ENEMY_SPEED_X_NORMAL = (float)BOARD_GRIDSIZE / 80;
 
+  
   //bullet - baisc attributes
   static final int BULLET_SPEED_SLOW = 3;
   static final int BULLET_SPEED_NORMAL = 5;
@@ -38,9 +47,6 @@ static abstract class Type {
   static final int BULLET_TYPE_CIRCLE = 0;
   static final int BULLET_TYPE_LINE = 1;
 
-  //player - baisc attributes
-  static final float PLAYER_SPEED_X = 5;
-  static final float PLAYER_SPEED_Y = 10;
   
   //mouse
   static final int MOUSE_RIGHT = 10;
