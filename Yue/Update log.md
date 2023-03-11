@@ -4,6 +4,7 @@ To be updated...
 3.10:
 1.Add additional chest generation
 2.Add weapons' DP (Values to be verified)
+3.Add new potion, but the implementation of its effect has not yet been written...
 
 To do list:
 1.Complete other weapons, outfits and potions (Basic functions and img)

@@ -11,6 +11,7 @@ class BasicProp{
   private float fallDistance;
   //speedXIncrement - to speed up or slow down speed
   private float x, y, speedX, speedY, speedXInc,speedYInc;
+  private int direction;
   private PImage img;
   // transported - have used portal, left = direction is left, onPortal = player is on Portal block
   // throughDown - When S and Space are pressed together, player can through some blocks such as bounce
@@ -114,6 +115,14 @@ class BasicProp{
   
   public float getSpeedY(){
       return this.speedY;
+  }
+  
+  public void direction(int direction){
+      this.direction = direction;
+  }
+  
+  public int direction(){
+      return this.direction;
   }
   
   public void setX(float x){

@@ -68,7 +68,7 @@ public class ItemFactory extends Factory{
           for(int j = 3; j < Type.BOARD_MAX_WIDTH - 3; j++){
               if(r.blockType[i + 1][j] == 1 && r.blockType[i - 1][j] == 0){
                   int n = (int)random(0, 60);
-                  if(n < 5){
+                  if(n < 3){
                     r.blockType[i][j] = 6;
                   }
               }
@@ -80,7 +80,7 @@ public class ItemFactory extends Factory{
        int r = (int)random(10);
        Item t = null; 
        //r = 5;
-       if(r >= 0 && r <= 4){ 
+       if(r >= 0){   //if(r >= 0 && r <= 4){ 
            t = newWeapon();
        }else{
             //randomly generate a new potion
@@ -106,7 +106,7 @@ public class ItemFactory extends Factory{
        
        
        Item t = null;
-       if(r >=0 && r <= 5){
+       if(r >=0){  //       if(r >=0 && r <= 5){
           t =  weaponShotgun();
        }else{
           t =  weaponLaser();
@@ -123,7 +123,7 @@ public class ItemFactory extends Factory{
        //overload shot method
        Item t = new Item(){
             public void shot(Room r, float x, float y){
-            Bullet b = new Bullet(x, y, Type.BULLET_SPEED_SLOW);
+            Bullet b = new Bullet(x, y, Type.BULLET_SPEED_SLOW, 0);
             //dp of bullet must be set
             b.setDp(5);
 
@@ -160,18 +160,17 @@ public class ItemFactory extends Factory{
        Item t = new Item(){
             public void shot(Room r, float x, float y){
             
-            //b1, b3 need PVector
-            Bullet b1 = new Bullet(x, y + 20, Type.BULLET_SPEED_NORMAL);
-            Bullet b2 = new Bullet(x, y, Type.BULLET_SPEED_NORMAL);
-            Bullet b3 = new Bullet(x, y + 20, Type.BULLET_SPEED_NORMAL);
+            Bullet b1 = new Bullet(x, y, Type.BULLET_SPEED_NORMAL, 1);
+            Bullet b2 = new Bullet(x, y, Type.BULLET_SPEED_NORMAL, 0);
+            Bullet b3 = new Bullet(x, y, Type.BULLET_SPEED_NORMAL, -1);
             
             b1.setDp(5);
             b2.setDp(5);
             b3.setDp(5);
+            
             r.getBullets().add(b1);
             r.getBullets().add(b2);
             r.getBullets().add(b3);
-
           }
        };
        
@@ -194,7 +193,7 @@ public class ItemFactory extends Factory{
        //overload shot method
        Item t = new Item(){
             public void shot(Room r, float x, float y){
-            Bullet b = new Bullet(x, y, Type.BULLET_SPEED_FAST){
+            Bullet b = new Bullet(x, y, Type.BULLET_SPEED_FAST,0){
                 //overload paint();
                 public void paint(){
                    //default
