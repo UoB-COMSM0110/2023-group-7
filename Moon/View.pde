@@ -26,7 +26,7 @@ public class View{
        drawGamePause();
     }else if(model.getGameOver()){
       drawGameOver();
-    }else{
+    }else if(model.getGameStart()){
          drawRoom();
          drawGhost();
          drawPlayer();
@@ -238,10 +238,30 @@ public class View{
    * Game start menu should be written here
    */
    public void drawMenuHomePage(){
-     // Start Game
-     
-     // Setting
-     
+     textAlign(CENTER, CENTER);
+     textSize(64);
+     // Draw background Image
+     image(bgImg, 0, 0, width, height);
+      // Draw Head
+      fill(255);
+      text("Main Menu", width/2, height/4);
+      
+      // Draw Game Start Button
+      rectMode(CENTER);
+      fill(0, 255, 0);
+      rect(width/2, height*1/2, 200, 60);
+      fill(255);
+      textSize(32);
+      text("Start", width/2, height*1/2);
+      
+      // Draw Option Button
+      rectMode(CENTER);
+      fill(0, 255, 0);
+      rect(width/2, height*3/4, 200, 60);
+      fill(255);
+      textSize(32);
+      text("Option", width/2, height*3/4);
+      
      // Tutorial?
      
      // Collection
@@ -254,7 +274,28 @@ public class View{
    
    // Appear during game when press "ESC"?
    public void drawMenuControl(){
-   
+     textAlign(CENTER, CENTER);
+     textSize(64);
+      // Draw background Image
+     image(bgImg, 0, 0, width, height);
+     // Draw Music control Button
+      rectMode(CENTER);
+      if (model.getIsMusicPlaying()) {
+        fill(0, 255, 0);
+      } else {
+        fill(255, 0, 0);
+      }
+      rect(width/2, height/4, 200, 60);
+      fill(255);
+      textSize(16);
+      text("Music", width/2, height/4);
+      
+      // Draw Return Button
+      fill(0, 255, 0);
+      rect(width/2, height/2, 200, 60);
+      fill(255);
+      textSize(16);
+      text("Return", width/2, height/2);
    }
    
    // Menu when game is paused 
@@ -264,7 +305,16 @@ public class View{
    
    // When player lose all HP
    public void drawGameOver(){
+     
+     image(gameoverImg, 0, 0, width, height);
+     
    // Restart
+     rect(width/2, height/4, 200, 60);
+      fill(255);
+      textSize(16);
+      text("Restart?", width/2, height*3/4);
+     
+
    
    // Check Global Ranking
    

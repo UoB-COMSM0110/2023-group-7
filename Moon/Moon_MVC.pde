@@ -1,8 +1,24 @@
 //need install: tools > manage tools> libraries > GifAnimation
 import gifAnimation.*;
+import processing.sound.*;
 
 Controller controller;
 View view;
+
+// Menu
+SoundFile bgMusic;
+PImage bgImg;
+PImage gameoverImg;
+
+/*
+boolean isMusicPlaying = false;
+boolean menuHomePage = true;
+boolean menuControl = false;
+boolean gameStart = false;
+boolean gamePause = false;
+boolean gameOver = false;
+boolean globalList = false;
+*/
 
 IntList pkeys = new IntList(); 
 
@@ -130,6 +146,12 @@ void setup(){
     addplayerGifs(p);
     model.addPlayer(p);
     model.setItemFactory(t);
+    
+    // Menu
+    bgImg = loadImage("Data/imgs/background.png");
+    gameoverImg = loadImage("Data/imgs/gameover.png");
+    bgMusic = new SoundFile(this, "Data/music/bgmusic.mp3");
+    bgMusic.loop();
     
     controller = new Controller(model);
     view = new View(model);
@@ -301,11 +323,39 @@ public void mouseListener(){
 public void mouseReleased(){
   
   if(controller.getMenuHomePage()){
-      //check mouse position, if in position and released, change booleans in model
-
-  }
-  else if(controller.getMenuControl()){
+    //check mouse position, if in position and released, change booleans in model
+    // Clicked on Start
+    if (mouseX > width/2-100 && mouseX < width/2+100 && mouseY > height/2-30 && mouseY < height/2+30) {
+      controller.setMenuHomePage(false);
+      controller.setGameStart(true);
+    }
+    // Click Option
+    if (mouseX > width/2-100 && mouseX < width/2+100 && mouseY > height*3/4-30 && mouseY < height*3/4+30) {
+      controller.setMenuHomePage(false);
+      controller.setMenuControl(true);
+    }
+    
+  } else if(controller.getMenuControl()){
      //there should be a return button in this menu
+         
+    // Switch Music ON/OFF
+    if (mouseX > width/2 - 100 && mouseX < width/2 + 100 + 90 && mouseY > height/4-30 && mouseY < height/4+30) {
+      if (controller.getIsMusicPlaying()) {
+        bgMusic.pause();
+        controller.setIsMusicPlaying(false);
+      } else {
+        bgMusic.play();
+        controller.setIsMusicPlaying(true);
+      }
+      // isOptionMenuOpen = false;
+    }
+    
+    // Return button
+    if (mouseX > width/2 - 100 && mouseX < width/2 + 100 + 90 && mouseY > height/2-30 && mouseY < height/2+30) {
+      controller.setMenuControl(false);
+      controller.setMenuHomePage(true);
+    }
+    
   }
   else if(controller.getGlobalList()){
      //there should be a return button in this menu
@@ -316,7 +366,12 @@ public void mouseReleased(){
   }
   else if(controller.getGameOver()){
       //there should be a restart button in this menu
-
+      
+      // Restart
+      if (mouseX > width/2 - 100 && mouseX < width/2 + 100 + 90 && mouseY > height*3/4-30 && mouseY < height*3/4+30) {
+        controller.setGameStart(false);
+        controller.setGameOver(true);
+      }
   }
   //only work when game starts
   else{

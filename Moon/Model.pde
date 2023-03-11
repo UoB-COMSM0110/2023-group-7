@@ -11,7 +11,15 @@ public class Model{
    private BlockFactory blockFactory;
    //private ArrayList<Block> basicBlock;
    private ArrayList<Gif> gifs;
-   private boolean menuHomePage, menuControl, gameStart, gamePause, gameOver, globalList;
+
+   private boolean isMusicPlaying = true;
+   private boolean menuHomePage = true;
+   private boolean menuControl = false;
+   private boolean gameStart = false;
+   private boolean gamePause = false;
+   private boolean gameOver = false;
+   private boolean globalList = false;
+
    
    public Model(){
        this.enemyFactory = new EnemyFactory();
@@ -23,7 +31,7 @@ public class Model{
        //this.basicBlock = new ArrayList();
        //this.init();
        
-       this.gameStart = true;
+       // gameStart = true;
    }
    
    /**
@@ -113,6 +121,16 @@ public class Model{
 
 
    //menuHomePage, menuControl, gameStart, gamePause, gameOver, globalList;
+   
+   public void setIsMusicPlaying(boolean flag){
+       this.isMusicPlaying = flag;
+   }
+   
+   public boolean getIsMusicPlaying(){
+       return this.isMusicPlaying;
+   }
+   
+   
    public void setMenuHomePage(boolean flag){
        this.menuHomePage = flag;
    }

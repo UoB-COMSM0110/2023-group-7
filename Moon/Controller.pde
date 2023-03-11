@@ -790,6 +790,15 @@ public class Controller{
    /**
    *
    */
+   
+    public void setIsMusicPlaying(boolean flag){
+       model.setIsMusicPlaying(flag);
+   }
+   
+   public boolean getIsMusicPlaying(){
+       return model.getIsMusicPlaying();
+   }
+   
    public void setMenuHomePage(boolean flag){
        model.setMenuHomePage(flag);
    }
