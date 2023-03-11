@@ -33,6 +33,8 @@ public class ItemFactory extends Factory{
        weaponImgs.add(loadImage("imgs/items/weapon/1_2.png")); 
        weaponImgs.add(loadImage("imgs/items/weapon/2_1.png")); 
        weaponImgs.add(loadImage("imgs/items/weapon/2_2.png")); 
+       weaponImgs.add(loadImage("imgs/items/weapon/3_1.png")); 
+       weaponImgs.add(loadImage("imgs/items/weapon/3_2.png")); 
        
        // imgs of consumables
        potionImgs.add(loadImage("imgs/items/potion/0.png"));
@@ -64,11 +66,11 @@ public class ItemFactory extends Factory{
     
     //scan a room, add chest to this room: The probability can be adjusted at any time
     public void addItemsToRoom(Room r){
-       for(int i = 3; i < Type.BOARD_MAX_HEIGHT - 3; i++){
+       for(int i = 3; i < Type.BOARD_MAX_HEIGHT - 4; i++){
           for(int j = 3; j < Type.BOARD_MAX_WIDTH - 3; j++){
               if(r.blockType[i + 1][j] == 1 && r.blockType[i - 1][j] == 0){
                   int n = (int)random(0, 60);
-                  if(n < 3){
+                  if(n < 5){
                     r.blockType[i][j] = 6;
                   }
               }
@@ -120,8 +122,10 @@ public class ItemFactory extends Factory{
        int r = (int)random(10);
        
        Item t = null;
-       if(r >=0 && r <= 5){     
+       if(r >=0 && r <= 3){     
           t =  weaponShotgun();
+       }else if(r > 3 && r <= 6){
+          t =  weaponMinergun();
        }else{
           t =  weaponLaser();
        } 
@@ -236,6 +240,43 @@ public class ItemFactory extends Factory{
        t.getImgs()[1].resize(Type.BOARD_GRIDSIZE * 3/2, Type.BOARD_GRIDSIZE/2);
        t.setWidth(Type.BOARD_GRIDSIZE * 3/2);
        t.setHeight(Type.BOARD_GRIDSIZE/2);
+       return t;
+    }
+    
+    public Item weaponMinergun(){
+       Item t = new Item(){
+            public void shot(Room r, float x, float y){
+            Bullet b = new Bullet(x, y, Type.BULLET_SPEED_FAST,0){
+                //overload paint();
+                public void paint(){
+                   //default
+                   stroke(100);
+                   strokeWeight(5);
+                   line(this.getX(), this.getY(), this.getX() + this.getSpeedX() * 3, this.getY() + this.getSpeedY() * 3);
+                   noStroke();
+                }
+            };
+            b.setType(Type.BULLET_TYPE_MINER);
+            b.setDp(0);  //Minergun cannot do damage to enemies ?
+
+            r.getBullets().add(b);
+          }
+       };
+       
+       //Cd must be set
+       t.setBulletCd(Type.BULLET_CD_NORMAL);
+       //Type must be set
+       t.setType(Type.WEAPON_MINER);
+       //get PImage and resize them
+       t.setImgs(new PImage[]{
+          weaponImgs.get(t.getType() * 2),
+          weaponImgs.get(t.getType() * 2 + 1)
+       });
+       t.getImgs()[0].resize(Type.BOARD_GRIDSIZE * 3/2, Type.BOARD_GRIDSIZE/2);
+       t.getImgs()[1].resize(Type.BOARD_GRIDSIZE * 3/2, Type.BOARD_GRIDSIZE/2);
+       t.setWidth(Type.BOARD_GRIDSIZE * 3/2);
+       t.setHeight(Type.BOARD_GRIDSIZE/2);
+       
        return t;
     }
     
