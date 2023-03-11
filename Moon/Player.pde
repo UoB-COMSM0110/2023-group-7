@@ -51,6 +51,10 @@ public class Player extends BasicProp{
   public void addItem(Item t){
      if(t.getCategory() == Type.ITEM_WEAPON){
         this.weapon = t;
+     /*
+     }else if(t.getCategory() == Type.ITEM_CRYSTAL)(  //for crystal, not put into the store section, but add score or sth directly
+        add score or crystal to player
+     */
      }else{ 
         items.add(t);
      }  
