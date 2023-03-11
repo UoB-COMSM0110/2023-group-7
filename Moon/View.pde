@@ -106,10 +106,16 @@ public class View{
       Item w = p.getWeapon();
       
       if(p.getLeft()){
-            image(p.getGifs().get(0), p.getX(), p.getY());
+            //image(p.getGifs().get(0), p.getX(), p.getY());
+            
+            p.playGifsImgs(0);
+
             image(w.getImgs()[0],  p.getX() - w.getWidth() + p.getWidth()/2, p.getY() + p.getHeight()/3);
        }else{
-            image(p.getGifs().get(1), p.getX(), p.getY());
+            //image(p.getGifs().get(1), p.getX(), p.getY());
+            
+            p.playGifsImgs(1);
+            
             image(w.getImgs()[1],  p.getX() + p.getWidth()/2, p.getY() + p.getHeight()/3);
        }
        

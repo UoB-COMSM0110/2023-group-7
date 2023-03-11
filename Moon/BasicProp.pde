@@ -17,6 +17,9 @@ class BasicProp{
   private boolean fall, jump, transported, highJump, left, onPortal, throughDown;
   private boolean flyMode;
   
+  private ArrayList<PImage[]> gifsImgs;
+  private float[] gifsImgsCount;
+  
   //hp, damage
   private float hp, dp;
   
@@ -290,6 +293,29 @@ class BasicProp{
   
   public void setFlyMode(boolean flag){
       this.flyMode = flag;
+  }
+
+  public void addGifsImgs(PImage[] gif){
+    if(this.gifsImgs == null) this.gifsImgs = new ArrayList();
+    this.gifsImgs.add(gif);
+  }
+  
+  public ArrayList<PImage[]> getGifsImgs(){
+    return this.gifsImgs;
+  }
+  
+  public void setGifsImgsCount(int i){
+    this.gifsImgsCount = new float[i];
+  }
+  
+  public float[] getGifsImgsCount(){
+    return this.gifsImgsCount;
+  }
+  
+  public void playGifsImgs(int i){
+     PImage[] imgs = gifsImgs.get(i);
+     image(imgs[(int)gifsImgsCount[i]], this.x, this.y);
+     this.gifsImgsCount[i] = (this.gifsImgsCount[i]+0.1) % (float)imgs.length;
   }
   
 }

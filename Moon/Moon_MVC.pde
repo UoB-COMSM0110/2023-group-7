@@ -144,13 +144,27 @@ void draw(){
 }
 
 public void addplayerGifs(Player p){
-     Gif playerLeft = new Gif(this, "imgs/player/player_left.gif");
-     playerLeft.loop();
-     Gif playerRight = new Gif(this, "imgs/player/player_right.gif");
-     playerRight.loop();
+     //Gif playerLeft = new Gif(this, "imgs/player/player_left.gif");
+     //playerLeft.loop();
+     //Gif playerRight = new Gif(this, "imgs/player/player_right.gif");
+     //playerRight.loop();
      
-     p.addGif(playerLeft);
-     p.addGif(playerRight);
+     //p.addGif(playerLeft);
+     //p.addGif(playerRight);
+     
+     PImage[] pRunL = Gif.getPImages(this, "imgs/player/player_left.gif");
+     for(int i = 0; i < pRunL.length; i++){
+        pRunL[i].resize(p.getWidth(), p.getHeight());
+     }
+     
+     PImage[] pRunR = Gif.getPImages(this, "imgs/player/player_right.gif");
+     for(int i = 0; i < pRunR.length; i++){
+        pRunR[i].resize(p.getWidth(), p.getHeight());
+     }
+     
+     p.addGifsImgs(pRunL);
+     p.addGifsImgs(pRunR);
+     p.setGifsImgsCount(2);   
 }
 
 /**
