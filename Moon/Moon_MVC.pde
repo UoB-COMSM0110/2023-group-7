@@ -21,6 +21,8 @@ static abstract class Type {
   static final float GIF_PLAY_SPEED = 0.1;
 
   //player - baisc attributes
+  static final int PLAYER = -1;
+  
   static final int PLAYER_DPCD = 50;
   
   static final int PLAYER_JUMP_SPEEDY = BOARD_GRIDSIZE * 2/7;
@@ -83,7 +85,6 @@ static abstract class Type {
   static final int ENEMY_WORM = 1;
   static final int ENEMY_GUNNER = 2;
   static final int ENEMY_JUMPER = 3;
-  static final int PLAYER = 4;
 
   //block type
   static final int BLOCK_EMPTY = 0;
