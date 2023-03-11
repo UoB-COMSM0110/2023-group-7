@@ -305,16 +305,16 @@ class BasicProp{
        }
        this.gifsImgs.add(gif);
     }
-    this.setGifsImgsCount(cnt);
+    this.gifsImgsCount = new float[i];
   }
   
   public ArrayList<PImage[]> getGifsImgs(){
     return this.gifsImgs;
   }
   
-  public void setGifsImgsCount(int i){
-    this.gifsImgsCount = new float[i];
-  }
+  //public void setGifsImgsCount(int i){
+  //  this.gifsImgsCount = new float[i];
+  //}
   
   public float[] getGifsImgsCount(){
     return this.gifsImgsCount;

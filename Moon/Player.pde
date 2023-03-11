@@ -14,7 +14,7 @@ public class Player extends BasicProp{
   //private ArrayList<Item> outfit;
   
   //since there may be more then two gifs
-  private ArrayList<Gif> gifs;
+  //private ArrayList<Gif> gifs;
 
   private int bulletCd;
     
@@ -26,7 +26,7 @@ public class Player extends BasicProp{
     this.setWidth(w);
     this.setHeight(h);
     this.items = new ArrayList();
-    this.gifs = new ArrayList();
+    //this.gifs = new ArrayList();
     
     this.setHp(100);
     this.setImg(loadImage("imgs/player/hp.png"));
@@ -104,17 +104,14 @@ public class Player extends BasicProp{
    }
    
      
-  public void addGif(Gif gif){
-    this.gifs.add(gif);
-  }
+  //public void addGif(Gif gif){
+  //  this.gifs.add(gif);
+  //}
   
-  public ArrayList<Gif> getGifs(){
-    return this.gifs;
-  } 
+  //public ArrayList<Gif> getGifs(){
+  //  return this.gifs;
+  //} 
   
-
-   
-
   public void move(){
      this.setX(this.getX() + this.getSpeedX() + this.getSpeedXInc());
      if(this.getFlyMode()){
