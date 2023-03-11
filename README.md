@@ -5,13 +5,13 @@
 
 Team photo to be added
 
-| Name      | Email                 |
-|-----------|-----------------------|
-| xiao yuan | lq22159@bristol.ac.uk |
-| Yue Wang	| pe22209@bristol.ac.uk |
-| Arlo SUN  | xa22653@bristol.ac.uk | 
-|           |                       |
-|           |                       |
+| Name            | Email                 |
+|-----------------|-----------------------|
+| xiao yuan       | lq22159@bristol.ac.uk |
+| Yue Wang	      | pe22209@bristol.ac.uk |
+| Arlo SUN        | xa22653@bristol.ac.uk | 
+| Ed Satterthwaite| es16268@bristol.ac.uk |
+|                 |                       |
 
 
 
