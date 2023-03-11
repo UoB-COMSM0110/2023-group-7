@@ -295,9 +295,17 @@ class BasicProp{
       this.flyMode = flag;
   }
 
-  public void addGifsImgs(PImage[] gif){
+  public void addGifsImgs(PImage[]... gifs){
     if(this.gifsImgs == null) this.gifsImgs = new ArrayList();
-    this.gifsImgs.add(gif);
+    int cnt = 0;
+    for(PImage[] gif : gifs){
+       cnt++;
+      for(int i = 0; i < gif.length; i++){
+          gif[i].resize(this.w, this.h);
+       }
+       this.gifsImgs.add(gif);
+    }
+    this.setGifsImgsCount(cnt);
   }
   
   public ArrayList<PImage[]> getGifsImgs(){
