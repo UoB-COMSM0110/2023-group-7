@@ -5,13 +5,16 @@
 */
 public class Bullet extends BasicProp{
    
-    Bullet(float x, float y, float speed){
+    Bullet(float x, float y, float speed, int direction){
        this.setX(x);
        this.setY(y);
+       //this.setSpeedX(speedX);
+       //this.setSpeedY(speedY);
+       this.direction(direction);
        this.setWidth(5);
        this.setHeight(5);
        this.setType(Type.BULLET_TYPE_CIRCLE);
-       this.countSpeed(speed);
+       this.countSpeed(speed, direction);
     }
     
     Bullet(BasicProp e, BasicProp p, float speed){
@@ -40,7 +43,7 @@ public class Bullet extends BasicProp{
          noFill();
       }
       
-      public void countSpeed(float speed){
+      public void countSpeed(float speed, int direction){
             float bSpeedX, bSpeedY;
             if(mouseX == this.getX()){
                  bSpeedX = 0;
@@ -55,7 +58,13 @@ public class Bullet extends BasicProp{
               bSpeedY = - bSpeedY;
             }
             this.setSpeedX(bSpeedX);
-            this.setSpeedY(bSpeedY);
+            if(direction == 0){  //set bullet directions
+              this.setSpeedY(bSpeedY);
+            }else if(direction == 1){
+              this.setSpeedY(bSpeedY + 2);
+            } else{
+              this.setSpeedY(bSpeedY - 2); 
+            }
       }
       
       public void countSpeed(float speed, BasicProp p){
