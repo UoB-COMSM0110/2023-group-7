@@ -1,5 +1,6 @@
 /**
 * @author imyuanxiao
+* @participant arlo
 * Class for painting. This class will draw everything for each frame by getting data from Model.class.
 * Next stage: finish draw*() methods behind
 */
@@ -237,21 +238,41 @@ public class View{
    * Game start menu should be written here
    */
    public void drawMenuHomePage(){
-   
+     // Start Game
+     
+     // Setting
+     
+     // Tutorial?
+     
+     // Collection
+     
+     // History Ranking
+     
+     // Quit
    }
    
+   
+   // Appear during game when press "ESC"?
    public void drawMenuControl(){
    
    }
    
+   // Menu when game is paused 
    public void drawGamePause(){
    
    }
    
+   // When player lose all HP
    public void drawGameOver(){
+   // Restart
    
+   // Check Global Ranking
+   
+   // Quit
    }
    
+   // Afer game finished, the marking ranking
+   // Also can be accessed from Home Page Menu
    public void drawGlobalList(){
    
    }
