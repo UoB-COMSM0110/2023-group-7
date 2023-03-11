@@ -101,12 +101,11 @@ static abstract class Type {
   // Primary category
   static final int ITEM_WEAPON = 0;
   static final int ITEM_POTION = 1;
-  //static final int ITEM_OUTFIT = 2;
+  static final int ITEM_CRYSTAL = 2;
+  //static final int ITEM_OUTFIT = 3;
   // Secondary category
-  // coins
-  static final int COIN_COPPER = 0;
-  static final int COIN_SLIVER = 1;
-  static final int COIN_GOLD = 2;
+  // crystal
+  static final int CRYSTAL = 0;
   // weapons
   static final int WEAPON_PISTOL= 0;
   static final int WEAPON_SHOTGUN = 1;

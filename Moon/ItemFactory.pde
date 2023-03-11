@@ -12,7 +12,6 @@ public class ItemFactory extends Factory{
     
     private ArrayList<PImage> weaponImgs;
     private ArrayList<PImage> potionImgs;
-    //private ArrayList<PImage> coinImgs;
     //private ArrayList<PImage> outfitImgs;
 
     public ItemFactory(){
@@ -38,6 +37,7 @@ public class ItemFactory extends Factory{
        // imgs of consumables
        potionImgs.add(loadImage("imgs/items/potion/0.png"));
        potionImgs.add(loadImage("imgs/items/potion/1.png"));
+       
 
     }
     
@@ -79,11 +79,13 @@ public class ItemFactory extends Factory{
     public Item newItem(int[] pos){
        int r = (int)random(10);
        Item t = null; 
-       if(r >= 0 && r <= 4){   
+       if(r >= 0 && r <= 3){   
            t = newWeapon();
-       }else{
+       }else if(r > 3 && r <= 6){  
             //randomly generate a new potion
            t = newPotion();
+       }else{
+           t = newCrystal();
        }
        //
        //else if(category == Type.ITEM_PERMANENT){
@@ -98,11 +100,24 @@ public class ItemFactory extends Factory{
        return t;
     }
     
+    //randomly generate a new crystal
+    public Item newCrystal( ){
+        Item t = new Item();
+        t.setType(Type.CRYSTAL);
+        //process size and PImage
+        t.setCategory(Type.ITEM_CRYSTAL);
+        PImage img = loadImage("imgs/items/crystal.png");
+        t.setImgs(new PImage[]{img, null});
+        t.getImgs()[0].resize(Type.BOARD_GRIDSIZE, Type.BOARD_GRIDSIZE);
+        t.setWidth(Type.BOARD_GRIDSIZE);
+        t.setHeight(Type.BOARD_GRIDSIZE);
+        return t;
+    }
+    
     //randomly generate a new weapon
     public Item newWeapon( ){
        //randomly generate a weapon
        int r = (int)random(10);
-       
        
        Item t = null;
        if(r >=0 && r <= 5){     
