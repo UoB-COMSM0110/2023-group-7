@@ -155,7 +155,8 @@ void setup(){
     gameoverImg = loadImage("Data/imgs/gameover.png");
     minim = new Minim(this);
     bgMusic = minim.loadFile("Data/music/bgmusic.mp3");
-    bgMusic.loop();
+    
+    //bgMusic.loop();
     
     controller = new Controller(model);
     view = new View(model);

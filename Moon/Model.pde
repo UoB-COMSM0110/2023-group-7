@@ -12,10 +12,10 @@ public class Model{
    //private ArrayList<Block> basicBlock;
    private ArrayList<Gif> gifs;
 
-   private boolean isMusicPlaying = true;
-   private boolean menuHomePage = true;
+   private boolean isMusicPlaying = false;
+   private boolean menuHomePage = false;
    private boolean menuControl = false;
-   private boolean gameStart = false;
+   private boolean gameStart = true;
    private boolean gamePause = false;
    private boolean gameOver = false;
    private boolean globalList = false;
