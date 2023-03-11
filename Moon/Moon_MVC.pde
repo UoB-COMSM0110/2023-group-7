@@ -156,8 +156,9 @@ void setup(){
     minim = new Minim(this);
     bgMusic = minim.loadFile("Data/music/bgmusic.mp3");
     
-    //bgMusic.loop();
-    
+    if (model.getIsMusicPlaying()){
+      bgMusic.play();
+    }
     controller = new Controller(model);
     view = new View(model);
 }
@@ -392,4 +393,11 @@ public void mouseReleased(){
 
 public void mousePressed(){
   
+}
+
+void stop(){
+  bgMusic.close();
+  minim.stop();
+  
+  super.stop();
 }
