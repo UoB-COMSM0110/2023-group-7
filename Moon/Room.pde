@@ -11,6 +11,9 @@ public class Room extends HandleEnemies{
     private String[] sections;
     private ArrayList<Block> blocks;
     private ArrayList<Bullet> bullets;
+    
+    private ArrayList<Bullet> enemyBullets;
+
     private ArrayList<Item> items;
 
     public Room(){
