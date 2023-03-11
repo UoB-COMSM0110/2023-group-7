@@ -67,6 +67,7 @@ static abstract class Type {
   
   static final int BULLET_TYPE_CIRCLE = 0;
   static final int BULLET_TYPE_LINE = 1;
+  static final int BULLET_TYPE_MINER = 2;
 
   
   //mouse
@@ -129,6 +130,7 @@ static abstract class Type {
   static final int WEAPON_PISTOL= 0;
   static final int WEAPON_SHOTGUN = 1;
   static final int WEAPON_LASER = 2;
+  static final int WEAPON_MINER = 3;
   // potions
   static final int POTION_HP = 0;
   static final int POTION_SP = 1;

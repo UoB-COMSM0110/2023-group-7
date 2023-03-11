@@ -313,16 +313,29 @@ public class Controller{
          for(int i = 0; i < Type.BOARD_MAX_HEIGHT; i++){
             for(int j = 0; j < Type.BOARD_MAX_WIDTH; j++){
                 if(blockCannotThrough(r.getBlockType(i,j), false, null)){
+                    if(r.getBlockType(i,j) != Type.BLOCK_CRYSTAL){
                         for(int k = 0; k < bullets.size(); k++){
                              Bullet b = bullets.get(k);
                             if(collisionDetectionWithBlock(b, i, j)){
                                  bullets.remove(k--);
                              }
                        }
+                    }else{
+                       for(int k = 0; k < bullets.size(); k++){  //minergun bullet meets crystal block: The design could be modified to a more interesting type...
+                            Bullet b = bullets.get(k);
+                            if(collisionDetectionWithBlock(b, i, j)){
+                               if(b.getType() == Type.BULLET_TYPE_MINER){
+                                 r.blockType[i][j] = 0;
+                                 bullets.remove(k--);
+                               }else{
+                                 bullets.remove(k--);
+                               }
+                            }
+                       }
+                    }
                 }
             }
          }
-      //collision detection between player and blocks
       checkAround(p);
    }
    
