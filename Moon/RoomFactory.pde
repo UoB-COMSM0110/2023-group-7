@@ -122,7 +122,11 @@ public class RoomFactory extends Factory{
         for(int col=0; col<sectionSize; col++){
           switch(values[col].codePointAt(0)){
             case '1':
+              if(blockOrCrystal()){
+                r.blockType[rowNum+row][colNum+col] = Type.BLOCK_CRYSTAL;
+            }else if(!blockOrCrystal()){
               r.blockType[rowNum+row][colNum+col] = Type.BLOCK_WALL;
+            }
               break;
             case '2':
               r.blockType[rowNum+row][colNum+col] = Type.BLOCK_BOUNCE;
@@ -146,6 +150,15 @@ public class RoomFactory extends Factory{
         }
       }
       makePortal(r);
+    }
+    
+    
+    public boolean blockOrCrystal(){
+      int i = (int)random(20);
+      if(i<1){
+        return true;
+      }
+      return false;
     }
     
     

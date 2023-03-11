@@ -88,7 +88,7 @@ static abstract class Type {
   //block type
   static final int BLOCK_EMPTY = 0;
   static final int BLOCK_WALL = 1;
-  static final int BLOCK_GOLD = 2;
+  static final int BLOCK_CRYSTAL = 2;
   static final int BLOCK_BOUNCE = 3;
   static final int BLOCK_PORTAL = 4;
   static final int BLOCK_BORDER = 5;
