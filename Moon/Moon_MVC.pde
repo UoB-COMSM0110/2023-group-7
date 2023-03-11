@@ -1,12 +1,15 @@
 //need install: tools > manage tools> libraries > GifAnimation
 import gifAnimation.*;
-import processing.sound.*;
+
+import ddf.minim.*;
 
 Controller controller;
 View view;
 
 // Menu
-SoundFile bgMusic;
+Minim minim;
+AudioPlayer bgMusic;
+// SoundFile bgMusic;
 PImage bgImg;
 PImage gameoverImg;
 
@@ -150,7 +153,8 @@ void setup(){
     // Menu
     bgImg = loadImage("Data/imgs/background.png");
     gameoverImg = loadImage("Data/imgs/gameover.png");
-    bgMusic = new SoundFile(this, "Data/music/bgmusic.mp3");
+    minim = new Minim(this);
+    bgMusic = minim.loadFile("Data/music/bgmusic.mp3");
     bgMusic.loop();
     
     controller = new Controller(model);
