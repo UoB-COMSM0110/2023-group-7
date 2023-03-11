@@ -15,8 +15,8 @@ static abstract class Type {
   static final int BOARD_MAX_HEIGHT = 20;
   static final int BOARD_MAX_WIDTH = 29;
   static final int BOARD_GRIDSIZE = 40;
-  static final int BOARD_GRIDSIZE_ADD5 = 45;
-  static final int BOARD_GRIDSIZE_SUB5 = 35;
+  static final int BOARD_GRIDSIZE_ADD5 = BOARD_GRIDSIZE + 5;
+  static final int BOARD_GRIDSIZE_SUB5 = BOARD_GRIDSIZE - 5;
 
   static final float GIF_PLAY_SPEED = 0.1;
 
@@ -26,7 +26,7 @@ static abstract class Type {
   static final int PLAYER_JUMP_SPEEDY = BOARD_GRIDSIZE * 2/7;
   static final int PLAYER_HIGH_JUMP_SPEEDY = BOARD_GRIDSIZE * 3/7;
   
-  static final float PLAYER_SPEED_INCREMENT = 0.5;
+  static final float PLAYER_SPEED_INCREMENT = (float)BOARD_GRIDSIZE / 100;
   static final float PLAYER_SPEED_X = BOARD_GRIDSIZE / 8;
   static final float PLAYER_SPEED_Y = BOARD_GRIDSIZE / 4;
   
