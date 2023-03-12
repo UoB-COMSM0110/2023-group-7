@@ -12,6 +12,8 @@ AudioPlayer bgMusic;
 // SoundFile bgMusic;
 PImage bgImg;
 PImage optionImg;
+PImage optionMuteImg;
+PImage rankImg;
 PImage gameoverImg;
 
 /*
@@ -165,6 +167,8 @@ void setup(){
     bgImg = loadImage("Data/imgs/background.png");
     optionImg = loadImage("Data/imgs/option.png");
     gameoverImg = loadImage("Data/imgs/gameover.png");
+    optionMuteImg = loadImage("Data/imgs/option_mute.png");
+    rankImg = loadImage("Data/imgs/rank.png");
     minim = new Minim(this);
     bgMusic = minim.loadFile("Data/music/bgmusic.mp3");
     
@@ -358,7 +362,10 @@ public void mouseReleased(){
     }
     
     // Click history ranking
-    
+    if (mouseX > 201 && mouseX < 433 && mouseY > 406 && mouseY < 503) {
+      controller.setMenuHomePage(false);
+      controller.setGlobalList(true);
+    }
     
     // Click Quit
     if (mouseX > 201 && mouseX < 433 && mouseY > 531 && mouseY < 628) {
@@ -389,7 +396,12 @@ public void mouseReleased(){
   }
   else if(controller.getGlobalList()){
      //there should be a return button in this menu
+   if (mouseX > 485 && mouseX < 675 && mouseY > 631 && mouseY < 710) {
+      controller.setGlobalList(false);
+      controller.setMenuHomePage(true);
+    }
   }
+  
   else if(controller.getGamePause()){
       //there should be a restart button in this menu
 

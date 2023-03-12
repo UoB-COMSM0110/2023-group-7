@@ -15,7 +15,7 @@ public class Model{
    private boolean isMusicPlaying = true;
    private boolean menuHomePage = true;
    private boolean menuControl = false;
-   private boolean gameStart = true;
+   private boolean gameStart = false;
    private boolean gamePause = false;
    private boolean gameOver = false;
    private boolean globalList = false;

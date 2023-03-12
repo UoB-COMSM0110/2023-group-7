@@ -265,8 +265,12 @@ public class View{
      textAlign(CENTER, CENTER);
      textSize(64);
       // Draw background Image
-     image(optionImg, 0, 0, width, height);
-     
+      
+      if (model.getIsMusicPlaying()){
+        image(optionImg, 0, 0, width, height);
+      } else {
+        image(optionMuteImg, 0, 0, width, height);
+      }
      /*
      // Draw Music control Button
       rectMode(CENTER);
@@ -316,7 +320,7 @@ public class View{
    // Afer game finished, the marking ranking
    // Also can be accessed from Home Page Menu
    public void drawGlobalList(){
-   
+     image(rankImg, 0, 0, width, height);
    }
    
 }
