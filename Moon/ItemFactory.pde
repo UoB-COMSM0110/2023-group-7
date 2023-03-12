@@ -102,30 +102,14 @@ public class ItemFactory extends Factory{
        return t;
     }
     
-    //randomly generate a new crystal
-    public Item newCrystal( ){
-        Item t = new Item();
-        t.setType(Type.CRYSTAL);
-        //process size and PImage
-        t.setCategory(Type.ITEM_CRYSTAL);
-        PImage img = loadImage("imgs/items/crystal.png");
-        t.setImgs(new PImage[]{img, null});
-        t.getImgs()[0].resize(Type.BOARD_GRIDSIZE, Type.BOARD_GRIDSIZE);
-        t.setWidth(Type.BOARD_GRIDSIZE);
-        t.setHeight(Type.BOARD_GRIDSIZE);
-        return t;
-    }
-    
     //randomly generate a new weapon
     public Item newWeapon( ){
        //randomly generate a weapon
        int r = (int)random(10);
        
        Item t = null;
-       if(r >=0 && r <= 3){     
+       if(r >=0 && r <= 5){     
           t =  weaponShotgun();
-       }else if(r > 3 && r <= 6){
-          t =  weaponMinergun();
        }else{
           t =  weaponLaser();
        } 
@@ -243,7 +227,13 @@ public class ItemFactory extends Factory{
        return t;
     }
     
-    public Item weaponMinergun(){
+    public Item newMinergun(){
+       Item t = weaponMinergun();
+       t.setCategory(Type.ITEM_WEAPON);
+       return t;
+    }
+    
+    public Item weaponMinergun(){  //Player comes with own miner gun initially
        Item t = new Item(){
             public void shot(Room r, float x, float y){
             Bullet b = new Bullet(x, y, Type.BULLET_SPEED_FAST,0){
@@ -317,6 +307,20 @@ public class ItemFactory extends Factory{
         t.setImgs(new PImage[]{img, null});
         t.getImgs()[0].resize(Type.BOARD_GRIDSIZE * 2/3, Type.BOARD_GRIDSIZE);
         t.setWidth(Type.BOARD_GRIDSIZE * 2/3);
+        t.setHeight(Type.BOARD_GRIDSIZE);
+        return t;
+    }
+    
+    //randomly generate a new crystal
+    public Item newCrystal( ){
+        Item t = new Item();
+        t.setType(Type.CRYSTAL);
+        //process size and PImage
+        t.setCategory(Type.ITEM_CRYSTAL);
+        PImage img = loadImage("imgs/items/crystal.png");
+        t.setImgs(new PImage[]{img, null});
+        t.getImgs()[0].resize(Type.BOARD_GRIDSIZE, Type.BOARD_GRIDSIZE);
+        t.setWidth(Type.BOARD_GRIDSIZE);
         t.setHeight(Type.BOARD_GRIDSIZE);
         return t;
     }

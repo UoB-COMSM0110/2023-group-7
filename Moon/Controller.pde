@@ -326,10 +326,8 @@ public class Controller{
                             if(collisionDetectionWithBlock(b, i, j)){
                                if(b.getType() == Type.BULLET_TYPE_MINER){
                                  r.blockType[i][j] = 0;
-                                 bullets.remove(k--);
-                               }else{
-                                 bullets.remove(k--);
                                }
+                               bullets.remove(k--);
                             }
                        }
                     }
@@ -605,9 +603,11 @@ public class Controller{
             items.remove(i);
             //change weapon
             if(t.getCategory() == Type.ITEM_WEAPON){
-               Item tmp = p.getWeapon();
-               tmp.setPos(t.getPos());
-               items.add(tmp);
+               if(p.currentWeaponIndex != 1){  //When the current weapon is a minergun, the minergun is not dropped when switching weapons
+                  Item tmp = p.getWeapon();
+                  tmp.setPos(t.getPos());
+                  items.add(tmp);
+               }
             }
             p.addItem(t);
             this.bulletTimer = p.getWeapon().getBulletCd();
@@ -764,6 +764,11 @@ public class Controller{
      
      if(keyType == Type.MOUSE_RIGHT){
         useItemByPlayer();
+     }
+     
+     if(keyType == Type.KEY_R){
+        //println("press R");
+        p.switchToMinergun();
      }
      
    }

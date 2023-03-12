@@ -9,7 +9,9 @@ public class Player extends BasicProp{
   private Item weapon;
   //player can have a lot of items such as potions
   private ArrayList<Item> items;
+  private Item[] weapons;
   private int currentItemIndex;
+  private int currentWeaponIndex = 0;
   //if needed, we can add some permanent items that can change status forever
   //private ArrayList<Item> outfit;
   
@@ -26,6 +28,8 @@ public class Player extends BasicProp{
     this.setWidth(w);
     this.setHeight(h);
     this.items = new ArrayList();
+    this.weapons = new Item[2];
+    this.currentWeaponIndex = 0;
     //this.gifs = new ArrayList();
     
     this.setHp(100);
@@ -50,6 +54,7 @@ public class Player extends BasicProp{
 
   public void addItem(Item t){
      if(t.getCategory() == Type.ITEM_WEAPON){
+        weapons[0] = t;
         this.weapon = t;
      /*
      }else if(t.getCategory() == Type.ITEM_CRYSTAL)(  //for crystal, not put into the store section, but add score or sth directly
@@ -80,6 +85,20 @@ public class Player extends BasicProp{
   public void removeCurrentItem(){
      this.items.remove(currentItemIndex--);
      if(currentItemIndex<0) currentItemIndex = 0;
+  }
+  
+  public void switchToMinergun(){
+     ItemFactory minergun = new ItemFactory();
+     Item m = minergun.newMinergun();
+     weapons[1] = m;
+     if(currentWeaponIndex == 0){
+        this.weapon = weapons[1];
+        currentWeaponIndex = 1;
+        println("switch to minergun");
+     }else{
+        this.weapon = weapons[0];
+        currentWeaponIndex = 0;
+     }
   }
   
   //public void useItem(){

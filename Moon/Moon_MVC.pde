@@ -83,6 +83,7 @@ static abstract class Type {
   static final int KEY_RELEASED_AD = 1000;
   static final int KEY_RELEASED_WS = 1001;
   static final int KEY_Q = 113;
+  static final int KEY_R = 114;
   //press S and SPACE together, can throught blocks
   static final int KEY_S_SPACE = 200;
 
@@ -312,6 +313,10 @@ public void keyReleased(){
     
     if(key == 'q'){
       controller.controlPlayer(Type.KEY_Q);
+    }
+    
+    if(key == 'r'){  //change weapon to miner gun
+      controller.controlPlayer(Type.KEY_R);
     }
     
 }
