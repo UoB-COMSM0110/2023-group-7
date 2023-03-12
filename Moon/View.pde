@@ -105,14 +105,14 @@ public class View{
   public void drawPlayer(){
       Player p = model.getPlayer();
       p.playGifsImgs();
-      drawHp(p);
+      //drawHp(p);
   }
   
-  public void drawHp(BasicProp p){
-      for(int i = 0; i <= p.getHp(); i += 10){
-         image(p.getImg(), Type.BOARD_GRIDSIZE/2 + (i/10) * Type.BOARD_GRIDSIZE * 4/5, Type.BOARD_GRIDSIZE/2);
-      }
-  }
+  //public void drawHp(BasicProp p){
+  //    for(int i = 0; i <= p.getHp(); i += 10){
+  //       image(p.getImg(), Type.BOARD_GRIDSIZE/2 + (i/10) * Type.BOARD_GRIDSIZE * 4/5, Type.BOARD_GRIDSIZE/2);
+  //    }
+  //}
   
   
 

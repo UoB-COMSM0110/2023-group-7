@@ -180,6 +180,10 @@ public class Player extends BasicProp{
      int wOffset = offset == 1 ? 0 : 1;
      image(w.getImgs()[offset],  this.getX() - w.getWidth() * wOffset + this.getWidth()/2, this.getY() + this.getHeight()/3);
     
+     //draw Hp
+     for(int j = 0; j <= this.getHp(); j += Type.PLAYER_HEART){
+         image(this.getImg(), Type.BOARD_GRIDSIZE/2 + (j/10) * Type.BOARD_GRIDSIZE * 4/5, Type.BOARD_GRIDSIZE/2);
+      }
 
   }
   

@@ -41,8 +41,10 @@ static abstract class Type {
 
   //player - baisc attributes
   static final int PLAYER = -1;
-  
+  static final int PLAYER_HEART = 10;
+
   static final int PLAYER_DPCD = 50;
+ 
   
   static final int PLAYER_JUMP_SPEEDY = BOARD_GRIDSIZE * 2/7;
   static final int PLAYER_HIGH_JUMP_SPEEDY = BOARD_GRIDSIZE * 3/7;
