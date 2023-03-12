@@ -325,9 +325,9 @@ class BasicProp{
   //  this.gifsImgsCount = new float[i];
   //}
   
-  //public float[] getGifsImgsCount(){
-  //  return this.gifsImgsCount;
-  //}
+  public float[] getGifsImgsCount(){
+    return this.gifsImgsCount;
+  }
   
   public void playGifsImgs(int i){
      PImage[] imgs = gifsImgs.get(i);

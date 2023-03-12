@@ -156,4 +156,31 @@ public class Player extends BasicProp{
      }
   }
   
+  public void playGifsImgs(){
+      
+     // left = odd, right = even
+      
+     int i;
+     int offset = this.getLeft() ? 0 : 1;
+     //if(p.getRun()){
+     i = Type.GIF_RUN_L + offset;
+     PImage[] imgs = this.getGifsImgs().get(i);
+     image(imgs[(int)this.getGifsImgsCount()[i]], this.getX(), this.getY());
+     this.getGifsImgsCount()[i] = (this.getGifsImgsCount()[i]+Type.GIF_PLAY_SPEED) % (float)imgs.length;
+     //}
+     //if(p.getKnockBack()){
+     //i = Type.GIF_KONCKBACK_L;
+     //PImage[] imgs = this.getGifsImgs().get(i);
+     //image(imgs[(int)this.getGifsImgsCount()[i]], this.getX(), this.getY());
+     //this.getGifsImgsCount()[i] = (this.getGifsImgsCount()[i]+Type.GIF_PLAY_SPEED) % (float)imgs.length;
+     //}
+     
+     //draw weapon
+     Item w = this.getWeapon();
+     int wOffset = offset == 1 ? 0 : 1;
+     image(w.getImgs()[offset],  this.getX() - w.getWidth() * wOffset + this.getWidth()/2, this.getY() + this.getHeight()/3);
+    
+
+  }
+  
 }
