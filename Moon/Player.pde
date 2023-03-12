@@ -156,7 +156,7 @@ public class Player extends BasicProp{
      }
   }
   
-  public void playGifsImgs(){
+  public void display(){
       
      // left = odd, right = even
       
@@ -169,7 +169,7 @@ public class Player extends BasicProp{
      this.getGifsImgsCount()[i] = (this.getGifsImgsCount()[i]+Type.GIF_PLAY_SPEED) % (float)imgs.length;
      //}
      //if(p.getKnockBack()){
-     //i = Type.GIF_KONCKBACK_L;
+     //i = Type.GIF_KONCKBACK_L + offset;
      //PImage[] imgs = this.getGifsImgs().get(i);
      //image(imgs[(int)this.getGifsImgsCount()[i]], this.getX(), this.getY());
      //this.getGifsImgsCount()[i] = (this.getGifsImgsCount()[i]+Type.GIF_PLAY_SPEED) % (float)imgs.length;

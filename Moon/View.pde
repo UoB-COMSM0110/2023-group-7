@@ -104,7 +104,7 @@ public class View{
   
   public void drawPlayer(){
       Player p = model.getPlayer();
-      p.playGifsImgs();
+      p.display();
       //drawHp(p);
   }
   
