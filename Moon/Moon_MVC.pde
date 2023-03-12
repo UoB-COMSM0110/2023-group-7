@@ -11,6 +11,7 @@ Minim minim;
 AudioPlayer bgMusic;
 // SoundFile bgMusic;
 PImage bgImg;
+PImage optionImg;
 PImage gameoverImg;
 
 /*
@@ -164,6 +165,7 @@ void setup(){
     
     // Menu
     bgImg = loadImage("Data/imgs/background.png");
+    optionImg = loadImage("Data/imgs/option.png");
     gameoverImg = loadImage("Data/imgs/gameover.png");
     minim = new Minim(this);
     bgMusic = minim.loadFile("Data/music/bgmusic.mp3");
@@ -347,21 +349,29 @@ public void mouseReleased(){
   if(controller.getMenuHomePage()){
     //check mouse position, if in position and released, change booleans in model
     // Clicked on Start
-    if (mouseX > width/2-100 && mouseX < width/2+100 && mouseY > height/2-30 && mouseY < height/2+30) {
+    if (mouseX > 201 && mouseX < 433 && mouseY > 156 && mouseY < 253) {
       controller.setMenuHomePage(false);
       controller.setGameStart(true);
     }
     // Click Option
-    if (mouseX > width/2-100 && mouseX < width/2+100 && mouseY > height*3/4-30 && mouseY < height*3/4+30) {
+    if (mouseX > 201 && mouseX < 433 && mouseY > 281 && mouseY < 378) {
       controller.setMenuHomePage(false);
       controller.setMenuControl(true);
+    }
+    
+    // Click history ranking
+    
+    
+    // Click Quit
+    if (mouseX > 201 && mouseX < 433 && mouseY > 531 && mouseY < 628) {
+      exit();
     }
     
   } else if(controller.getMenuControl()){
      //there should be a return button in this menu
          
     // Switch Music ON/OFF
-    if (mouseX > width/2 - 100 && mouseX < width/2 + 100 + 90 && mouseY > height/4-30 && mouseY < height/4+30) {
+    if (mouseX > 485 && mouseX < 676 && mouseY > 306 && mouseY < 386) {
       if (controller.getIsMusicPlaying()) {
         bgMusic.pause();
         controller.setIsMusicPlaying(false);
@@ -373,7 +383,7 @@ public void mouseReleased(){
     }
     
     // Return button
-    if (mouseX > width/2 - 100 && mouseX < width/2 + 100 + 90 && mouseY > height/2-30 && mouseY < height/2+30) {
+    if (mouseX > 485 && mouseX < 676 && mouseY > 414 && mouseY < 494) {
       controller.setMenuControl(false);
       controller.setMenuHomePage(true);
     }

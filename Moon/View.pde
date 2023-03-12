@@ -226,6 +226,8 @@ public class View{
      textSize(64);
      // Draw background Image
      image(bgImg, 0, 0, width, height);
+     
+     /*
       // Draw Head
       fill(255);
       text("Main Menu", width/2, height/4);
@@ -245,6 +247,8 @@ public class View{
       fill(255);
       textSize(32);
       text("Option", width/2, height*3/4);
+      */
+      
       
      // Tutorial?
      
@@ -261,7 +265,9 @@ public class View{
      textAlign(CENTER, CENTER);
      textSize(64);
       // Draw background Image
-     image(bgImg, 0, 0, width, height);
+     image(optionImg, 0, 0, width, height);
+     
+     /*
      // Draw Music control Button
       rectMode(CENTER);
       if (model.getIsMusicPlaying()) {
@@ -280,6 +286,8 @@ public class View{
       fill(255);
       textSize(16);
       text("Return", width/2, height/2);
+      */
+      
    }
    
    // Menu when game is paused 
