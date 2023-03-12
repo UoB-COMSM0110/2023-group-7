@@ -329,10 +329,10 @@ class BasicProp{
     return this.gifsImgsCount;
   }
   
-  public void playGifsImgs(int i){
-     PImage[] imgs = gifsImgs.get(i);
-     image(imgs[(int)gifsImgsCount[i]], this.x, this.y);
-     this.gifsImgsCount[i] = (this.gifsImgsCount[i]+Type.GIF_PLAY_SPEED) % (float)imgs.length;
+  public void display(int i){
+     //PImage[] imgs = gifsImgs.get(i);
+     //image(imgs[(int)gifsImgsCount[i]], this.x, this.y);
+     //this.gifsImgsCount[i] = (this.gifsImgsCount[i]+Type.GIF_PLAY_SPEED) % (float)imgs.length;
   }
   
 }

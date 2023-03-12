@@ -156,7 +156,7 @@ public class Player extends BasicProp{
      }
   }
   
-  public void playGifsImgs(){
+  public void display(){
       
      // left = odd, right = even
       
@@ -169,7 +169,7 @@ public class Player extends BasicProp{
      this.getGifsImgsCount()[i] = (this.getGifsImgsCount()[i]+Type.GIF_PLAY_SPEED) % (float)imgs.length;
      //}
      //if(p.getKnockBack()){
-     //i = Type.GIF_KONCKBACK_L;
+     //i = Type.GIF_KONCKBACK_L + offset;
      //PImage[] imgs = this.getGifsImgs().get(i);
      //image(imgs[(int)this.getGifsImgsCount()[i]], this.getX(), this.getY());
      //this.getGifsImgsCount()[i] = (this.getGifsImgsCount()[i]+Type.GIF_PLAY_SPEED) % (float)imgs.length;
@@ -180,6 +180,10 @@ public class Player extends BasicProp{
      int wOffset = offset == 1 ? 0 : 1;
      image(w.getImgs()[offset],  this.getX() - w.getWidth() * wOffset + this.getWidth()/2, this.getY() + this.getHeight()/3);
     
+     //draw Hp
+     for(int j = 0; j <= this.getHp(); j += Type.PLAYER_HEART){
+         image(this.getImg(), Type.BOARD_GRIDSIZE/2 + (j/10) * Type.BOARD_GRIDSIZE * 4/5, Type.BOARD_GRIDSIZE/2);
+      }
 
   }
   
