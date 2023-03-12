@@ -9,22 +9,10 @@ View view;
 // Menu
 Minim minim;
 AudioPlayer bgMusic;
+AudioPlayer click;
 // SoundFile bgMusic;
-PImage bgImg;
-PImage optionImg;
-PImage optionMuteImg;
-PImage rankImg;
-PImage gameoverImg;
-
-/*
-boolean isMusicPlaying = false;
-boolean menuHomePage = true;
-boolean menuControl = false;
-boolean gameStart = false;
-boolean gamePause = false;
-boolean gameOver = false;
-boolean globalList = false;
-*/
+PImage bgImg, optionImg, optionMuteImg, rankImg, gameoverImg;
+PImage inGameHome, inGameMute, inGamePause;
 
 IntList pkeys = new IntList(); 
 
@@ -166,13 +154,18 @@ void setup(){
     model.setItemFactory(t);
     
     // Menu
-    bgImg = loadImage("Data/imgs/background.png");
-    optionImg = loadImage("Data/imgs/option.png");
-    gameoverImg = loadImage("Data/imgs/gameover.png");
-    optionMuteImg = loadImage("Data/imgs/option_mute.png");
-    rankImg = loadImage("Data/imgs/rank.png");
+    bgImg = loadImage("Data/imgs/menu/background.png");
+    optionImg = loadImage("Data/imgs/menu/option.png");
+    gameoverImg = loadImage("Data/imgs/menu/gameover.png");
+    optionMuteImg = loadImage("Data/imgs/menu/option_mute.png");
+    rankImg = loadImage("Data/imgs/menu/rank.png");
+    inGameHome = loadImage("Data/imgs/menu/home.png");
+    inGameMute = loadImage("Data/imgs/menu/music.png");
+    inGamePause = loadImage("Data/imgs/menu/pause.png");
     minim = new Minim(this);
     bgMusic = minim.loadFile("Data/music/bgmusic.mp3");
+    bgMusic.setGain(-10);
+    click = minim.loadFile("Data/music/click.mp3");
     
     if (model.getIsMusicPlaying()){
       bgMusic.play();
@@ -354,23 +347,27 @@ public void mouseReleased(){
     //check mouse position, if in position and released, change booleans in model
     // Clicked on Start
     if (mouseX > 201 && mouseX < 433 && mouseY > 156 && mouseY < 253) {
+      click.play(2);
       controller.setMenuHomePage(false);
       controller.setGameStart(true);
     }
     // Click Option
     if (mouseX > 201 && mouseX < 433 && mouseY > 281 && mouseY < 378) {
+      click.play(2);
       controller.setMenuHomePage(false);
       controller.setMenuControl(true);
     }
     
     // Click history ranking
     if (mouseX > 201 && mouseX < 433 && mouseY > 406 && mouseY < 503) {
+      click.play(2);
       controller.setMenuHomePage(false);
       controller.setGlobalList(true);
     }
     
     // Click Quit
     if (mouseX > 201 && mouseX < 433 && mouseY > 531 && mouseY < 628) {
+      click.play(2);
       exit();
     }
     
@@ -380,9 +377,11 @@ public void mouseReleased(){
     // Switch Music ON/OFF
     if (mouseX > 485 && mouseX < 676 && mouseY > 306 && mouseY < 386) {
       if (controller.getIsMusicPlaying()) {
+        click.play(2);
         bgMusic.pause();
         controller.setIsMusicPlaying(false);
       } else {
+        click.play(2);
         bgMusic.play();
         controller.setIsMusicPlaying(true);
       }
@@ -391,6 +390,7 @@ public void mouseReleased(){
     
     // Return button
     if (mouseX > 485 && mouseX < 676 && mouseY > 414 && mouseY < 494) {
+      click.play(2);
       controller.setMenuControl(false);
       controller.setMenuHomePage(true);
     }
@@ -399,6 +399,7 @@ public void mouseReleased(){
   else if(controller.getGlobalList()){
      //there should be a return button in this menu
    if (mouseX > 485 && mouseX < 675 && mouseY > 631 && mouseY < 710) {
+      click.play(2);
       controller.setGlobalList(false);
       controller.setMenuHomePage(true);
     }
@@ -408,17 +409,45 @@ public void mouseReleased(){
       //there should be a restart button in this menu
 
   }
+  
   else if(controller.getGameOver()){
       //there should be a restart button in this menu
       
       // Restart
-      if (mouseX > width/2 - 100 && mouseX < width/2 + 100 + 90 && mouseY > height*3/4-30 && mouseY < height*3/4+30) {
-        controller.setGameStart(false);
-        controller.setGameOver(true);
+      if (mouseX > 0 && mouseX < width && mouseY > 0 && mouseY < height) {
+        controller.setGameStart(true);
+        controller.setGameOver(false);
       }
   }
   //only work when game starts
   else{
+    
+    // In game menu
+    // Homepage button
+    if (mouseX > 1100 && mouseX < 1153 && mouseY > 10 && mouseY < 47) {
+      controller.setGameStart(false);
+      controller.setMenuHomePage(true);
+    }
+    // Pause
+    if (mouseX > 1030 && mouseX < 1083 && mouseY > 10 && mouseY < 47) {
+      if (controller.getGameStart()){
+        controller.setGameStart(false);
+      } else {
+        controller.setGameStart(true);
+      }
+    }
+    // Music ON/OFF
+    if (mouseX > 960 && mouseX < 1013 && mouseY > 10 && mouseY < 47) {
+      if (controller.getIsMusicPlaying()){
+        bgMusic.pause();
+        controller.setIsMusicPlaying(false);
+      } else {
+        bgMusic.play();
+        controller.setIsMusicPlaying(true);
+      }
+    }
+    
+    
     if(mouseButton == RIGHT){
         controller.resetBulletCd();
     }

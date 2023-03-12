@@ -8,7 +8,7 @@ public class View{
   private Model model;
   
   public View(Model mod){
-     this.model = mod;    
+     this.model = mod;
   }
   
   /**
@@ -27,12 +27,17 @@ public class View{
     }else if(model.getGameOver()){
       drawGameOver();
     }else if(model.getGameStart()){
+      
+        
          drawRoom();
          drawGhost();
          drawPlayer();
          // show collision detection range, can be deleted
          showAround(model.getPlayer());
          showAroundEnemy();
+         
+         // Draw in game menu
+         drawInGameMenu();
      }
   }
   
@@ -321,6 +326,12 @@ public class View{
    // Also can be accessed from Home Page Menu
    public void drawGlobalList(){
      image(rankImg, 0, 0, width, height);
+   }
+   
+   public void drawInGameMenu(){
+     image(inGameHome, 1100, 10, 53, 37);
+     image(inGamePause, 1030, 10, 53, 37);
+     image(inGameMute, 960, 10, 53, 37);
    }
    
 }
