@@ -64,7 +64,7 @@ public class Model{
    }
    
    public void addItemsToRoom(Room r){
-        this.itemFactory.addItemsToRoom(r);
+        //this.itemFactory.addItemsToRoom(r);
    }
    
    public void setItemFactory(ItemFactory t){

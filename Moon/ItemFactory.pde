@@ -64,20 +64,6 @@ public class ItemFactory extends Factory{
          p.removeCurrentItem();
     }
     
-    //scan a room, add chest to this room: The probability can be adjusted at any time
-    public void addItemsToRoom(Room r){
-       for(int i = 3; i < Type.BOARD_MAX_HEIGHT - 4; i++){
-          for(int j = 3; j < Type.BOARD_MAX_WIDTH - 3; j++){
-              if(r.blockType[i + 1][j] == 1 && r.blockType[i - 1][j] == 0){
-                  int n = (int)random(0, 60);
-                  if(n < 5){
-                    r.blockType[i][j] = 6;
-                  }
-              }
-          }
-       }
-    }
-    
     public Item newItem(int[] pos){
        int r = (int)random(10);
        Item t = null; 

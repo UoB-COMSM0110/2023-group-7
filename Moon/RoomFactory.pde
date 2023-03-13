@@ -195,6 +195,31 @@ public class RoomFactory extends Factory{
       r.addBlock(b2);
     }
     
+    //adds crates to room - probability can be adjusted
+    private void addCrates(Room r)
+    {
+      for(int i=0; i<20; i++){
+          for(int j=0; j<29; j++){
+            int c = (int)random(30);
+            if(!borderCheck(i,j) && r.blockType[i][j] == Type.BLOCK_EMPTY){
+              if(r.blockType[i+1][j] == Type.BLOCK_WALL && c<1 && !lineCheck(r, i)){
+                r.blockType[i][j] = Type.BLOCK_CRATE; 
+              }
+            }
+          }
+      }
+    }
+    
+    
+    private boolean lineCheck(Room r, int rowNum){
+      for(int j=0; j<Type.BOARD_MAX_WIDTH; j++){
+        if(r.blockType[rowNum][j] == Type.BLOCK_CRATE){
+          return true;
+        }
+      }
+      return false;
+    }
+    
     
     private void addBorders(Room r)
     {
@@ -243,6 +268,7 @@ public class RoomFactory extends Factory{
       addSection(level[3],r,10,1);
       addSection(level[4],r,10,10);
       addSection(level[5],r,10,19);
+      addCrates(r);
     }
     
     
