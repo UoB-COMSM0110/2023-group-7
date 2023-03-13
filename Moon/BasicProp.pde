@@ -252,6 +252,7 @@ class BasicProp{
         if(this.hp > 0){
             this.hp -= dp;
         }
+        playerHurt.play(2);
         println("Damage caused by enemy:" + dp);
         dpTimer++;
       } else{
@@ -262,6 +263,7 @@ class BasicProp{
         if(this.hp > 0){
             this.hp -= dp;
         }
+        enemyHurt.play(2);
         println("Damage caused by player:" + dp);
     }
   }

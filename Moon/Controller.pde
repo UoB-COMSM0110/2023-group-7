@@ -416,6 +416,7 @@ public class Controller{
              //spike - basic implemenation for now as we don't yet have a death mechanic
              if(o.getFall() && (bType == Type.BLOCK_SPIKE)){
                //o.attacked(5);
+               stab.play(2);
                System.out.println("Damage caused by spikes");
              }
          }
@@ -579,6 +580,7 @@ public class Controller{
    * according to int[] portal of that portal block
    */
    public void usePortal(Block b){
+       portal.play(2);
        Player o = model.getPlayer(); 
        float  s = Type.BOARD_GRIDSIZE;
        int[] portal = b.getPortal(); 
@@ -709,6 +711,7 @@ public class Controller{
           return;
         };
         if(p.getHighJump()){
+          trampoline.play(2);
           p.setSpeedY(-Type.PLAYER_HIGH_JUMP_SPEEDY);
         }
         else{

@@ -8,7 +8,7 @@ View view;
 
 // Menu
 Minim minim;
-AudioPlayer bgMusic, click, shoot;
+AudioPlayer bgMusic, click, shoot, portal, enemyHurt, playerHurt, stab, trampoline;
 // SoundFile bgMusic;
 PImage bgImg, optionImg, optionMuteImg, rankImg, gameoverImg;
 PImage inGameHome, inGameMute, inGamePause;
@@ -168,6 +168,17 @@ void setup(){
     click.setGain(-8);
     shoot = minim.loadFile("Data/music/shoot.mp3");
     shoot.setGain(-18);
+    portal = minim.loadFile("Data/music/portal.wav");
+    portal.setGain(-5);
+    enemyHurt = minim.loadFile("Data/music/enemyHurt.mp3");
+    enemyHurt.setGain(-5);
+    playerHurt = minim.loadFile("Data/music/playerHurt.wav");
+    playerHurt.setGain(-5);
+    stab = minim.loadFile("Data/music/stabbed.mp3");
+    stab.setGain(-3);
+    trampoline = minim.loadFile("Data/music/trampoline.wav");
+    // trampoline.setGain(-3);
+    
     
     if (model.getIsMusicPlaying()){
       bgMusic.play();
