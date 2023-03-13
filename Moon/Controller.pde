@@ -94,6 +94,11 @@ public class Controller{
        getGhost().setY(getGhost().getY() - height);
    }
    
+   public void addItemsAndEnemies(Room newRoom){
+       //model.addEnemiesToRoom(newRoom);
+       //model.addItemsToRoom(newRoom);
+   }
+   
    /**
    * Get current room info, if no room on the left, generate one on the left
    * if there is already on room on the left, just return index of that room
@@ -107,8 +112,7 @@ public class Controller{
          newRoom.setAdjacent(new int[]{Type.NO_ROOM,Type.NO_ROOM,Type.NO_ROOM, curRoom.getIndex()});
          curRoom.setAdjacent(new int[]{Type.NO_ROOM,Type.NO_ROOM,newRoom.getIndex(),Type.NO_ROOM});
          
-         model.addEnemiesToRoom(newRoom);
-          model.addItemsToRoom(newRoom);
+          addItemsAndEnemies(newRoom);
 
       }
    }
@@ -125,8 +129,8 @@ public class Controller{
          newRoom.setAdjacent(new int[]{Type.NO_ROOM,Type.NO_ROOM,curRoom.getIndex(),Type.NO_ROOM});
          curRoom.setAdjacent(new int[]{Type.NO_ROOM,Type.NO_ROOM,Type.NO_ROOM, newRoom.getIndex()});
          
-         model.addEnemiesToRoom(newRoom);
-                  model.addItemsToRoom(newRoom);
+          addItemsAndEnemies(newRoom);
+
 
       }
    }
@@ -143,8 +147,8 @@ public class Controller{
          newRoom.setAdjacent(new int[]{Type.NO_ROOM,curRoom.getIndex(),Type.NO_ROOM,Type.NO_ROOM});
          curRoom.setAdjacent(new int[]{newRoom.getIndex(),Type.NO_ROOM,Type.NO_ROOM,Type.NO_ROOM});
          
-         model.addEnemiesToRoom(newRoom);
-         model.addItemsToRoom(newRoom);
+          addItemsAndEnemies(newRoom);
+
       }
    }
    
@@ -160,9 +164,7 @@ public class Controller{
          newRoom.setAdjacent(new int[]{curRoom.getIndex(),Type.NO_ROOM,Type.NO_ROOM,Type.NO_ROOM});
          curRoom.setAdjacent(new int[]{Type.NO_ROOM,newRoom.getIndex(),Type.NO_ROOM,Type.NO_ROOM});
          
-         model.addEnemiesToRoom(newRoom);
-         model.addItemsToRoom(newRoom);
-
+          addItemsAndEnemies(newRoom);
       }
    }
      
