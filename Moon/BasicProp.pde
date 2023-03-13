@@ -18,6 +18,14 @@ class BasicProp{
   private boolean fall, jump, transported, highJump, left, onPortal, throughDown;
   private boolean flyMode;
   
+  //if isAlive is false, play death gif and delete this enemy, this need a timer to play the gif and then remove enemy
+  //if isAlive is false, enemy won't cause damage to player
+  //if isAlive is false, enemy may drop some items?
+  //if isAttacked is true, add red tint() to PImage, this need a timer to keep this status for some frame
+  //if isInvincible is true, this object won't get hurt
+  //more boolean attributes and methods to be added...
+  private boolean isAlive,  isAttacked,  isInvincible;
+  
   private ArrayList<PImage[]> gifsImgs;
   private float[] gifsImgsCount;
   
