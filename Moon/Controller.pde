@@ -95,8 +95,7 @@ public class Controller{
    }
    
    public void addItemsAndEnemies(Room newRoom){
-       //model.addEnemiesToRoom(newRoom);
-       //model.addItemsToRoom(newRoom);
+       model.addEnemiesToRoom(newRoom);
    }
    
    /**
