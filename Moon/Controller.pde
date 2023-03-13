@@ -795,6 +795,7 @@ public class Controller{
       Room r = model.getCurrentRoom();
       float bx = p.getX() + p.getWidth()/2;
       float by = p.getY()+ p.getHeight()/2;
+      shoot.play(2);
       p.getWeapon().shot(r, bx, by);
 
    }

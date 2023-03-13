@@ -8,8 +8,7 @@ View view;
 
 // Menu
 Minim minim;
-AudioPlayer bgMusic;
-AudioPlayer click;
+AudioPlayer bgMusic, click, shoot;
 // SoundFile bgMusic;
 PImage bgImg, optionImg, optionMuteImg, rankImg, gameoverImg;
 PImage inGameHome, inGameMute, inGamePause;
@@ -166,6 +165,9 @@ void setup(){
     bgMusic = minim.loadFile("Data/music/bgmusic.mp3");
     bgMusic.setGain(-10);
     click = minim.loadFile("Data/music/click.mp3");
+    click.setGain(-8);
+    shoot = minim.loadFile("Data/music/shoot.mp3");
+    shoot.setGain(-18);
     
     if (model.getIsMusicPlaying()){
       bgMusic.play();
@@ -425,11 +427,13 @@ public void mouseReleased(){
     // In game menu
     // Homepage button
     if (mouseX > 1100 && mouseX < 1153 && mouseY > 10 && mouseY < 47) {
+      click.play(2);
       controller.setGameStart(false);
       controller.setMenuHomePage(true);
     }
     // Pause
     if (mouseX > 1030 && mouseX < 1083 && mouseY > 10 && mouseY < 47) {
+      click.play(2);
       if (controller.getGameStart()){
         controller.setGameStart(false);
       } else {
@@ -438,6 +442,7 @@ public void mouseReleased(){
     }
     // Music ON/OFF
     if (mouseX > 960 && mouseX < 1013 && mouseY > 10 && mouseY < 47) {
+      click.play(2);
       if (controller.getIsMusicPlaying()){
         bgMusic.pause();
         controller.setIsMusicPlaying(false);
