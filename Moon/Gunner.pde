@@ -15,4 +15,14 @@ public class Gunner extends Enemy{
       this.setDp(10);
     }
     
+    public void loadImags(){
+    
+     PImage[] gunnerRunL = Gif.getPImages(this, "imgs/enemy/gunner_left.gif");
+     PImage[] gunnerRunR = Gif.getPImages(this, "imgs/enemy/gunner_right.gif");
+     //Death
+     //Know-back 
+     this.addGifsImgs(gunnerRunL,gunnerRunR);
+    
+    }
+    
 }

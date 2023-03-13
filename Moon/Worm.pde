@@ -14,6 +14,16 @@ public class Worm extends Enemy{
      this.setDp(10);
   }
   
+  public void loadImags(){
+    
+     PImage[] smileL = Gif.getPImages(this, "imgs/enemy/smile_left.gif");
+     PImage[] smileR = Gif.getPImages(this, "imgs/enemy/smile_right.gif");
+     //Death
+     //Know-back 
+     this.addGifsImgs(smileL,smileR);
+    
+    }
+  
   
   
 }

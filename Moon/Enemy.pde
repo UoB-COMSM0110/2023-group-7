@@ -23,13 +23,7 @@ class Enemy extends BasicProp{
         this.setLeft(true);
       }
      
-     //if(this.getY() + this.getHeight() > height}{
-         
-     //}
-     
-     //if(this.getY() < 0){
-         
-     //}
+     public void loadImags(){}
     
      if(this.getX() + this.getWidth() > width){
          this.setLeft(true);
