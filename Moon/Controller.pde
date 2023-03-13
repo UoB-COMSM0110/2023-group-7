@@ -607,6 +607,10 @@ public class Controller{
                   Item tmp = p.getWeapon();
                   tmp.setPos(t.getPos());
                   items.add(tmp);
+               }else{
+                  Item tmp = p.weapons[0];
+                  tmp.setPos(t.getPos());
+                  items.add(tmp);
                }
             }
             p.addItem(t);
