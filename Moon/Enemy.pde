@@ -30,12 +30,6 @@ class Enemy extends BasicProp{
   }
   
        public void loadImages(){}
-    
-     if(this.getX() + this.getWidth() > width){
-         this.setLeft(true);
-         this.setSpeedX(-abs(this.getSpeedX()));
-     }
-     
      
   
 }

@@ -34,11 +34,11 @@ public class Ghost extends Enemy{
        this.setY(this.getY() + this.getSpeedY());
    }
    
-     public void loadImages(){
+    // public void loadImages(){
     
-     PImage[] ghost = Gif.getPImages(this, "imgs/enemy/ghost.gif");
-     //Any effect?? 
-     this.addGifsImgs(ghost);
+    // PImage[] ghost = Gif.getPImages(this, "imgs/enemy/ghost.gif");
+    // //Any effect?? 
+    // this.addGifsImgs(ghost);
     
-    }
+    //}
 }
