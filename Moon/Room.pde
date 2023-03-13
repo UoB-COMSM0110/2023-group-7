@@ -122,6 +122,7 @@ public class Room extends HandleEnemies{
        this.items.add(t);
     }
     
+    
     //public void delItemById(int id){
     //   for(int i = 0; i < items.size(); i++){
     //     if(items.get(i).getId() == id){

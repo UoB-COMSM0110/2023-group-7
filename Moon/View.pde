@@ -6,9 +6,11 @@
 */
 public class View{
   private Model model;
-  
+  private PImage instructionImg;
   public View(Model mod){
      this.model = mod;
+     instructionImg = loadImage("imgs/menu/instruction.png");
+     instructionImg.resize(width/2, height);
   }
   
   /**
@@ -38,6 +40,7 @@ public class View{
          
          // Draw in game menu
          drawInGameMenu();
+         image(this.instructionImg,0,0);
      }
   }
   
@@ -64,6 +67,11 @@ public class View{
   */
   public void drawRoom(){
      Room r = model.getCurrentRoom(); 
+     println(r.getIndex());
+     //if(r.getIndex() == 0){
+     //  image(this.instructionImg,width,height);
+     //}
+     
      ArrayList<PImage> imgs = model.getBlockFactory().getImgs();
      //draw room
      for(int i = 0; i < 20; i++){
