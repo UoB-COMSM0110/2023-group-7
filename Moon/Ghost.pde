@@ -34,7 +34,7 @@ public class Ghost extends Enemy{
        this.setY(this.getY() + this.getSpeedY());
    }
    
-       public void loadImags(){
+     public void loadImages(){
     
      PImage[] ghost = Gif.getPImages(this, "imgs/enemy/ghost.gif");
      //Any effect?? 
